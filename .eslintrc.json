@@ -1,0 +1,98 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": ["react", "@typescript-eslint", "eslint-plugin-tsdoc"],
+  "rules": {
+    // Possible Errors
+    "no-unreachable-loop": "warn",
+    // Best Practices
+    "block-scoped-var": "warn",
+    "class-methods-use-this": "warn",
+    "consistent-return": "warn",
+    "curly": "warn",
+    "default-case": "warn",
+    "default-case-last": ["warn"],
+    "dot-notation": "warn",
+    "eqeqeq": "warn",
+    "max-classes-per-file": ["warn", 2],
+    "no-constructor-return": "warn",
+    "no-else-return": "warn",
+    "no-empty-function": "warn",
+    "no-implicit-coercion": "warn",
+    "no-iterator": "warn",
+    "no-labels": "error",
+    "no-lone-blocks": "warn",
+    "no-loop-func": "warn",
+    "no-magic-numbers": [
+      "warn",
+      {
+        "ignore": [1],
+        "ignoreArrayIndexes": true,
+        "enforceConst": true,
+        "detectObjects": true
+      }
+    ],
+    "no-multi-spaces": "warn",
+    "no-return-assign": ["warn", "always"],
+    "no-return-await": "error",
+    "no-self-compare": "error",
+    "no-throw-literal": "error",
+    "no-unmodified-loop-condition": "warn",
+    "no-unused-expressions": "warn",
+    "no-useless-concat": "warn",
+    "no-useless-return": "warn",
+    "require-await": "warn",
+    "yoda": ["warn", "never", { "exceptRange": true }],
+    // Variables
+    "no-undef-init": "warn",
+    "no-use-before-define": "warn",
+    // Stylistic Issues
+    "camelcase": ["warn", { "allow": ["API_URL"] }],
+    "capitalized-comments": "warn",
+    "consistent-this": "warn",
+    "id-denylist": ["error", "cb", "callback", "temp"],
+    "id-length": ["error", { "max": 25, "exceptions": ["i", "j", "e"] }],
+    "jsx-quotes": ["error", "prefer-double"],
+    "line-comment-position": ["warn", { "position": "above" }],
+    "max-depth": ["warn", 2],
+    "max-lines": ["warn", 500],
+    "max-lines-per-function": ["error", { "max": 300 }],
+    "multiline-comment-style": "warn",
+    "new-cap": "warn",
+    "no-lonely-if": "warn",
+    "no-nested-ternary": "warn",
+    "no-negated-condition": "warn",
+    "no-restricted-syntax": ["error", "SequenceExpression"],
+    "no-unneeded-ternary": "warn",
+    "spaced-comment": "warn",
+    // ECMAScript 6
+    "arrow-parens": "warn",
+    "no-duplicate-imports": ["warn", { "includeExports": true }],
+    "no-useless-computed-key": "warn",
+    "no-useless-constructor": "warn",
+    "no-var": "warn",
+    "prefer-const": ["warn", { "destructuring": "any" }],
+    "prefer-destructuring": "warn",
+    "prefer-spread": "warn",
+    "prefer-template": "warn",
+    // Other
+    "react/react-in-jsx-scope": "off",
+    "tsdoc/syntax": "warn"
+  },
+  "root": true
+}
