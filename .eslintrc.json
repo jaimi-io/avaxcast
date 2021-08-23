@@ -17,6 +17,7 @@
     "sourceType": "module"
   },
   "plugins": ["react", "@typescript-eslint", "eslint-plugin-tsdoc"],
+  "ignorePatterns": ["frontend/build"],
   "rules": {
     // Possible Errors
     "no-unreachable-loop": "warn",
