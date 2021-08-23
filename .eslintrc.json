@@ -17,6 +17,7 @@
     "sourceType": "module"
   },
   "plugins": ["react", "@typescript-eslint", "eslint-plugin-tsdoc"],
+  "ignorePatterns": ["frontend/build"],
   "rules": {
     // Possible Errors
     "no-unreachable-loop": "warn",
@@ -63,7 +64,6 @@
     "no-use-before-define": "warn",
     // Stylistic Issues
     "camelcase": ["warn", { "allow": ["API_URL"] }],
-    "capitalized-comments": "warn",
     "consistent-this": "warn",
     "id-denylist": ["error", "cb", "callback", "temp"],
     "id-length": ["error", { "max": 25, "exceptions": ["i", "j", "e"] }],
