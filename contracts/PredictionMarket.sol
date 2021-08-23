@@ -18,7 +18,7 @@ contract PredictionMarket {
   /**
    * @notice Current currency prediction market
    */
-  Market market;
+  Market public market;
 
   /**
    * @notice Construct a new prediction market
