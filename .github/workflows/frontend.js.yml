@@ -31,3 +31,14 @@ jobs:
         run: cd frontend/ && yarn test --ci
       - name: Lint
         run: yarn lint frontend/
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to Skynet
+        uses: SkynetLabs/deploy-to-skynet-action@v2
+        with:
+          upload-dir: frontend/build
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          registry-seed: ${{ secrets.REGISTRY_SEED || '' }}
+          registry-datakey: ${{ secrets.REGISTRY_DATAKEY || '' }}
