@@ -2,3 +2,5 @@ node_modules
 yarn.lock
 artifacts
 cache
+*log
+git-hooks
