@@ -44,8 +44,7 @@
       {
         "ignore": [1],
         "ignoreArrayIndexes": true,
-        "enforceConst": true,
-        "detectObjects": true
+        "enforceConst": true
       }
     ],
     "no-multi-spaces": "warn",
