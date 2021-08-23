@@ -10,7 +10,7 @@ on:
     branches-ignore: []
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     strategy:
@@ -26,4 +26,4 @@ jobs:
       - name: Install dependencies
         run: yarn
       - name: Test
-        run: yarn test --ci
+        run: yarn test
