@@ -1,11 +1,11 @@
 // eslint-disable-next-line no-use-before-define
 import React from "react";
+import Home from "components/Home";
 import ReactDOM from "react-dom";
-import App from "./App";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Home />
   </React.StrictMode>,
   document.getElementById("root")
 );
