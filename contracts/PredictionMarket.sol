@@ -6,7 +6,24 @@ pragma solidity ^0.8.7;
  */
 contract PredictionMarket {
   /**
+   * @notice Enum of possible currency prediction markets
+   */
+  enum Market {
+    AvaxUsd,
+    BtcUsd,
+    EthUsd,
+    LinkUsd
+  }
+
+  /**
+   * @notice Current currency prediction market
+   */
+  Market market;
+
+  /**
    * @notice Construct a new prediction market
    */
-  constructor() {}
+  constructor(Market _market) {
+    market = _market;
+  }
 }
