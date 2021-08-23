@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Build
-        run: cd frontend/ && yarn build
+        run: yarn && cd frontend/ && yarn && yarn build
 
       - name: Deploy to Skynet
         uses: SkynetLabs/deploy-to-skynet-action@v2
