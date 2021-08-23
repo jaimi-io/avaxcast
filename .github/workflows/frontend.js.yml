@@ -31,10 +31,6 @@ jobs:
         run: cd frontend/ && yarn test --ci
       - name: Lint
         run: yarn lint frontend/
-  deploy:
-    runs-on: ubuntu-latest
-    needs: [build]
-    steps:
       - name: Deploy to Skynet
         uses: SkynetLabs/deploy-to-skynet-action@v2
         with:
