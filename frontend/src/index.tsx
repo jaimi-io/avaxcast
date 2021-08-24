@@ -13,15 +13,21 @@ import ReactDOM from "react-dom";
 //   document.body.classList.remove("dark");
 // }
 
-const darkTheme = createTheme({
+// const darkTheme = createTheme({
+//   palette: {
+//     type: "dark",
+//   },
+// });
+
+const lightTheme = createTheme({
   palette: {
-    type: "dark",
+    type: "light",
   },
 });
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={darkTheme}>
+    <ThemeProvider theme={lightTheme}>
       <Navbar />
       <Navigation />
     </ThemeProvider>
