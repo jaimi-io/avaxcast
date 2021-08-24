@@ -23,10 +23,10 @@ contract PredictionMarket {
     No
   }
 
-   /**
+  /**
    * @notice Mapping for the number of votes on both the Yes and No side
    */
-  mapping(Vote => uint) public numberVotes;
+  mapping(Vote => uint256) public numberVotes;
 
   /**
    * @notice Current currency prediction market
