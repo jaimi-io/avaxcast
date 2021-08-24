@@ -51,6 +51,7 @@ export default function Navbar(): JSX.Element {
               variant="contained"
               color="inherit"
               className={classes.button}
+              disabled
               startIcon={<LibraryAddIcon />}>
               Add
             </Button>
@@ -61,6 +62,7 @@ export default function Navbar(): JSX.Element {
               variant="contained"
               color="inherit"
               className={classes.button}
+              disabled
               startIcon={<AccountBalanceWalletIcon />}>
               Wallet
             </Button>
