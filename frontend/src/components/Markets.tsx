@@ -1,13 +1,65 @@
-import Button from "@material-ui/core/Button";
+import FormControl from "@material-ui/core/FormControl";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
 import Posts from "components/Posts";
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 120,
+    },
+    selectEmpty: {
+      marginTop: theme.spacing(2),
+    },
+    container: {
+      display: "flex",
+      flexWrap: "wrap",
+    },
+    textField: {
+      marginLeft: theme.spacing(1),
+      marginRight: theme.spacing(1),
+      width: 200,
+    },
+  })
+);
+
 export default function Markets(): JSX.Element {
+  const classes = useStyles();
+
   return (
     <div>
-      <Button color="primary">All Markets</Button>
-      <Button color="primary">Total Volume</Button>
-      <Button color="primary">Open</Button>
-      <Button color="primary">All Currencies</Button>
+      <FormControl className={classes.formControl}>
+        <Select
+          defaultValue="All Markets"
+          labelId="markets-select"
+          id="markets-select">
+          <MenuItem value={"All Markets"}>All Markets</MenuItem>
+          <MenuItem value={"AVAX/USD"}>AVAX/USD</MenuItem>
+          <MenuItem value={"BTC/USD"}> BTC/USD</MenuItem>
+          <MenuItem value={"ETH/USD"}>ETH/USD</MenuItem>
+        </Select>
+      </FormControl>
+      <FormControl className={classes.formControl}>
+        <Select defaultValue="Open" labelId="open-select" id="open-select">
+          <MenuItem value={"Open"}>Open</MenuItem>
+          <MenuItem value={"Closed"}>Closed</MenuItem>
+        </Select>
+      </FormControl>
+      <form className={classes.container} noValidate>
+        <TextField
+          id="date"
+          label="Deadline"
+          type="date"
+          defaultValue="2021-08-24"
+          className={classes.textField}
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+      </form>
       <Posts />
     </div>
   );
