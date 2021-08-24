@@ -40,8 +40,8 @@ contract PredictionMarket {
   Market public market;
 
   /**
-  * @notice Current price for a yes or no share
-  */
+   * @notice Current price for a yes or no share
+   */
   uint256 public currentPrice;
 
   /**
