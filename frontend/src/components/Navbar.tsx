@@ -1,10 +1,6 @@
 import { List, ListItem, ListItemText, Typography } from "@material-ui/core";
-import {
-  Book,
-  AccountBalanceWallet,
-  AttachMoney,
-  HowToVote,
-} from "@material-ui/icons";
+import { Book, AccountBalanceWallet, HowToVote } from "@material-ui/icons";
+import LibraryAddIcon from "@material-ui/icons/LibraryAdd";
 
 export default function Navbar(): JSX.Element {
   return (
@@ -26,7 +22,7 @@ export default function Navbar(): JSX.Element {
 
           <ListItemText inset>
             <Typography color="inherit">
-              Buy <AttachMoney />
+              Add <LibraryAddIcon />
             </Typography>
           </ListItemText>
 
