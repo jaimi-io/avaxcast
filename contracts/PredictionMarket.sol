@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.7;
 
 /** @title Prediction Market Contract
@@ -14,6 +15,18 @@ contract PredictionMarket {
     EthUsd,
     LinkUsd
   }
+  /**
+   * @notice Enum of vote options
+   */
+  enum Vote {
+    Yes,
+    No
+  }
+
+   /**
+   * @notice Mapping for the number of votes on both the Yes and No side
+   */
+  mapping(Vote => uint) public numberVotes;
 
   /**
    * @notice Current currency prediction market
