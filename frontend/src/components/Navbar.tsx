@@ -1,5 +1,7 @@
 import { List, ListItem, ListItemText, Typography } from "@material-ui/core";
-import { Book, AccountBalanceWallet, HowToVote } from "@material-ui/icons";
+import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet";
+import BookIcon from "@material-ui/icons/Book";
+import HowToVoteIcon from "@material-ui/icons/HowToVote";
 import LibraryAddIcon from "@material-ui/icons/LibraryAdd";
 
 export default function Navbar(): JSX.Element {
@@ -10,13 +12,13 @@ export default function Navbar(): JSX.Element {
           <ListItemText inset>
             <Typography color="inherit">
               Vote
-              <HowToVote />
+              <HowToVoteIcon />
             </Typography>
           </ListItemText>
 
           <ListItemText inset>
             <Typography color="inherit">
-              Portfolio <Book />
+              Portfolio <BookIcon />
             </Typography>
           </ListItemText>
 
@@ -28,7 +30,7 @@ export default function Navbar(): JSX.Element {
 
           <ListItemText inset>
             <Typography color="inherit">
-              Wallet <AccountBalanceWallet />
+              Wallet <AccountBalanceWalletIcon />
             </Typography>
           </ListItemText>
         </ListItem>
