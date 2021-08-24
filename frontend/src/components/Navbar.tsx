@@ -6,7 +6,7 @@ import {
   HowToVote,
 } from "@material-ui/icons";
 
-export default function Home(): JSX.Element {
+export default function Navbar(): JSX.Element {
   return (
     <div>
       <List component="nav">
