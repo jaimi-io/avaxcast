@@ -3,12 +3,10 @@ import { createTheme } from "@material-ui/core/styles";
 import Navigation from "components/Navigation";
 import "App.css";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "hooks";
 
 function App(): JSX.Element {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const isDark = useSelector((state) => state.isDark);
+  const isDark = useAppSelector((state) => state.isDark);
 
   useEffect(() => {
     if (isDark) {
