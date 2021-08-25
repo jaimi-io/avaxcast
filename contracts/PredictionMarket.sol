@@ -152,4 +152,15 @@ contract PredictionMarket {
     isResolved = true;
     winningPerShare = address(this).balance / numberShares[winner];
   }
+
+  /**
+   * @notice Withdraw winning shares, only active once market is resolved
+   */
+  function withdrawWinnings() external {
+    require(isResolved, "Market has not been resolved yet");
+    uint256 winningShares = sharesPerPerson[msg.sender][winner];
+    require(winningShares > 0, "You have no winning shares");
+    sharesPerPerson[msg.sender][winner] = 0;
+    payable(msg.sender).transfer(winningShares * winningPerShare);
+  }
 }
