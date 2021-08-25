@@ -62,9 +62,15 @@ contract PredictionMarket {
   bool public isResolved = false;
 
   /**
-   * @notice Which vote (yes/no) has won the prediction market (once resolved)
+   * @notice Which vote (yes/no) has won/lost the prediction market (once resolved)
    */
   Vote public winner;
+  Vote public loser;
+
+  /**
+   * @notice The winnings per share in AVAX, calculated once market is resolved
+   */
+  uint256 public winningPerShare;
 
   /**
    * @dev Chainlink price feed for the given currency pair
@@ -119,10 +125,12 @@ contract PredictionMarket {
   }
 
   /**
-   * @dev Uses Chainlink price feed to get price at market end time 
+   * @notice Uses Chainlink price feed to get price at market end time 
    to resolve the market & declare the winning vote
    */
-  function _resolveMarket() private {
+  function resolveMarket() external {
+    require(!isResolved, "Market has already been resolved");
+    require(block.timestamp > endTime, "Cannot resolve market before endTime");
     uint80 roundID;
     int256 price;
     uint256 timeStamp;
@@ -136,9 +144,14 @@ contract PredictionMarket {
     }
     if (predictedPrice >= price) {
       winner = Vote.Yes;
+      loser = Vote.No;
     } else {
       winner = Vote.No;
+      loser = Vote.Yes;
     }
     isResolved = true;
+    winningPerShare =
+      ((numberShares[winner] + numberShares[loser]) / numberShares[winner]) *
+      address(this).balance;
   }
 }
