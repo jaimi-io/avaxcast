@@ -7,10 +7,10 @@ import BookIcon from "@material-ui/icons/Book";
 import Brightness6Icon from "@material-ui/icons/Brightness6";
 import HowToVoteIcon from "@material-ui/icons/HowToVote";
 import LibraryAddIcon from "@material-ui/icons/LibraryAdd";
-import { useSelector, useDispatch } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 import Brightness2Icon from "@material-ui/icons/Brightness2";
 import { lightOff, lightOn } from "actions";
+import { useAppDispatch, useAppSelector } from "hooks";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -22,10 +22,8 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function Navbar(): JSX.Element {
   const classes = useStyles();
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const isDark = useSelector((state) => state.isDark);
-  const dispatch = useDispatch();
+  const isDark = useAppSelector((state) => state.isDark);
+  const dispatch = useAppDispatch();
 
   return (
     <List component="nav">
