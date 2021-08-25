@@ -44,7 +44,7 @@ contract PredictionMarket {
   /**
    * @dev Predicted price goal for the currency pair
    */
-  uint256 private predictedPrice;
+  int256 private predictedPrice;
 
   /**
    * @notice End time for the prediction market to be resolved at
@@ -62,6 +62,11 @@ contract PredictionMarket {
   bool private isResolved = false;
 
   /**
+   * @dev Which vote (yes/no) has won the prediction market (once resolved)
+   */
+  Vote private winner;
+
+  /**
    * @dev Chainlink price feed for the given currency pair
    */
   AggregatorV3Interface private priceFeed;
@@ -74,7 +79,7 @@ contract PredictionMarket {
    */
   constructor(
     Market _market,
-    uint256 _predictedPrice,
+    int256 _predictedPrice,
     uint256 _endTime
   ) {
     market = _market;
@@ -82,6 +87,20 @@ contract PredictionMarket {
     endTime = _endTime;
     _setPriceFeed(_market);
     currentPrice = 10000000000000000;
+  }
+
+  /**
+   * @dev Sets the Chainlink price feed for the given currency pair
+   * @param _market The currency pair for this prediction market i.e. AVAX/USD
+   */
+  function _setPriceFeed(Market _market) private {
+    address[4] memory chainlinkOracles = [
+      0x5498BB86BC934c8D34FDA08E81D444153d0D06aD,
+      0x31CF013A08c6Ac228C94551d535d5BAfE19c602a,
+      0x86d67c3D38D2bCeE722E601025C25a575021c6EA,
+      0x34C4c526902d88a3Aa98DB8a9b802603EB1E3470
+    ];
+    priceFeed = AggregatorV3Interface(chainlinkOracles[uint256(_market)]);
   }
 
   /**
@@ -99,17 +118,23 @@ contract PredictionMarket {
     sharesPerPerson[msg.sender][_vote] += numShares;
   }
 
-  /**
-   * @dev Sets the Chainlink price feed for the given currency pair
-   * @param _market The currency pair for this prediction market i.e. AVAX/USD
-   */
-  function _setPriceFeed(Market _market) private {
-    address[4] memory chainlinkOracles = [
-      0x5498BB86BC934c8D34FDA08E81D444153d0D06aD,
-      0x31CF013A08c6Ac228C94551d535d5BAfE19c602a,
-      0x86d67c3D38D2bCeE722E601025C25a575021c6EA,
-      0x34C4c526902d88a3Aa98DB8a9b802603EB1E3470
-    ];
-    priceFeed = AggregatorV3Interface(chainlinkOracles[uint256(_market)]);
+  function _resolveMarket() private {
+    uint80 roundID;
+    int256 price;
+    uint256 timeStamp;
+    (roundID, price, , timeStamp, ) = priceFeed.latestRoundData();
+    while (timeStamp > endTime) {
+      roundID--;
+      (roundID, price, , timeStamp, ) = priceFeed.getRoundData(roundID);
+      if (timeStamp <= endTime) {
+        break;
+      }
+    }
+    if (predictedPrice >= price) {
+      winner = Vote.Yes;
+    } else {
+      winner = Vote.No;
+    }
+    isResolved = true;
   }
 }
