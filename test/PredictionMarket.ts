@@ -1,5 +1,6 @@
 import { expect } from "chai";
 import { ethers } from "hardhat";
+import { sleep } from "../scripts/helpers";
 
 enum Market {
   AvaxUsd = 0,
@@ -22,7 +23,12 @@ describe("PredictionMarket", function () {
 
   beforeEach(async function () {
     [this.owner, this.addr1] = await ethers.getSigners();
-    this.predictionMarket = await this.PredictionMarket.deploy(Market.AvaxUsd);
+    const tenSecDelay = Math.floor(Date.now() / 1000) + 10;
+    this.predictionMarket = await this.PredictionMarket.deploy(
+      Market.AvaxUsd,
+      50,
+      tenSecDelay
+    );
     await this.predictionMarket.deployed();
   });
 
@@ -72,6 +78,16 @@ describe("PredictionMarket", function () {
           Vote.Yes
         )
       ).to.equal(3);
+    });
+
+    it("Should not be able to buy shares after end time", async function () {
+      const tenSeconds = 10000;
+      await sleep(tenSeconds);
+      expect(
+        this.predictionMarket.buyShares(Vote.No, {
+          value: ethers.utils.parseEther("0.03"),
+        })
+      ).to.be.revertedWith("Cannot buy shares after market endTime");
     });
   });
 });
