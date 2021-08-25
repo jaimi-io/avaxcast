@@ -8,7 +8,6 @@ import Brightness6Icon from "@material-ui/icons/Brightness6";
 import HowToVoteIcon from "@material-ui/icons/HowToVote";
 import LibraryAddIcon from "@material-ui/icons/LibraryAdd";
 import { LinkContainer } from "react-router-bootstrap";
-import { BrowserRouter as Router } from "react-router-dom";
 // import Brightness2Icon from "@material-ui/icons/Brightness2";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -22,70 +21,68 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function Navbar(): JSX.Element {
   const classes = useStyles();
   return (
-    <Router>
-      <List component="nav">
-        <ListItem component="div">
-          <ListItemText inset>
-            <LinkContainer to="/">
-              <Button
-                variant="contained"
-                color="inherit"
-                className={classes.button}
-                startIcon={<HowToVoteIcon />}>
-                Vote
-              </Button>
-            </LinkContainer>
-          </ListItemText>
-
-          <ListItemText inset>
-            <LinkContainer to="/portfolio">
-              <Button
-                variant="contained"
-                color="inherit"
-                className={classes.button}
-                startIcon={<BookIcon />}>
-                Portfolio
-              </Button>
-            </LinkContainer>
-          </ListItemText>
-
-          <ListItemText inset>
+    <List component="nav">
+      <ListItem component="div">
+        <ListItemText inset>
+          <LinkContainer to="/">
             <Button
               variant="contained"
               color="inherit"
               className={classes.button}
-              disabled
-              startIcon={<LibraryAddIcon />}>
-              Add
+              startIcon={<HowToVoteIcon />}>
+              Vote
             </Button>
-          </ListItemText>
+          </LinkContainer>
+        </ListItemText>
 
-          <ListItemText inset>
+        <ListItemText inset>
+          <LinkContainer to="/portfolio">
             <Button
               variant="contained"
               color="inherit"
               className={classes.button}
-              disabled
-              startIcon={<AccountBalanceWalletIcon />}>
-              Wallet
+              startIcon={<BookIcon />}>
+              Portfolio
             </Button>
-          </ListItemText>
+          </LinkContainer>
+        </ListItemText>
 
-          <IconButton
-            aria-label="dark"
+        <ListItemText inset>
+          <Button
+            variant="contained"
             color="inherit"
-            className={classes.button}>
-            <Brightness6Icon />
-          </IconButton>
+            className={classes.button}
+            disabled
+            startIcon={<LibraryAddIcon />}>
+            Add
+          </Button>
+        </ListItemText>
 
-          {/* <IconButton
+        <ListItemText inset>
+          <Button
+            variant="contained"
+            color="inherit"
+            className={classes.button}
+            disabled
+            startIcon={<AccountBalanceWalletIcon />}>
+            Wallet
+          </Button>
+        </ListItemText>
+
+        <IconButton
+          aria-label="dark"
+          color="inherit"
+          className={classes.button}>
+          <Brightness6Icon />
+        </IconButton>
+
+        {/* <IconButton
             aria-label="dark"
             color="default"
             className={classes.button}>
             <Brightness2Icon />
           </IconButton> */}
-        </ListItem>
-      </List>
-    </Router>
+      </ListItem>
+    </List>
   );
 }
