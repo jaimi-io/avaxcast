@@ -40,7 +40,7 @@ contract PredictionMarket {
   Market public market;
 
   /**
-   * @notice Predicted price goal for the currency pair
+   * @dev Predicted price goal for the currency pair
    */
   uint256 private predictedPrice;
 
@@ -55,7 +55,7 @@ contract PredictionMarket {
   uint256 public currentPrice;
 
   /**
-   * @notice Bool for whether the prediction market has been resolved or not
+   * @dev Bool for whether the prediction market has been resolved or not
    */
   bool private isResolved = false;
 
@@ -77,11 +77,15 @@ contract PredictionMarket {
   }
 
   /**
-   * @notice Buys shares for user of a given vote
+   * @notice Buys shares in the market for user of a given vote
+   * @dev Only executed if called before market end time
    * @param _vote The vote (yes/no) in the market
    */
   function buyShares(Vote _vote) external payable {
-    require(!isResolved && block.timestamp <= endTime);
+    require(
+      !isResolved && block.timestamp <= endTime,
+      "Cannot buy shares after market endTime"
+    );
     uint256 numShares = msg.value / currentPrice;
     numberShares[_vote] += numShares;
     sharesPerPerson[msg.sender][_vote] += numShares;
