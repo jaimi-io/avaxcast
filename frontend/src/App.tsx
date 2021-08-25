@@ -1,7 +1,7 @@
 import { ThemeProvider } from "@material-ui/core";
 import { createTheme } from "@material-ui/core/styles";
 import Navigation from "components/Navigation";
-import "index.css";
+import "App.css";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
@@ -29,6 +29,7 @@ function App(): JSX.Element {
       type: "light",
     },
   });
+
   return (
     <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
       <Navigation />
