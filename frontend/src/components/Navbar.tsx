@@ -7,8 +7,10 @@ import BookIcon from "@material-ui/icons/Book";
 import Brightness6Icon from "@material-ui/icons/Brightness6";
 import HowToVoteIcon from "@material-ui/icons/HowToVote";
 import LibraryAddIcon from "@material-ui/icons/LibraryAdd";
+import { useSelector, useDispatch } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
-// import Brightness2Icon from "@material-ui/icons/Brightness2";
+import Brightness2Icon from "@material-ui/icons/Brightness2";
+import { lightOff, lightOn } from "actions";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -20,6 +22,11 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function Navbar(): JSX.Element {
   const classes = useStyles();
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const isDark = useSelector((state) => state.isDark);
+  const dispatch = useDispatch();
+
   return (
     <List component="nav">
       <ListItem component="div">
@@ -69,19 +76,23 @@ export default function Navbar(): JSX.Element {
           </Button>
         </ListItemText>
 
-        <IconButton
-          aria-label="dark"
-          color="inherit"
-          className={classes.button}>
-          <Brightness6Icon />
-        </IconButton>
-
-        {/* <IconButton
+        {isDark ? (
+          <IconButton
+            aria-label="dark"
+            color="inherit"
+            className={classes.button}
+            onClick={() => dispatch(lightOn())}>
+            <Brightness6Icon />
+          </IconButton>
+        ) : (
+          <IconButton
             aria-label="dark"
             color="default"
-            className={classes.button}>
+            className={classes.button}
+            onClick={() => dispatch(lightOff())}>
             <Brightness2Icon />
-          </IconButton> */}
+          </IconButton>
+        )}
       </ListItem>
     </List>
   );
