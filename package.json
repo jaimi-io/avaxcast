@@ -1,6 +1,7 @@
 {
   "name": "avaxcast",
   "devDependencies": {
+    "@chainlink/contracts": "^0.2.1",
     "@nomiclabs/hardhat-ethers": "^2.0.1",
     "@nomiclabs/hardhat-waffle": "^2.0.1",
     "@openzeppelin/contracts": "^3.4.0",
@@ -51,7 +52,6 @@
     "fund-cchain-addresses": "npx hardhat run scripts/fund-cchain-addresses.js"
   },
   "dependencies": {
-    "@chainlink/contracts": "^0.2.1",
     "typescript": "^4.2.4"
   },
   "engines": {
