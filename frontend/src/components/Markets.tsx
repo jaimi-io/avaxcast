@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme: Theme) =>
       minWidth: 120,
     },
     selectEmpty: {
+      // eslint-disable-next-line no-magic-numbers
       marginTop: theme.spacing(2),
     },
     container: {
