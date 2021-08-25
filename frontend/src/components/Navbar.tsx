@@ -53,14 +53,15 @@ export default function Navbar(): JSX.Element {
         </ListItemText>
 
         <ListItemText inset>
-          <Button
-            variant="contained"
-            color="inherit"
-            className={classes.button}
-            disabled
-            startIcon={<LibraryAddIcon />}>
-            Add
-          </Button>
+          <LinkContainer to="/addmarket">
+            <Button
+              variant="contained"
+              color="inherit"
+              className={classes.button}
+              startIcon={<LibraryAddIcon />}>
+              Add
+            </Button>
+          </LinkContainer>
         </ListItemText>
 
         <ListItemText inset>
