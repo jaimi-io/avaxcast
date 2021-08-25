@@ -79,7 +79,7 @@ export default function Navbar(): JSX.Element {
         {isDark ? (
           <IconButton
             aria-label="dark"
-            color="inherit"
+            color="default"
             className={classes.button}
             onClick={() => dispatch(lightOn())}>
             <Brightness6Icon />
@@ -87,7 +87,7 @@ export default function Navbar(): JSX.Element {
         ) : (
           <IconButton
             aria-label="dark"
-            color="default"
+            color="inherit"
             className={classes.button}
             onClick={() => dispatch(lightOff())}>
             <Brightness2Icon />
