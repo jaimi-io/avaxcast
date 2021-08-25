@@ -2,35 +2,37 @@ import { ThemeProvider } from "@material-ui/core";
 import { createTheme } from "@material-ui/core/styles";
 import Navigation from "components/Navigation";
 import "index.css";
-import { Provider } from "react-redux";
-import allReducers from "reducers/";
-import { createStore } from "redux";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 function App(): JSX.Element {
-  // if (darkMode) {
-  //   document.body.classList.add("dark");
-  // } else {
-  //   document.body.classList.remove("dark");
-  // }
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const isDark = useSelector((state) => state.isDark);
 
-  // const darkTheme = createTheme({
-  //   palette: {
-  //     type: "dark",
-  //   },
-  // });
+  useEffect(() => {
+    if (isDark) {
+      document.body.classList.add("dark");
+    } else {
+      document.body.classList.remove("dark");
+    }
+  }, [isDark]);
 
-  const store = createStore(allReducers);
+  const darkTheme = createTheme({
+    palette: {
+      type: "dark",
+    },
+  });
+
   const lightTheme = createTheme({
     palette: {
       type: "light",
     },
   });
   return (
-    <Provider store={store}>
-      <ThemeProvider theme={lightTheme}>
-        <Navigation />
-      </ThemeProvider>
-    </Provider>
+    <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+      <Navigation />
+    </ThemeProvider>
   );
 }
 
