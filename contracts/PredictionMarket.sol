@@ -118,6 +118,10 @@ contract PredictionMarket {
     sharesPerPerson[msg.sender][_vote] += numShares;
   }
 
+  /**
+   * @dev Uses Chainlink price feed to get price at market end time 
+   to resolve the market & declare the winning vote
+   */
   function _resolveMarket() private {
     uint80 roundID;
     int256 price;
