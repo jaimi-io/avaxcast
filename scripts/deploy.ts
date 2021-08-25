@@ -19,7 +19,9 @@ const main = async (): Promise<any> => {
     "contracts/PredictionMarket.sol:PredictionMarket"
   );
   const predictionMarket: Contract = await PredictionMarket.deploy(
-    Market.AvaxUsd
+    Market.AvaxUsd,
+    50,
+    Math.floor(Date.now() / 1000) + 1200
   );
 
   await predictionMarket.deployed();
@@ -41,10 +43,17 @@ const main = async (): Promise<any> => {
     addr1.address,
     Vote.No
   );
+  const isResolved = await predictionMarket.isResolved.call();
+  const winner = await predictionMarket.winner.call();
   console.log(`Yes votes total ${yesVotes}`);
   console.log(`No votes total ${noVotes}`);
   console.log(`Yes votes addr1 ${yesVotesAddr1}`);
   console.log(`No votes addr1 ${noVotesAddr1}`);
+  console.log(`isResolved ${isResolved}`);
+  console.log(`Winner ${winner}`);
+  console.log(
+    `End time ${new Date((await predictionMarket.endTime.call()) * 1000)}`
+  );
 };
 
 main()
