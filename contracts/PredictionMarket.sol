@@ -40,6 +40,16 @@ contract PredictionMarket {
   Market public market;
 
   /**
+   * @notice Predicted price goal for the currency market
+   */
+  uint256 predictedPrice;
+
+  /**
+   * @notice End date for the prediction market to be resolved at
+   */
+  uint256 endDate;
+
+  /**
    * @notice Current price for a yes or no share
    */
   uint256 public currentPrice;
@@ -48,8 +58,14 @@ contract PredictionMarket {
    * @notice Construct a new prediction market
    * @param _market The currency pair for this prediction market
    */
-  constructor(Market _market) {
+  constructor(
+    Market _market,
+    uint256 _predictedPrice,
+    uint256 _endDate
+  ) {
     market = _market;
+    predictedPrice = _predictedPrice;
+    endDate = _endDate;
     currentPrice = 10000000000000000;
   }
 
