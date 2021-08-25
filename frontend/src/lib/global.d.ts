@@ -1,0 +1,3 @@
+interface Action {
+  type: string;
+}
