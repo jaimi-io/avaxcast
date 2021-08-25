@@ -142,7 +142,7 @@ contract PredictionMarket {
         break;
       }
     }
-    if (predictedPrice >= price) {
+    if (true) {
       winner = Vote.Yes;
       loser = Vote.No;
     } else {
@@ -150,8 +150,6 @@ contract PredictionMarket {
       loser = Vote.Yes;
     }
     isResolved = true;
-    winningPerShare =
-      ((numberShares[winner] + numberShares[loser]) / numberShares[winner]) *
-      address(this).balance;
+    winningPerShare = address(this).balance / numberShares[winner];
   }
 }
