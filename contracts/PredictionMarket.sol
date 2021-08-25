@@ -57,14 +57,14 @@ contract PredictionMarket {
   uint256 public currentPrice;
 
   /**
-   * @dev Bool for whether the prediction market has been resolved or not
+   * @notice Bool for whether the prediction market has been resolved or not
    */
-  bool private isResolved = false;
+  bool public isResolved = false;
 
   /**
-   * @dev Which vote (yes/no) has won the prediction market (once resolved)
+   * @notice Which vote (yes/no) has won the prediction market (once resolved)
    */
-  Vote private winner;
+  Vote public winner;
 
   /**
    * @dev Chainlink price feed for the given currency pair
