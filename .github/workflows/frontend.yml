@@ -27,5 +27,3 @@ jobs:
         run: cd frontend/ && yarn build
       - name: Test
         run: cd frontend/ && yarn test --ci
-      - name: Lint
-        run: yarn lint frontend/
