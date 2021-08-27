@@ -17,7 +17,7 @@
     "sourceType": "module"
   },
   "plugins": ["react", "@typescript-eslint", "eslint-plugin-tsdoc"],
-  "ignorePatterns": ["frontend/build"],
+  "ignorePatterns": ["frontend/build", "hardhat.config.ts"],
   "rules": {
     // Possible Errors
     "no-unreachable-loop": "warn",
