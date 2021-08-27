@@ -1,6 +1,11 @@
+/* eslint-disable no-magic-numbers */
 import { expect } from "chai";
 import { ethers } from "hardhat";
 import { sleep } from "../scripts/helpers";
+
+const PREDICTED_PRICE = 50;
+const MS_TO_SECS = 1000;
+const MARKET_DURATION = 10;
 
 enum Market {
   AvaxUsd = 0,
@@ -23,10 +28,10 @@ describe("PredictionMarket", function () {
 
   beforeEach(async function () {
     [this.owner, this.addr1] = await ethers.getSigners();
-    const tenSecDelay = Math.floor(Date.now() / 1000) + 10;
+    const tenSecDelay = Math.floor(Date.now() / MS_TO_SECS) + MARKET_DURATION;
     this.predictionMarket = await this.PredictionMarket.deploy(
       Market.AvaxUsd,
-      50,
+      PREDICTED_PRICE,
       tenSecDelay
     );
     await this.predictionMarket.deployed();
@@ -53,6 +58,7 @@ describe("PredictionMarket", function () {
       await this.predictionMarket.connect(this.addr1).buyShares(Vote.No, {
         value: ethers.utils.parseEther("0.03"),
       });
+
       expect(await this.predictionMarket.numberShares(Vote.No)).to.equal(13);
     });
 
