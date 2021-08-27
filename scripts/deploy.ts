@@ -8,6 +8,7 @@ const MS_TO_SECS = 1000;
 const MARKET_DURATION = 10;
 
 enum Market {
+  // eslint-disable-next-line no-magic-numbers
   AvaxUsd = 0,
   BtcUsd,
   EthUsd,
@@ -15,6 +16,7 @@ enum Market {
 }
 
 enum Vote {
+  // eslint-disable-next-line no-magic-numbers
   Yes = 0,
   No,
 }
