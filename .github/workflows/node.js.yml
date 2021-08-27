@@ -27,3 +27,5 @@ jobs:
         run: yarn
       - name: Format
         run: yarn prettier -c .
+      - name: Lint
+        run: yarn lint .
