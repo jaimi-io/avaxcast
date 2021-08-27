@@ -6,18 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import PublishIcon from "@material-ui/icons/Publish";
 import { useState } from "react";
-
-function getDate(): string {
-  const MAX_DATE_NUM = 9;
-  const currentDate = new Date(Date.now());
-  const day = currentDate.getDate();
-  const month = currentDate.getMonth() + 1;
-  const year = currentDate.getFullYear();
-  const dateString = `${year}-${month <= MAX_DATE_NUM ? `0${month}` : month}-${
-    day <= MAX_DATE_NUM ? `0${day}` : day
-  }`;
-  return dateString;
-}
+import { getDate } from "common/date";
 
 function validDate(date: string): boolean {
   const now = new Date();
