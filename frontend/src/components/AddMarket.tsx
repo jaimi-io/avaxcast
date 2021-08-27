@@ -5,6 +5,7 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import PublishIcon from "@material-ui/icons/Publish";
+import { useState } from "react";
 
 // name of coin
 // deadline date
@@ -37,6 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function AddMarket(): JSX.Element {
   const classes = useStyles();
+  const [predictedPrice, setPredictedPrice] = useState(0);
 
   return (
     <div className={classes.root}>
@@ -51,13 +53,18 @@ function AddMarket(): JSX.Element {
           <MenuItem value={"ETH/USD"}>ETH/USD</MenuItem>
         </Select>
       </FormControl>
+
       <TextField
         label="Predicted Price ($)"
-        id="margin-none"
+        id="standard-number"
+        type="number"
         defaultValue={0}
         className={classes.textField}
+        onChange={(e) => setPredictedPrice(parseInt(e.target.value))}
+        error={predictedPrice < 0}
         helperText="Range $0 - $X"
       />
+
       <form className={classes.container} noValidate>
         <TextField
           id="date"
