@@ -11,6 +11,12 @@ import { useState } from "react";
 // deadline date
 // predicted price
 
+function validDate(date: string): boolean {
+  const now = new Date();
+  const selectedDate = new Date(date);
+  return now < selectedDate;
+}
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -39,6 +45,7 @@ const useStyles = makeStyles((theme: Theme) =>
 function AddMarket(): JSX.Element {
   const classes = useStyles();
   const [predictedPrice, setPredictedPrice] = useState(0);
+  const [deadline, setDeadline] = useState("2021-08-24");
 
   return (
     <div className={classes.root}>
@@ -65,7 +72,7 @@ function AddMarket(): JSX.Element {
         helperText="Range $0 - $X"
       />
 
-      <form className={classes.container} noValidate>
+      <form className={classes.container}>
         <TextField
           id="date"
           label="Deadline"
@@ -75,6 +82,11 @@ function AddMarket(): JSX.Element {
           InputLabelProps={{
             shrink: true,
           }}
+          onChange={(e) => setDeadline(e.target.value)}
+          error={!validDate(deadline)}
+          helperText={
+            validDate(deadline) ? "" : "Select a date after the current date"
+          }
         />
       </form>
 
