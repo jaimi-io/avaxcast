@@ -5,8 +5,18 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import PublishIcon from "@material-ui/icons/Publish";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getDate } from "common/date";
+
+const MIN_PREDICTED_PRICE = 0;
+
+function validMarket(market: string): boolean {
+  return market !== "All Markets";
+}
+
+function validPrice(price: number): boolean {
+  return price >= MIN_PREDICTED_PRICE;
+}
 
 function validDate(date: string): boolean {
   const now = new Date();
@@ -42,10 +52,21 @@ const useStyles = makeStyles((theme: Theme) =>
 function AddMarket(): JSX.Element {
   const classes = useStyles();
   const INITIAL_PREDICTED_PRICE = 0;
-  const MIN_PREDICTED_PRICE = 0;
   const INITIAL_DATE = getDate();
+  // state
+  const [market, setMarket] = useState("All Markets");
   const [predictedPrice, setPredictedPrice] = useState(INITIAL_PREDICTED_PRICE);
   const [deadline, setDeadline] = useState(INITIAL_DATE);
+  const [invalid, setInvalid] = useState(true);
+
+  useEffect(() => {
+    setInvalid(
+      () =>
+        !validMarket(market) ||
+        !validPrice(predictedPrice) ||
+        !validDate(deadline)
+    );
+  }, [market, predictedPrice, deadline]);
 
   return (
     <div className={classes.root}>
@@ -53,7 +74,12 @@ function AddMarket(): JSX.Element {
         <Select
           defaultValue="All Markets"
           labelId="markets-select"
-          id="markets-select">
+          id="markets-select"
+          type="text"
+          error={!validMarket(market)}
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          onChange={(e) => setMarket(e.target.value)}>
           <MenuItem value={"All Markets"}>All Markets</MenuItem>
           <MenuItem value={"AVAX/USD"}>AVAX/USD</MenuItem>
           <MenuItem value={"BTC/USD"}> BTC/USD</MenuItem>
@@ -94,6 +120,7 @@ function AddMarket(): JSX.Element {
         variant="contained"
         color="inherit"
         className={classes.button}
+        disabled={invalid}
         startIcon={<PublishIcon />}>
         Submit
       </Button>
