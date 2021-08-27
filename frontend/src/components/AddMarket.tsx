@@ -7,9 +7,17 @@ import Button from "@material-ui/core/Button";
 import PublishIcon from "@material-ui/icons/Publish";
 import { useState } from "react";
 
-// name of coin
-// deadline date
-// predicted price
+function getDate(): string {
+  const MAX_DATE_NUM = 9;
+  const currentDate = new Date(Date.now());
+  const day = currentDate.getDate();
+  const month = currentDate.getMonth() + 1;
+  const year = currentDate.getFullYear();
+  const dateString = `${year}-${month <= MAX_DATE_NUM ? `0${month}` : month}-${
+    day <= MAX_DATE_NUM ? `0${day}` : day
+  }`;
+  return dateString;
+}
 
 function validDate(date: string): boolean {
   const now = new Date();
@@ -46,8 +54,9 @@ function AddMarket(): JSX.Element {
   const classes = useStyles();
   const INITIAL_PREDICTED_PRICE = 0;
   const MIN_PREDICTED_PRICE = 0;
+  const INITIAL_DATE = getDate();
   const [predictedPrice, setPredictedPrice] = useState(INITIAL_PREDICTED_PRICE);
-  const [deadline, setDeadline] = useState("2021-08-24");
+  const [deadline, setDeadline] = useState(INITIAL_DATE);
 
   return (
     <div className={classes.root}>
@@ -79,7 +88,7 @@ function AddMarket(): JSX.Element {
           id="date"
           label="Deadline"
           type="date"
-          defaultValue="2021-08-24"
+          defaultValue={INITIAL_DATE}
           className={classes.textField}
           InputLabelProps={{
             shrink: true,
