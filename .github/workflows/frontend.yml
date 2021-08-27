@@ -6,8 +6,6 @@ name: Frontend CI
 on:
   push:
     branches-ignore: []
-  pull_request:
-    branches-ignore: []
 
 jobs:
   build:
@@ -29,5 +27,3 @@ jobs:
         run: cd frontend/ && yarn build
       - name: Test
         run: cd frontend/ && yarn test --ci
-      - name: Lint
-        run: yarn lint frontend/

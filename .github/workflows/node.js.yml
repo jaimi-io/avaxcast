@@ -6,8 +6,6 @@ name: Node.js CI
 on:
   push:
     branches-ignore: []
-  pull_request:
-    branches-ignore: []
 
 jobs:
   format:
@@ -27,3 +25,5 @@ jobs:
         run: yarn
       - name: Format
         run: yarn prettier -c .
+      - name: Lint
+        run: yarn lint .
