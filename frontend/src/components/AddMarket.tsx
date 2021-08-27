@@ -44,7 +44,9 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function AddMarket(): JSX.Element {
   const classes = useStyles();
-  const [predictedPrice, setPredictedPrice] = useState(0);
+  const INITIAL_PREDICTED_PRICE = 0;
+  const MIN_PREDICTED_PRICE = 0;
+  const [predictedPrice, setPredictedPrice] = useState(INITIAL_PREDICTED_PRICE);
   const [deadline, setDeadline] = useState("2021-08-24");
 
   return (
@@ -65,10 +67,10 @@ function AddMarket(): JSX.Element {
         label="Predicted Price ($)"
         id="standard-number"
         type="number"
-        defaultValue={0}
+        defaultValue={INITIAL_PREDICTED_PRICE}
         className={classes.textField}
         onChange={(e) => setPredictedPrice(parseInt(e.target.value))}
-        error={predictedPrice < 0}
+        error={predictedPrice < MIN_PREDICTED_PRICE}
         helperText="Range $0 - $X"
       />
 
