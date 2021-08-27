@@ -2,6 +2,11 @@ import { Contract, ContractFactory } from "ethers";
 import { ethers } from "hardhat";
 import { sleep } from "./helpers";
 
+const EXIT_SUCCESSFUL = 0;
+const PREDICTED_PRICE = 50;
+const MS_TO_SECS = 1000;
+const MARKET_DURATION = 10;
+
 enum Market {
   AvaxUsd = 0,
   BtcUsd,
@@ -14,15 +19,15 @@ enum Vote {
   No,
 }
 
-const main = async (): Promise<any> => {
-  const [owner, addr1, addr2] = await ethers.getSigners();
+const main = async (): Promise<void> => {
+  const [owner, addr1] = await ethers.getSigners();
   const PredictionMarket: ContractFactory = await ethers.getContractFactory(
     "contracts/PredictionMarket.sol:PredictionMarket"
   );
   const predictionMarket: Contract = await PredictionMarket.deploy(
     Market.AvaxUsd,
-    50,
-    Math.floor(Date.now() / 1000) + 10
+    PREDICTED_PRICE,
+    Math.floor(Date.now() / MS_TO_SECS) + MARKET_DURATION
   );
 
   await predictionMarket.deployed();
@@ -53,12 +58,12 @@ const main = async (): Promise<any> => {
   console.log(`isResolved ${isResolved}`);
   console.log(`Winner ${winner}`);
   console.log(
-    `End time ${new Date((await predictionMarket.endTime.call()) * 1000)}`
+    `End time ${new Date((await predictionMarket.endTime.call()) * MS_TO_SECS)}`
   );
   console.log(
     `Winning share price ${await predictionMarket.winningPerShare.call()}`
   );
-  await sleep(10000);
+  await sleep(MARKET_DURATION * MS_TO_SECS);
   const resolving = await predictionMarket.resolveMarket();
   console.log(`resolving func ${resolving}`);
   console.log(`isResolved ${await predictionMarket.isResolved.call()}`);
@@ -67,8 +72,8 @@ const main = async (): Promise<any> => {
   );
   console.log(`Winner ${await predictionMarket.winner.call()}`);
   console.log(`Loser ${await predictionMarket.loser.call()}`);
-  console.log(`Num votes y ${await predictionMarket.numberShares(0)}`);
-  console.log(`Num votes n ${await predictionMarket.numberShares(1)}`);
+  console.log(`Num votes y ${await predictionMarket.numberShares(Vote.Yes)}`);
+  console.log(`Num votes n ${await predictionMarket.numberShares(Vote.No)}`);
   console.log(
     `Winning share price ${await predictionMarket.winningPerShare.call()}`
   );
@@ -76,13 +81,13 @@ const main = async (): Promise<any> => {
   console.log(
     `Num votes y owner ${await predictionMarket.sharesPerPerson(
       owner.address,
-      0
+      Vote.Yes
     )}`
   );
 };
 
 main()
-  .then(() => process.exit(0))
+  .then(() => process.exit(EXIT_SUCCESSFUL))
   .catch((error) => {
     console.error(error);
     process.exit(1);
