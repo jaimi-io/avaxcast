@@ -3,6 +3,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
+import { getDate } from "common/date";
 import Posts from "components/Posts";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -54,7 +55,7 @@ export default function Markets(): JSX.Element {
           id="date"
           label="Deadline"
           type="date"
-          defaultValue="2021-08-24"
+          defaultValue={getDate()}
           className={classes.textField}
           InputLabelProps={{
             shrink: true,
