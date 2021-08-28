@@ -142,7 +142,7 @@ contract PredictionMarket {
         break;
       }
     }
-    if (true) {
+    if (price >= predictedPrice) {
       winner = Vote.Yes;
       loser = Vote.No;
     } else {
