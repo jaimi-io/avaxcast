@@ -4,9 +4,15 @@ import Navigation from "components/Navigation";
 import "App.css";
 import { useEffect } from "react";
 import { useAppSelector } from "hooks";
+import { Web3ReactProvider } from "@web3-react/core";
+import Web3 from "web3";
 
 function App(): JSX.Element {
   const isDark = useAppSelector((state) => state.isDark);
+
+  function getLibrary(pr: string) {
+    return new Web3(pr);
+  }
 
   useEffect(() => {
     if (isDark) {
@@ -29,9 +35,11 @@ function App(): JSX.Element {
   });
 
   return (
-    <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
-      <Navigation />
-    </ThemeProvider>
+    <Web3ReactProvider getLibrary={getLibrary}>
+      <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+        <Navigation />
+      </ThemeProvider>
+    </Web3ReactProvider>
   );
 }
 
