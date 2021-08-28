@@ -65,14 +65,15 @@ export default function Navbar(): JSX.Element {
         </ListItemText>
 
         <ListItemText inset>
-          <Button
-            variant="contained"
-            color="inherit"
-            className={classes.button}
-            disabled
-            startIcon={<AccountBalanceWalletIcon />}>
-            Wallet
-          </Button>
+          <LinkContainer to="/wallet">
+            <Button
+              variant="contained"
+              color="inherit"
+              className={classes.button}
+              startIcon={<AccountBalanceWalletIcon />}>
+              Wallet
+            </Button>
+          </LinkContainer>
         </ListItemText>
 
         {isDark ? (
