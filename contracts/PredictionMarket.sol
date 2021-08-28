@@ -138,9 +138,6 @@ contract PredictionMarket {
     while (timeStamp > endTime) {
       roundID--;
       (roundID, price, , timeStamp, ) = priceFeed.getRoundData(roundID);
-      if (timeStamp <= endTime) {
-        break;
-      }
     }
     if (price >= predictedPrice) {
       winner = Vote.Yes;
