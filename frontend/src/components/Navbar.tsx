@@ -2,7 +2,6 @@ import { List, ListItem, ListItemText } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet";
 import BookIcon from "@material-ui/icons/Book";
 import Brightness6Icon from "@material-ui/icons/Brightness6";
 import HowToVoteIcon from "@material-ui/icons/HowToVote";
@@ -11,6 +10,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import Brightness2Icon from "@material-ui/icons/Brightness2";
 import { lightOff, lightOn } from "actions";
 import { useAppDispatch, useAppSelector } from "hooks";
+import Wallet from "./Wallet";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -65,15 +65,7 @@ export default function Navbar(): JSX.Element {
         </ListItemText>
 
         <ListItemText inset>
-          <LinkContainer to="/wallet">
-            <Button
-              variant="contained"
-              color="inherit"
-              className={classes.button}
-              startIcon={<AccountBalanceWalletIcon />}>
-              Wallet
-            </Button>
-          </LinkContainer>
+          <Wallet />
         </ListItemText>
 
         {isDark ? (
