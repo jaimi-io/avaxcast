@@ -3,7 +3,6 @@ import AddMarket from "./AddMarket";
 import Markets from "./Markets";
 import Navbar from "./Navbar";
 import Portfolio from "./Portfolio";
-import Wallet from "./Wallet";
 
 export default function Navigation(): JSX.Element {
   return (
@@ -13,7 +12,6 @@ export default function Navigation(): JSX.Element {
         <Route exact path="/" component={Markets} />
         <Route exact path="/portfolio" component={Portfolio}></Route>
         <Route exact path="/addmarket" component={AddMarket}></Route>
-        <Route exact path="/wallet" component={Wallet}></Route>
       </Switch>
     </Router>
   );
