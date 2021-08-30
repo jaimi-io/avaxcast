@@ -10,7 +10,7 @@ import { getDate } from "common/date";
 import Prediction from "contracts/PredictionMarket.json";
 import { AbiItem } from "web3-utils";
 import { useWeb3React } from "@web3-react/core";
-import { menuMarkets } from "common/markets";
+import { marketNames } from "common/markets";
 import { FLOAT_TO_SOL_NUM, MS_TO_SECS } from "common/constants";
 import NumberFormat from "react-number-format";
 
@@ -132,7 +132,7 @@ function AddMarket(): JSX.Element {
           // @ts-ignore
           onChange={(e) => setMarket(e.target.value)}>
           <MenuItem value={ALL_MARKETS_ID}>All Markets</MenuItem>
-          {menuMarkets().map((mk, index) => (
+          {marketNames.map((mk, index) => (
             <MenuItem value={index} key={index}>
               {mk}
             </MenuItem>
