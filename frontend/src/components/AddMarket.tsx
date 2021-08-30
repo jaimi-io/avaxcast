@@ -11,7 +11,8 @@ import Prediction from "contracts/PredictionMarket.json";
 import { AbiItem } from "web3-utils";
 import { useWeb3React } from "@web3-react/core";
 import { menuMarkets } from "common/markets";
-import { MS_TO_SECS } from "common/constants";
+import { FLOAT_TO_SOL_NUM, MS_TO_SECS } from "common/constants";
+import NumberFormat from "react-number-format";
 
 const MIN_PREDICTED_PRICE = 0;
 const ALL_MARKETS_ID = -1;
@@ -55,9 +56,39 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+interface NumberFormatCustomProps {
+  inputRef: (instance: NumberFormat | null) => void;
+  onChange: (event: { target: { name: string; value: string } }) => void;
+  name: string;
+}
+
+function NumberFormatCustom(props: NumberFormatCustomProps) {
+  const { inputRef, onChange, ...other } = props;
+
+  return (
+    <NumberFormat
+      {...other}
+      getInputRef={inputRef}
+      onValueChange={(values) => {
+        onChange({
+          target: {
+            name: props.name,
+            value: values.value,
+          },
+        });
+      }}
+      decimalScale={2}
+      thousandSeparator
+      fixedDecimalScale
+      isNumericString
+      prefix="$"
+    />
+  );
+}
+
 function AddMarket(): JSX.Element {
   const classes = useStyles();
-  const INITIAL_PREDICTED_PRICE = 0;
+  const INITIAL_PREDICTED_PRICE = 0.0;
   const INITIAL_DATE = getDate();
   // state
   const [market, setMarket] = useState(ALL_MARKETS_ID);
@@ -78,12 +109,11 @@ function AddMarket(): JSX.Element {
 
   const handleAddMarket = () => {
     const contract = new library.eth.Contract(Prediction.abi as AbiItem[]);
-    const tenSecDelay = Math.floor(Date.now() / MS_TO_SECS) + 10;
-
+    const unixDeadline = Math.floor(new Date(deadline).getTime() / MS_TO_SECS);
     const marketContract = contract
       .deploy({
         data: Prediction.bytecode,
-        arguments: [market, predictedPrice, tenSecDelay],
+        arguments: [market, predictedPrice * FLOAT_TO_SOL_NUM, unixDeadline],
       })
       .send({ from: account });
     console.log(marketContract);
@@ -112,13 +142,15 @@ function AddMarket(): JSX.Element {
 
       <TextField
         label="Predicted Price ($)"
-        id="standard-number"
-        type="number"
+        id="formatted-numberformat-input"
         defaultValue={INITIAL_PREDICTED_PRICE}
         className={classes.textField}
-        onChange={(e) => setPredictedPrice(parseInt(e.target.value))}
+        onChange={(e) => setPredictedPrice(parseFloat(e.target.value))}
         error={predictedPrice < MIN_PREDICTED_PRICE}
         helperText="Range $0 - $X"
+        InputProps={{
+          inputComponent: NumberFormatCustom as any,
+        }}
       />
 
       <form className={classes.container}>
