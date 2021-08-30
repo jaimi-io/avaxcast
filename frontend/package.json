@@ -19,6 +19,7 @@
     "@web3-react/injected-connector": "^6.0.7",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-number-format": "^4.7.3",
     "react-redux": "^7.2.4",
     "react-router-bootstrap": "^0.25.0",
     "react-router-dom": "^5.2.0",
