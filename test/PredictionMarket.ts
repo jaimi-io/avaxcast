@@ -2,22 +2,11 @@
 import { expect } from "chai";
 import { ethers } from "hardhat";
 import { sleep } from "../scripts/helpers";
+import { Market, Vote } from "../frontend/src/common/markets";
 
 const PREDICTED_PRICE = 50;
 const MS_TO_SECS = 1000;
 const MARKET_DURATION = 10;
-
-enum Market {
-  AvaxUsd = 0,
-  BtcUsd,
-  EthUsd,
-  LinkUsd,
-}
-
-enum Vote {
-  Yes = 0,
-  No,
-}
 
 describe("PredictionMarket", function () {
   before(async function () {
@@ -30,7 +19,7 @@ describe("PredictionMarket", function () {
     [this.owner, this.addr1] = await ethers.getSigners();
     const tenSecDelay = Math.floor(Date.now() / MS_TO_SECS) + MARKET_DURATION;
     this.predictionMarket = await this.PredictionMarket.deploy(
-      Market.AvaxUsd,
+      Market.AVAX,
       PREDICTED_PRICE,
       tenSecDelay
     );
@@ -39,7 +28,7 @@ describe("PredictionMarket", function () {
 
   describe("Constructor", function () {
     it("Should set market correctly", async function () {
-      expect(await this.predictionMarket.market()).to.equal(Market.AvaxUsd);
+      expect(await this.predictionMarket.market()).to.equal(Market.AVAX);
     });
   });
 
