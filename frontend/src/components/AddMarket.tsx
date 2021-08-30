@@ -10,6 +10,7 @@ import { getDate } from "common/date";
 import Prediction from "contracts/PredictionMarket.json";
 import { AbiItem } from "web3-utils";
 import { useWeb3React } from "@web3-react/core";
+import { menuMarkets } from "../common/markets";
 
 const MIN_PREDICTED_PRICE = 0;
 
@@ -96,9 +97,11 @@ function AddMarket(): JSX.Element {
           // @ts-ignore
           onChange={(e) => setMarket(e.target.value)}>
           <MenuItem value={"All Markets"}>All Markets</MenuItem>
-          <MenuItem value={"AVAX/USD"}>AVAX/USD</MenuItem>
-          <MenuItem value={"BTC/USD"}> BTC/USD</MenuItem>
-          <MenuItem value={"ETH/USD"}>ETH/USD</MenuItem>
+          {menuMarkets().map((market, index) => (
+            <MenuItem value={market} key={index}>
+              {market}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
 
