@@ -1,25 +1,12 @@
 import { Contract, ContractFactory } from "ethers";
 import { ethers } from "hardhat";
 import { sleep } from "./helpers";
+import { Market, Vote } from "../frontend/src/common/markets";
 
 const EXIT_SUCCESSFUL = 0;
 const PREDICTED_PRICE = 50;
 const MS_TO_SECS = 1000;
 const MARKET_DURATION = 10;
-
-enum Market {
-  // eslint-disable-next-line no-magic-numbers
-  AvaxUsd = 0,
-  BtcUsd,
-  EthUsd,
-  LinkUsd,
-}
-
-enum Vote {
-  // eslint-disable-next-line no-magic-numbers
-  Yes = 0,
-  No,
-}
 
 const main = async (): Promise<void> => {
   const [owner, addr1] = await ethers.getSigners();
@@ -27,7 +14,7 @@ const main = async (): Promise<void> => {
     "contracts/PredictionMarket.sol:PredictionMarket"
   );
   const predictionMarket: Contract = await PredictionMarket.deploy(
-    Market.AvaxUsd,
+    Market.AVAX,
     PREDICTED_PRICE,
     Math.floor(Date.now() / MS_TO_SECS) + MARKET_DURATION
   );
