@@ -10,12 +10,14 @@ import { getDate } from "common/date";
 import Prediction from "contracts/PredictionMarket.json";
 import { AbiItem } from "web3-utils";
 import { useWeb3React } from "@web3-react/core";
-import { menuMarkets } from "../common/markets";
+import { menuMarkets } from "common/markets";
+import { MS_TO_SECS } from "common/constants";
 
 const MIN_PREDICTED_PRICE = 0;
+const ALL_MARKETS_ID = -1;
 
-function validMarket(market: string): boolean {
-  return market !== "All Markets";
+function validMarket(market: number): boolean {
+  return market !== ALL_MARKETS_ID;
 }
 
 function validPrice(price: number): boolean {
@@ -58,7 +60,7 @@ function AddMarket(): JSX.Element {
   const INITIAL_PREDICTED_PRICE = 0;
   const INITIAL_DATE = getDate();
   // state
-  const [market, setMarket] = useState("All Markets");
+  const [market, setMarket] = useState(ALL_MARKETS_ID);
   const [predictedPrice, setPredictedPrice] = useState(INITIAL_PREDICTED_PRICE);
   const [deadline, setDeadline] = useState(INITIAL_DATE);
   const [invalid, setInvalid] = useState(true);
@@ -76,19 +78,22 @@ function AddMarket(): JSX.Element {
 
   const handleAddMarket = () => {
     const contract = new library.eth.Contract(Prediction.abi as AbiItem[]);
-    const tenSecDelay = Math.floor(Date.now() / 1000) + 10;
+    const tenSecDelay = Math.floor(Date.now() / MS_TO_SECS) + 10;
 
-    const market = contract
-      .deploy({ data: Prediction.bytecode, arguments: [0, 10, tenSecDelay] })
+    const marketContract = contract
+      .deploy({
+        data: Prediction.bytecode,
+        arguments: [market, predictedPrice, tenSecDelay],
+      })
       .send({ from: account });
-    console.log(market);
+    console.log(marketContract);
   };
 
   return (
     <div className={classes.root}>
       <FormControl className={classes.formControl}>
         <Select
-          defaultValue="All Markets"
+          defaultValue={ALL_MARKETS_ID}
           labelId="markets-select"
           id="markets-select"
           type="text"
@@ -96,10 +101,10 @@ function AddMarket(): JSX.Element {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           onChange={(e) => setMarket(e.target.value)}>
-          <MenuItem value={"All Markets"}>All Markets</MenuItem>
-          {menuMarkets().map((market, index) => (
-            <MenuItem value={market} key={index}>
-              {market}
+          <MenuItem value={ALL_MARKETS_ID}>All Markets</MenuItem>
+          {menuMarkets().map((mk, index) => (
+            <MenuItem value={index} key={index}>
+              {mk}
             </MenuItem>
           ))}
         </Select>
