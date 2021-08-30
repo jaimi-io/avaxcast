@@ -1,36 +1,74 @@
 import { Grid, Typography } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
-import { posts, PostsT } from "dummy";
+import AvaxLogo from "images/avalanche-avax-logo.svg";
+import BtcLogo from "images/bitcoin.svg";
+import EthLogo from "images/ethereum.svg";
+import LinkLogo from "images/link.svg";
 
-function Post({ title, info, image }: PostsT): JSX.Element {
+import { posts, PostsT } from "dummy";
+import { marketToString } from "common/markets";
+
+function Post({
+  market,
+  predictedPrice,
+  date,
+  volume,
+  yesPrice,
+  noPrice,
+}: PostsT): JSX.Element {
+  const icons = [AvaxLogo, BtcLogo, EthLogo, LinkLogo];
+
   return (
     <Grid item>
       <Card>
         <CardActionArea>
-          <CardMedia
-            component="img"
-            alt="Coin"
-            height="140"
-            image={image}
-            title="Coin"
-          />
           <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
-              {title}
+            <Grid container spacing={3} justifyContent="center">
+              <Grid item xs>
+                <img src={icons[market]} width={"50px"} />
+              </Grid>
+              <Grid item xs>
+                <Typography component="p">{predictedPrice}</Typography>
+              </Grid>
+              <Grid item xs>
+                <Typography component="p">{date}</Typography>
+              </Grid>
+            </Grid>
+
+            <Typography variant="h6" component="p">
+              {`Will ${marketToString(
+                market
+              )} reach ${predictedPrice} by ${date}`}
             </Typography>
-            <Typography component="p">{info}</Typography>
+            <Grid container>
+              <Grid item xs>
+                <Typography variant="body2" component="p">
+                  {"Total Volume:"}
+                </Typography>
+                <Typography component="p">{volume}</Typography>
+              </Grid>
+              <Grid item xs>
+                <Grid container>
+                  <Grid item xs={12}>
+                    <Typography
+                      variant="body1"
+                      component="p"
+                      align="right">{`Yes: ${yesPrice}`}</Typography>
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <Typography
+                      variant="body1"
+                      component="p"
+                      align="right">{`No: ${noPrice}`}</Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
           </CardContent>
         </CardActionArea>
-        <CardActions>
-          <Button size="medium" color="primary">
-            Learn More
-          </Button>
-        </CardActions>
       </Card>
     </Grid>
   );
@@ -39,14 +77,9 @@ function Post({ title, info, image }: PostsT): JSX.Element {
 export default function Posts(): JSX.Element {
   return (
     <div style={{ marginTop: 20, padding: 50 }}>
-      <Grid container justify="center">
+      <Grid container spacing={3} justify="center">
         {posts.map((post) => (
-          <Post
-            key={post.title}
-            title={post.title}
-            info={post.info}
-            image={post.image}
-          />
+          <Post key={post.address} {...post} />
         ))}
       </Grid>
     </div>
