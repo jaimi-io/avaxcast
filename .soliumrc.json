@@ -1,0 +1,12 @@
+{
+  "extends": "solium:recommended",
+  "plugins": ["security"],
+  "rules": {
+    "indentation": ["error", 2],
+    "quotes": ["error", "double"],
+    "deprecated-suicide": "error",
+    "no-constant": "error",
+    "constructor": "error",
+    "imports-on-top": "error"
+  }
+}
