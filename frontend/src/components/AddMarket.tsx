@@ -149,6 +149,7 @@ function AddMarket(): JSX.Element {
         error={predictedPrice < MIN_PREDICTED_PRICE}
         helperText="Range $0 - $X"
         InputProps={{
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           inputComponent: NumberFormatCustom as any,
         }}
       />
