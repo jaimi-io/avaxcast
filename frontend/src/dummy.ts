@@ -1,46 +1,33 @@
-const IMAGE =
-  "https://icons.iconarchive.com/icons/cjdowner/cryptocurrency/icons-390.jpg";
+import { Market } from "common/markets";
 
 export interface PostsT {
-  title: string;
-  info: string;
-  image: string;
+  market: Market;
+  predictedPrice: string;
+  date: string;
+  volume: string;
+  yesPrice: string;
+  noPrice: string;
+  address: string;
 }
 
-export const posts = [
+export const posts: PostsT[] = [
   {
-    title: "First Crypto Coin",
-    info: "This is my first crypto coin with more content inside",
-    image: IMAGE,
+    market: Market.AVAX,
+    predictedPrice: "$10.00",
+    date: "2021-20-10",
+    volume: "$2,000",
+    yesPrice: "$0.50",
+    noPrice: "$0.50",
+    address: "0xA7184E32858b3B3F3C5D33ef21cadFFDb7db0752",
   },
 
   {
-    title: "Second Crypto Coin",
-    info: "This is my second crypto coin with more content inside",
-    image: IMAGE,
-  },
-
-  {
-    title: "Third Crypto Coin",
-    info: "This is my third crypto coin with more content inside",
-    image: IMAGE,
-  },
-
-  {
-    title: "Fourth Crypto Coin",
-    info: "This is my fourth crypto coin with more content inside",
-    image: IMAGE,
-  },
-
-  {
-    title: "Fifth Crypto Coin",
-    info: "This is my fifth crypto coin with more content inside",
-    image: IMAGE,
-  },
-
-  {
-    title: "Sixth Crypto Coin",
-    info: "This is my sixth crypto coin with more content inside",
-    image: IMAGE,
+    market: Market.ETH,
+    predictedPrice: "$20.00",
+    date: "2021-21-9",
+    volume: "$3,000",
+    yesPrice: "$0.25",
+    noPrice: "$0.75",
+    address: "0x572f4D80f10f663B5049F789546f25f70Bb62a7F",
   },
 ];
