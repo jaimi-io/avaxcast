@@ -4,6 +4,7 @@ import Select from "@material-ui/core/Select";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import { getDate } from "common/date";
+import { menuMarkets } from "common/markets";
 import Posts from "components/Posts";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -39,9 +40,11 @@ export default function Markets(): JSX.Element {
           labelId="markets-select"
           id="markets-select">
           <MenuItem value={"All Markets"}>All Markets</MenuItem>
-          <MenuItem value={"AVAX/USD"}>AVAX/USD</MenuItem>
-          <MenuItem value={"BTC/USD"}> BTC/USD</MenuItem>
-          <MenuItem value={"ETH/USD"}>ETH/USD</MenuItem>
+          {menuMarkets().map((market, index) => (
+            <MenuItem value={market} key={index}>
+              {market}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
       <FormControl className={classes.formControl}>
