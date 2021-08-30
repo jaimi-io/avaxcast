@@ -10,8 +10,8 @@ import Web3 from "web3";
 function App(): JSX.Element {
   const isDark = useAppSelector((state) => state.isDark);
 
-  function getLibrary(pr: string) {
-    return new Web3(pr);
+  function getLibrary(provider: string) {
+    return new Web3(provider);
   }
 
   useEffect(() => {
