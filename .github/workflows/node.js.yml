@@ -8,7 +8,7 @@ on:
     branches-ignore: []
 
 jobs:
-  format:
+  quality:
     runs-on: ubuntu-latest
 
     strategy:
@@ -26,4 +26,4 @@ jobs:
       - name: Format
         run: yarn prettier -c .
       - name: Lint
-        run: yarn lint .
+        run: yarn ts-lint . && yarn sol-lint .
