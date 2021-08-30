@@ -7,6 +7,9 @@ import Button from "@material-ui/core/Button";
 import PublishIcon from "@material-ui/icons/Publish";
 import { useEffect, useState } from "react";
 import { getDate } from "common/date";
+import Prediction from "contracts/PredictionMarket.json";
+import { AbiItem } from "web3-utils";
+import { useWeb3React } from "@web3-react/core";
 
 const MIN_PREDICTED_PRICE = 0;
 
@@ -58,15 +61,27 @@ function AddMarket(): JSX.Element {
   const [predictedPrice, setPredictedPrice] = useState(INITIAL_PREDICTED_PRICE);
   const [deadline, setDeadline] = useState(INITIAL_DATE);
   const [invalid, setInvalid] = useState(true);
+  const { active, account, library } = useWeb3React();
 
   useEffect(() => {
     setInvalid(
       () =>
         !validMarket(market) ||
         !validPrice(predictedPrice) ||
-        !validDate(deadline)
+        !validDate(deadline) ||
+        !active
     );
-  }, [market, predictedPrice, deadline]);
+  }, [market, predictedPrice, deadline, active]);
+
+  const handleAddMarket = () => {
+    const contract = new library.eth.Contract(Prediction.abi as AbiItem[]);
+    const tenSecDelay = Math.floor(Date.now() / 1000) + 10;
+
+    const market = contract
+      .deploy({ data: Prediction.bytecode, arguments: [0, 10, tenSecDelay] })
+      .send({ from: account });
+    console.log(market);
+  };
 
   return (
     <div className={classes.root}>
@@ -121,7 +136,8 @@ function AddMarket(): JSX.Element {
         color="inherit"
         className={classes.button}
         disabled={invalid}
-        startIcon={<PublishIcon />}>
+        startIcon={<PublishIcon />}
+        onClick={() => handleAddMarket()}>
         Submit
       </Button>
     </div>
