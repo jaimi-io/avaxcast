@@ -44,7 +44,7 @@
     "erc20": "npx hardhat run scripts/erc20.ts",
     "send-avax-wallet-signer": "npx hardhat run scripts/sendAvaxWalletSigner.ts",
     "send-avax-json-provider": "npx hardhat run scripts/sendAvaxJSONProvider.ts",
-    "format": "yarn prettier --write",
+    "format": "yarn prettier --ignore-path .gitignore --write",
     "lint": "yarn eslint",
     "prepublishOnly": "yarn test",
     "hardhat": "npx hardhat",
