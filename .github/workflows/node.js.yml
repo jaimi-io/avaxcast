@@ -26,4 +26,4 @@ jobs:
       - name: Format
         run: yarn prettier -c .
       - name: Lint
-        run: yarn ts-lint . && yarn sol-lint .
+        run: yarn ts-lint . && yarn sol-lint -d .
