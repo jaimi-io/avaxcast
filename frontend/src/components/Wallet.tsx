@@ -12,10 +12,9 @@ import {
 import { blue } from "@material-ui/core/colors";
 import { useWeb3React } from "@web3-react/core";
 import { InjectedConnector } from "@web3-react/injected-connector";
-import PersonIcon from "@material-ui/icons/Person";
 import { useState } from "react";
 import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet";
-import SvgIcon from "@material-ui/core/SvgIcon";
+import MetaMaskIcon from "images/metamask.svg";
 
 /*
   active: is a wallet actively connected right now?
@@ -59,7 +58,7 @@ export function SimpleDialog(props: SimpleDialogProps): JSX.Element {
 
   return (
     <Dialog onClose={onClose} aria-labelledby="simple-dialog-title" open={open}>
-      <DialogTitle id="simple-dialog-title">Set wallet</DialogTitle>
+      <DialogTitle id="simple-dialog-title">Connect Wallet</DialogTitle>
       <List>
         <ListItem
           button
@@ -69,9 +68,7 @@ export function SimpleDialog(props: SimpleDialogProps): JSX.Element {
           }}>
           <ListItemAvatar>
             <Avatar className={classes.avatar}>
-              <SvgIcon {...props}>
-                <PersonIcon />
-              </SvgIcon>
+              <img src={MetaMaskIcon} width={"35px"} />
             </Avatar>
           </ListItemAvatar>
           <ListItemText primary={"Connect to Metamask"} />
