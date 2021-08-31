@@ -2,13 +2,13 @@ import { Grid, Typography } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
+import { marketToString } from "common/markets";
+import { posts, PostsT } from "dummy";
+import { useAppSelector } from "hooks";
 import AvaxLogo from "images/avalanche-avax-logo.svg";
 import BtcLogo from "images/bitcoin.svg";
 import EthLogo from "images/ethereum.svg";
 import LinkLogo from "images/link.svg";
-
-import { posts, PostsT } from "dummy";
-import { marketToString } from "common/markets";
 
 function Post({
   market,
@@ -75,12 +75,16 @@ function Post({
 }
 
 export default function Posts(): JSX.Element {
+  const marketFilter = useAppSelector((state) => state.marketFilter);
+
   return (
     <div style={{ marginTop: 20, padding: 50 }}>
       <Grid container spacing={3} justifyContent="center">
-        {posts.map((post) => (
-          <Post key={post.address} {...post} />
-        ))}
+        {posts.map((post) => {
+          return post.market === marketFilter ? (
+            <Post key={post.address} {...post} />
+          ) : null;
+        })}
       </Grid>
     </div>
   );
