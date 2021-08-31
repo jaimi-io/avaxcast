@@ -10,6 +10,7 @@ import Select from "@material-ui/core/Select";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import { getDate } from "common/date";
+import { marketNames } from "common/markets";
 import Posts from "components/Posts";
 import AvaxLogo from "images/avalanche-avax-logo.svg";
 import BtcLogo from "images/bitcoin.svg";
@@ -46,6 +47,8 @@ interface NetworkDialogProps {
 
 function NetworkDialog(props: NetworkDialogProps): JSX.Element {
   const { onClose, open } = props;
+  const icons = [AvaxLogo, BtcLogo, EthLogo, LinkLogo];
+  // const names = ["AVAX", "BTC", "ETH", "LINK"];
 
   const handleClose = () => {
     onClose();
@@ -55,49 +58,19 @@ function NetworkDialog(props: NetworkDialogProps): JSX.Element {
     <Dialog onClose={onClose} aria-labelledby="simple-dialog-title" open={open}>
       <DialogTitle id="simple-dialog-title">Select Network</DialogTitle>
       <List>
-        <ListItem
-          button
-          onClick={() => {
-            handleClose();
-          }}>
-          <ListItemAvatar>
-            <img src={AvaxLogo} width={"50px"} />
-          </ListItemAvatar>
-          <ListItemText primary={"AVAX"} />
-        </ListItem>
-
-        <ListItem
-          button
-          onClick={() => {
-            handleClose();
-          }}>
-          <ListItemAvatar>
-            <img src={BtcLogo} width={"50px"} />
-          </ListItemAvatar>
-          <ListItemText primary={"BTC"} />
-        </ListItem>
-
-        <ListItem
-          button
-          onClick={() => {
-            handleClose();
-          }}>
-          <ListItemAvatar>
-            <img src={EthLogo} width={"50px"} />
-          </ListItemAvatar>
-          <ListItemText primary={"ETH"} />
-        </ListItem>
-
-        <ListItem
-          button
-          onClick={() => {
-            handleClose();
-          }}>
-          <ListItemAvatar>
-            <img src={LinkLogo} width={"50px"} />
-          </ListItemAvatar>
-          <ListItemText primary={"LINK"} />
-        </ListItem>
+        {icons.map((icon, index) => (
+          <ListItem
+            key={index}
+            button
+            onClick={() => {
+              handleClose();
+            }}>
+            <ListItemAvatar>
+              <img src={icon} width={"50px"} />
+            </ListItemAvatar>
+            <ListItemText primary={marketNames[index]} />
+          </ListItem>
+        ))}
       </List>
     </Dialog>
   );
