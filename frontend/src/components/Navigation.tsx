@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import AddMarket from "./AddMarket";
-import Markets from "./Markets";
+import Markets from "./MarketPlace";
 import Navbar from "./Navbar";
 import Portfolio from "./Portfolio";
 
