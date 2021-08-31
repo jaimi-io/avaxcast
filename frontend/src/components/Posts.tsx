@@ -77,7 +77,7 @@ function Post({
 export default function Posts(): JSX.Element {
   return (
     <div style={{ marginTop: 20, padding: 50 }}>
-      <Grid container spacing={3} justify="center">
+      <Grid container spacing={3} justifyContent="center">
         {posts.map((post) => (
           <Post key={post.address} {...post} />
         ))}
