@@ -125,7 +125,7 @@ contract PredictionMarket {
   }
 
   /**
-   * @notice Uses Chainlink price feed to get price at market end time 
+   * @notice Uses Chainlink price feed to get price at market end time
    to resolve the market & declare the winning vote
    */
   function resolveMarket() external {
