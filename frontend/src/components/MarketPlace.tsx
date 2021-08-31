@@ -9,9 +9,11 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
+import { filterMarketActions } from "actions";
 import { getDate } from "common/date";
 import { marketNames } from "common/markets";
 import Posts from "components/Posts";
+import { useAppDispatch } from "hooks";
 import AvaxLogo from "images/avalanche-avax-logo.svg";
 import BtcLogo from "images/bitcoin.svg";
 import EthLogo from "images/ethereum.svg";
@@ -48,9 +50,11 @@ interface NetworkDialogProps {
 function NetworkDialog(props: NetworkDialogProps): JSX.Element {
   const { onClose, open } = props;
   const icons = [AvaxLogo, BtcLogo, EthLogo, LinkLogo];
+  const dispatch = useAppDispatch();
   // const names = ["AVAX", "BTC", "ETH", "LINK"];
 
-  const handleClose = () => {
+  const handleClose = (num: number) => {
+    dispatch(filterMarketActions[num]());
     onClose();
   };
 
@@ -63,7 +67,7 @@ function NetworkDialog(props: NetworkDialogProps): JSX.Element {
             key={index}
             button
             onClick={() => {
-              handleClose();
+              handleClose(index);
             }}>
             <ListItemAvatar>
               <img src={icon} width={"50px"} />
