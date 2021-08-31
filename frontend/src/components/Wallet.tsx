@@ -48,7 +48,7 @@ interface SimpleDialogProps {
   connect: () => Promise<void>;
 }
 
-export function SimpleDialog(props: SimpleDialogProps): JSX.Element {
+function SimpleDialog(props: SimpleDialogProps): JSX.Element {
   const classes = useStyles();
   const { onClose, open, connect } = props;
 
