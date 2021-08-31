@@ -10,26 +10,28 @@ export function lightOn(): Action {
   };
 }
 
-export function setAvax(): Action {
+function setAvax(): Action {
   return {
     type: "AVAX",
   };
 }
 
-export function setBtc(): Action {
+function setBtc(): Action {
   return {
     type: "BTC",
   };
 }
 
-export function setEth(): Action {
+function setEth(): Action {
   return {
     type: "ETH",
   };
 }
 
-export function setLink(): Action {
+function setLink(): Action {
   return {
     type: "LINK",
   };
 }
+
+export const filterMarketActions = [setAvax, setBtc, setEth, setLink];
