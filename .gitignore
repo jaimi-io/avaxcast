@@ -21,3 +21,6 @@ build
 *.log
 
 git-hooks
+
+# hardhat
+cache
