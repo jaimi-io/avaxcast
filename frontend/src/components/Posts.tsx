@@ -2,7 +2,7 @@ import { Grid, Typography } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
-import { marketIcons, marketNames } from "common/markets";
+import { Market, marketIcons, marketNames } from "common/markets";
 import { posts, PostsT } from "dummy";
 import { useAppSelector } from "hooks";
 
@@ -66,18 +66,27 @@ function Post({
   );
 }
 
-export default function Posts(): JSX.Element {
+function Posts(): JSX.Element {
   const marketFilter = useAppSelector((state) => state.marketFilter);
+
+  const filterPost = (post: PostsT) => {
+    if (marketFilter === Market.ALL) {
+      return true;
+    }
+    return post.market === marketFilter;
+  };
+
+  const filtered = posts.filter(filterPost);
 
   return (
     <div style={{ marginTop: 20, padding: 50 }}>
       <Grid container spacing={3} justifyContent="center">
-        {posts.map((post) => {
-          return post.market === marketFilter ? (
-            <Post key={post.address} {...post} />
-          ) : null;
-        })}
+        {filtered.map((post) => (
+          <Post key={post.address} {...post} />
+        ))}
       </Grid>
     </div>
   );
 }
+
+export default Posts;
