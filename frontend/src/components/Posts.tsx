@@ -2,13 +2,9 @@ import { Grid, Typography } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
-import { marketToString } from "common/markets";
+import { marketIcons, marketNames } from "common/markets";
 import { posts, PostsT } from "dummy";
 import { useAppSelector } from "hooks";
-import AvaxLogo from "images/avalanche-avax-logo.svg";
-import BtcLogo from "images/bitcoin.svg";
-import EthLogo from "images/ethereum.svg";
-import LinkLogo from "images/link.svg";
 
 function Post({
   market,
@@ -18,8 +14,6 @@ function Post({
   yesPrice,
   noPrice,
 }: PostsT): JSX.Element {
-  const icons = [AvaxLogo, BtcLogo, EthLogo, LinkLogo];
-
   return (
     <Grid item>
       <Card>
@@ -27,7 +21,7 @@ function Post({
           <CardContent>
             <Grid container spacing={3} justifyContent="center">
               <Grid item xs>
-                <img src={icons[market]} width={"50px"} />
+                <img src={marketIcons[market]} width={"50px"} />
               </Grid>
               <Grid item xs>
                 <Typography component="p">{predictedPrice}</Typography>
@@ -38,9 +32,7 @@ function Post({
             </Grid>
 
             <Typography variant="h6" component="p">
-              {`Will ${marketToString(
-                market
-              )} reach ${predictedPrice} by ${date}`}
+              {`Will ${marketNames[market]} reach ${predictedPrice} by ${date}`}
             </Typography>
             <Grid container>
               <Grid item xs>

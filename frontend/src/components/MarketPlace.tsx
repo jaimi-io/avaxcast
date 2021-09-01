@@ -11,13 +11,9 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import { filterMarketActions } from "actions";
 import { getDate } from "common/date";
-import { marketNames } from "common/markets";
+import { marketIcons, marketNames } from "common/markets";
 import Posts from "components/Posts";
 import { useAppDispatch } from "hooks";
-import AvaxLogo from "images/avalanche-avax-logo.svg";
-import BtcLogo from "images/bitcoin.svg";
-import EthLogo from "images/ethereum.svg";
-import LinkLogo from "images/link.svg";
 import { useState } from "react";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -49,9 +45,7 @@ interface NetworkDialogProps {
 
 function NetworkDialog(props: NetworkDialogProps): JSX.Element {
   const { onClose, open } = props;
-  const icons = [AvaxLogo, BtcLogo, EthLogo, LinkLogo];
   const dispatch = useAppDispatch();
-  // const names = ["AVAX", "BTC", "ETH", "LINK"];
 
   const handleClose = (num: number) => {
     dispatch(filterMarketActions[num]());
@@ -62,7 +56,7 @@ function NetworkDialog(props: NetworkDialogProps): JSX.Element {
     <Dialog onClose={onClose} aria-labelledby="simple-dialog-title" open={open}>
       <DialogTitle id="simple-dialog-title">Select Network</DialogTitle>
       <List>
-        {icons.map((icon, index) => (
+        {marketIcons.map((icon, index) => (
           <ListItem
             key={index}
             button
