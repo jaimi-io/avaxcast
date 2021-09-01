@@ -9,9 +9,16 @@ export enum Market {
   BTC,
   ETH,
   LINK,
+  ALL,
 }
 
-export const marketNames = ["AVAX/USD", "BTC/USD", "ETH/USD", "LINK/USD"];
+export const marketNames = [
+  "AVAX/USD",
+  "BTC/USD",
+  "ETH/USD",
+  "LINK/USD",
+  "ALL MARKETS",
+];
 export const marketIcons = [AvaxLogo, BtcLogo, EthLogo, LinkLogo];
 
 export enum Vote {
