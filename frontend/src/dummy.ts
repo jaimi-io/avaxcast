@@ -1,4 +1,4 @@
-import { Market } from "common/markets";
+import Market from "common/enums";
 
 export interface PostsT {
   market: Market;
