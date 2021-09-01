@@ -2,7 +2,7 @@
 import { expect } from "chai";
 import { ethers } from "hardhat";
 import { sleep } from "../scripts/helpers";
-import { Market, Vote } from "../frontend/src/common/markets";
+import Market, { Vote } from "../frontend/src/common/enums";
 
 const PREDICTED_PRICE = 50;
 const MS_TO_SECS = 1000;
