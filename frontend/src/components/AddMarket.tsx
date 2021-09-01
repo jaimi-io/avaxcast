@@ -10,15 +10,14 @@ import { getDate } from "common/date";
 import Prediction from "contracts/PredictionMarket.json";
 import { AbiItem } from "web3-utils";
 import { useWeb3React } from "@web3-react/core";
-import { marketNames } from "common/markets";
+import { Market, marketNames } from "common/markets";
 import { FLOAT_TO_SOL_NUM, MS_TO_SECS } from "common/constants";
 import NumberFormat from "react-number-format";
 
 const MIN_PREDICTED_PRICE = 0;
-const ALL_MARKETS_ID = -1;
 
 function validMarket(market: number): boolean {
-  return market !== ALL_MARKETS_ID;
+  return market !== Market.ALL;
 }
 
 function validPrice(price: number): boolean {
@@ -91,7 +90,7 @@ function AddMarket(): JSX.Element {
   const INITIAL_PREDICTED_PRICE = 0.0;
   const INITIAL_DATE = getDate();
   // state
-  const [market, setMarket] = useState(ALL_MARKETS_ID);
+  const [market, setMarket] = useState(Market.ALL);
   const [predictedPrice, setPredictedPrice] = useState(INITIAL_PREDICTED_PRICE);
   const [deadline, setDeadline] = useState(INITIAL_DATE);
   const [invalid, setInvalid] = useState(true);
@@ -123,7 +122,7 @@ function AddMarket(): JSX.Element {
     <div className={classes.root}>
       <FormControl className={classes.formControl}>
         <Select
-          defaultValue={ALL_MARKETS_ID}
+          defaultValue={Market.ALL}
           labelId="markets-select"
           id="markets-select"
           type="text"
@@ -131,7 +130,6 @@ function AddMarket(): JSX.Element {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           onChange={(e) => setMarket(e.target.value)}>
-          <MenuItem value={ALL_MARKETS_ID}>All Markets</MenuItem>
           {marketNames.map((mk, index) => (
             <MenuItem value={index} key={index}>
               {mk}
