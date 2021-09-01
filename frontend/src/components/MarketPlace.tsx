@@ -13,7 +13,7 @@ import { filterMarketActions } from "actions";
 import { getDate } from "common/date";
 import { marketIcons, marketNames } from "common/markets";
 import Posts from "components/Posts";
-import { useAppDispatch } from "hooks";
+import { useAppDispatch, useAppSelector } from "hooks";
 import { useState } from "react";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -76,6 +76,8 @@ function MarketDialog(props: MarketDialogProps): JSX.Element {
 
 export default function Markets(): JSX.Element {
   const classes = useStyles();
+  const marketFilter = useAppSelector((state) => state.marketFilter);
+  const icon = marketIcons[marketFilter];
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -89,7 +91,10 @@ export default function Markets(): JSX.Element {
   return (
     <div>
       <FormControl className={classes.formControl}>
-        <Button variant="outlined" onClick={handleClickOpen}>
+        <Button
+          variant="outlined"
+          onClick={handleClickOpen}
+          startIcon={<img src={icon} width={"20px"} />}>
           Select Market
         </Button>
         <MarketDialog open={open} onClose={handleClose} />
