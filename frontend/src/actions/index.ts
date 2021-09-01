@@ -34,4 +34,10 @@ function setLink(): Action {
   };
 }
 
-export const filterMarketActions = [setAvax, setBtc, setEth, setLink];
+function setAll(): Action {
+  return {
+    type: "ALL",
+  };
+}
+
+export const filterMarketActions = [setAvax, setBtc, setEth, setLink, setAll];
