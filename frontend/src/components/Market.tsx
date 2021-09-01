@@ -37,7 +37,7 @@ const noTheme = createTheme({
   },
 });
 
-function MarketPlace(): JSX.Element {
+function Market(): JSX.Element {
   const classes = useStyles();
   const { active } = useWeb3React();
 
@@ -150,4 +150,4 @@ function MarketPlace(): JSX.Element {
   );
 }
 
-export default MarketPlace;
+export default Market;
