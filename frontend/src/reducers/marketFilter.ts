@@ -1,6 +1,6 @@
 import { Market } from "common/markets";
 
-function marketFilterReducer(state = Market.AVAX, action: Action): Market {
+function marketFilterReducer(state = Market.ALL, action: Action): Market {
   switch (action.type) {
     case "AVAX":
       return Market.AVAX;
@@ -10,6 +10,8 @@ function marketFilterReducer(state = Market.AVAX, action: Action): Market {
       return Market.ETH;
     case "LINK":
       return Market.LINK;
+    case "ALL":
+      return Market.ALL;
     default:
       return state;
   }
