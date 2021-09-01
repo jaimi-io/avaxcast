@@ -42,58 +42,56 @@ function Market(): JSX.Element {
   const { active } = useWeb3React();
 
   const [isYesVote, setIsYesVote] = useState(true);
-  const header = (
-    <Card variant="outlined">
-      <CardContent>
-        <Grid container justifyContent="center">
-          <Grid item xs={6}>
-            <Typography component="h1" variant="h6">
-              {"Will AVAX/USD reach $X.XX by 31-08-2021?"}
-            </Typography>
-          </Grid>
-          <Grid item xs={2}>
-            <Grid container>
-              <Grid item xs={12}>
-                <Typography variant="body2" component="p">
-                  {"Predicted Price"}
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography component="p">{"$X.XX"}</Typography>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item xs={2}>
-            <Grid container>
-              <Grid item xs={12}>
-                <Typography variant="body2" component="p">
-                  {"End Date"}
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography component="p">{"31-08-2021"}</Typography>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item xs={2}>
-            <Grid container>
-              <Grid item xs={12}>
-                <Typography variant="body2" component="p">
-                  {"Total Volume"}
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography component="p">{"$X,XXX"}</Typography>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-      </CardContent>
-    </Card>
-  );
+
   return (
     <>
-      {header}
+      <Card variant="outlined">
+        <CardContent>
+          <Grid container justifyContent="center">
+            <Grid item xs={6}>
+              <Typography component="h1" variant="h6">
+                {"Will AVAX/USD reach $X.XX by 31-08-2021?"}
+              </Typography>
+            </Grid>
+            <Grid item xs={2}>
+              <Grid container>
+                <Grid item xs={12}>
+                  <Typography variant="body2" component="p">
+                    {"Predicted Price"}
+                  </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography component="p">{"$X.XX"}</Typography>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item xs={2}>
+              <Grid container>
+                <Grid item xs={12}>
+                  <Typography variant="body2" component="p">
+                    {"End Date"}
+                  </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography component="p">{"31-08-2021"}</Typography>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item xs={2}>
+              <Grid container>
+                <Grid item xs={12}>
+                  <Typography variant="body2" component="p">
+                    {"Total Volume"}
+                  </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography component="p">{"$X,XXX"}</Typography>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+        </CardContent>
+      </Card>
       <Card>
         <CardContent>
           <Grid container justifyContent="center">
