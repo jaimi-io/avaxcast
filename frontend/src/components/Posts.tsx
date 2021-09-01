@@ -2,7 +2,8 @@ import { Grid, Typography } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
-import { Market, marketIcons, marketNames } from "common/markets";
+import Market from "common/enums";
+import { marketIcons, marketNames } from "common/markets";
 import { posts, PostsT } from "dummy";
 import { useAppSelector } from "hooks";
 
