@@ -1,4 +1,4 @@
-import { Market } from "common/markets";
+import Market from "common/enums";
 
 function marketFilterReducer(state = Market.ALL, action: Action): Market {
   switch (action.type) {
