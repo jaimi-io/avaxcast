@@ -38,12 +38,12 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface NetworkDialogProps {
+interface MarketDialogProps {
   open: boolean;
   onClose: () => void;
 }
 
-function NetworkDialog(props: NetworkDialogProps): JSX.Element {
+function MarketDialog(props: MarketDialogProps): JSX.Element {
   const { onClose, open } = props;
   const dispatch = useAppDispatch();
 
@@ -54,7 +54,7 @@ function NetworkDialog(props: NetworkDialogProps): JSX.Element {
 
   return (
     <Dialog onClose={onClose} aria-labelledby="simple-dialog-title" open={open}>
-      <DialogTitle id="simple-dialog-title">Select Network</DialogTitle>
+      <DialogTitle id="simple-dialog-title">Select Market</DialogTitle>
       <List>
         {marketIcons.map((icon, index) => (
           <ListItem
@@ -89,8 +89,10 @@ export default function Markets(): JSX.Element {
   return (
     <div>
       <FormControl className={classes.formControl}>
-        <Button onClick={handleClickOpen}>Select Network</Button>
-        <NetworkDialog open={open} onClose={handleClose} />
+        <Button variant="outlined" onClick={handleClickOpen}>
+          Select Market
+        </Button>
+        <MarketDialog open={open} onClose={handleClose} />
       </FormControl>
       <FormControl className={classes.formControl}>
         <Select defaultValue="Open" labelId="open-select" id="open-select">
