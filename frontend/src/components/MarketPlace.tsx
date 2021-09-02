@@ -84,7 +84,8 @@ export default function Markets(): JSX.Element {
 
   useEffect(() => {
     getContractAddresses(setMarkets);
-  }, [markets]);
+    console.log(markets);
+  }, []);
 
   const handleClickOpen = () => {
     setOpen(true);
