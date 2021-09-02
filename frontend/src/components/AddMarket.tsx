@@ -1,20 +1,48 @@
+import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
 import PublishIcon from "@material-ui/icons/Publish";
-import { useEffect, useState } from "react";
-import { getDate } from "common/date";
-import Prediction from "contracts/PredictionMarket.json";
-import { AbiItem } from "web3-utils";
 import { useWeb3React } from "@web3-react/core";
-import { Market, marketNames } from "common/markets";
 import { FLOAT_TO_SOL_NUM, MS_TO_SECS } from "common/constants";
+import { getDate } from "common/date";
+import Market from "common/enums";
+import { marketNames } from "common/markets";
+import Prediction from "contracts/PredictionMarket.json";
+import { useEffect, useState } from "react";
 import NumberFormat from "react-number-format";
+import { genKeyPairFromSeed, SkynetClient } from "skynet-js";
+import { AbiItem } from "web3-utils";
 
 const MIN_PREDICTED_PRICE = 0;
+const client = new SkynetClient("https://siasky.net");
+const { publicKey, privateKey } = genKeyPairFromSeed(
+  process.env.REACT_APP_SEED
+);
+
+interface Data {
+  addresses: string[];
+}
+
+async function insertContractAddress(address: string) {
+  try {
+    const { data } = await client.db.getJSON(
+      publicKey,
+      process.env.REACT_APP_DATA_KEY
+    );
+    const { addresses }: Data = data;
+    addresses.push(address);
+    const dataKey = process.env.REACT_APP_DATA_KEY;
+    await client.db.setJSON(privateKey, dataKey, {
+      addresses: addresses,
+    });
+    console.log(addresses, "updated address array");
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 function validMarket(market: number): boolean {
   return market !== Market.ALL;
@@ -109,13 +137,17 @@ function AddMarket(): JSX.Element {
   const handleAddMarket = () => {
     const contract = new library.eth.Contract(Prediction.abi as AbiItem[]);
     const unixDeadline = Math.floor(new Date(deadline).getTime() / MS_TO_SECS);
-    const marketContract = contract
+    contract
       .deploy({
         data: Prediction.bytecode,
         arguments: [market, predictedPrice * FLOAT_TO_SOL_NUM, unixDeadline],
       })
-      .send({ from: account });
-    console.log(marketContract);
+      .send({ from: account })
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      .then((newContractInstance: any) => {
+        insertContractAddress(newContractInstance.options.address);
+      });
   };
 
   return (
