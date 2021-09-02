@@ -10,18 +10,27 @@ interface Data {
   addresses: string[];
 }
 
+interface SkyDBGetResult {
+  data: Data;
+  dataLink: `sia://${string}`;
+}
+
 export async function getContractAddresses(
   setFunc?: Dispatch<SetStateAction<string[]>>
 ): Promise<string[]> {
-  const { data } = await client.db.getJSON(
-    publicKey,
-    process.env.REACT_APP_DATA_KEY
-  );
-  const { addresses }: Data = data;
-  if (setFunc) {
-    setFunc(addresses);
-  }
-  return addresses;
+  await client.db
+    .getJSON(publicKey, process.env.REACT_APP_DATA_KEY)
+    .then((res: SkyDBGetResult) => {
+      const {
+        data: { addresses },
+      } = res;
+      if (setFunc) {
+        setFunc(addresses);
+      }
+      return addresses;
+    })
+    .catch(console.error);
+  return [];
 }
 
 export async function insertContractAddress(address: string): Promise<void> {
@@ -34,6 +43,6 @@ export async function insertContractAddress(address: string): Promise<void> {
     });
     console.log(addresses, "updated address array");
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }
