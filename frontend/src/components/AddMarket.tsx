@@ -117,8 +117,7 @@ function AddMarket(): JSX.Element {
         arguments: [market, predictedPrice * FLOAT_TO_SOL_NUM, unixDeadline],
       })
       .send({ from: account })
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .then((newContractInstance: any) => {
         insertContractAddress(newContractInstance.options.address);
       });
