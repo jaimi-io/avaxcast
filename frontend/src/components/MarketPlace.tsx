@@ -12,9 +12,10 @@ import TextField from "@material-ui/core/TextField";
 import { filterMarketActions } from "actions";
 import { getDate } from "common/date";
 import { marketIcons, marketNames } from "common/markets";
+import { getContractAddresses } from "common/skyDb";
 import Posts from "components/Posts";
 import { useAppDispatch, useAppSelector } from "hooks";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -79,6 +80,11 @@ export default function Markets(): JSX.Element {
   const marketFilter = useAppSelector((state) => state.marketFilter);
   const icon = marketIcons[marketFilter];
   const [open, setOpen] = useState(false);
+  const [markets, setMarkets] = useState<string[]>([]);
+
+  useEffect(() => {
+    getContractAddresses(setMarkets);
+  }, [markets]);
 
   const handleClickOpen = () => {
     setOpen(true);
