@@ -10,39 +10,13 @@ import { FLOAT_TO_SOL_NUM, MS_TO_SECS } from "common/constants";
 import { getDate } from "common/date";
 import Market from "common/enums";
 import { marketNames } from "common/markets";
+import { insertContractAddress } from "common/skyDb";
 import Prediction from "contracts/PredictionMarket.json";
 import { useEffect, useState } from "react";
 import NumberFormat from "react-number-format";
-import { genKeyPairFromSeed, SkynetClient } from "skynet-js";
 import { AbiItem } from "web3-utils";
 
 const MIN_PREDICTED_PRICE = 0;
-const client = new SkynetClient("https://siasky.net");
-const { publicKey, privateKey } = genKeyPairFromSeed(
-  process.env.REACT_APP_SEED
-);
-
-interface Data {
-  addresses: string[];
-}
-
-async function insertContractAddress(address: string) {
-  try {
-    const { data } = await client.db.getJSON(
-      publicKey,
-      process.env.REACT_APP_DATA_KEY
-    );
-    const { addresses }: Data = data;
-    addresses.push(address);
-    const dataKey = process.env.REACT_APP_DATA_KEY;
-    await client.db.setJSON(privateKey, dataKey, {
-      addresses: addresses,
-    });
-    console.log(addresses, "updated address array");
-  } catch (error) {
-    console.log(error);
-  }
-}
 
 function validMarket(market: number): boolean {
   return market !== Market.ALL;
