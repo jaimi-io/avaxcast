@@ -42,9 +42,9 @@ contract PredictionMarket {
   Market public market;
 
   /**
-   * @dev Predicted price goal for the currency pair
+   * @notice Predicted price goal for the currency pair
    */
-  int256 private predictedPrice;
+  int256 public predictedPrice;
 
   /**
    * @notice End time for the prediction market to be resolved at
