@@ -7,6 +7,7 @@ import { marketIcons, marketNames } from "common/markets";
 import { useAppSelector } from "hooks";
 import { ContractI } from "common/contract";
 import { LinkContainer } from "react-router-bootstrap";
+import { fromWei } from "web3-utils";
 
 function Post({
   address,
@@ -51,14 +52,20 @@ function Post({
                       <Typography
                         variant="body1"
                         component="p"
-                        align="right">{`Yes: ${yesPrice}`}</Typography>
+                        align="right">{`Yes: ${fromWei(
+                        yesPrice,
+                        "ether"
+                      )}`}</Typography>
                     </Grid>
 
                     <Grid item xs={12}>
                       <Typography
                         variant="body1"
                         component="p"
-                        align="right">{`No: ${noPrice}`}</Typography>
+                        align="right">{`No: ${fromWei(
+                        noPrice,
+                        "ether"
+                      )}`}</Typography>
                     </Grid>
                   </Grid>
                 </Grid>

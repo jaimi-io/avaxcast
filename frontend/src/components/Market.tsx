@@ -16,8 +16,13 @@ import Typography from "@material-ui/core/Typography";
 import { useWeb3React } from "@web3-react/core";
 import { green, red } from "@material-ui/core/colors";
 import { useState, useEffect } from "react";
-import { ContractI, getContractInfo } from "common/contract";
+import { buy, ContractI, getContractInfo } from "common/contract";
 import { marketNames } from "common/markets";
+import Input from "@material-ui/core/Input";
+import { Vote } from "common/enums";
+import { fromWei, toBN } from "web3-utils";
+import BN from "bn.js";
+import { UNDEFINED_NUM_SHARES, UNDEFINED_PRICE } from "common/constants";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -50,13 +55,29 @@ function Market({ address }: PropsT): JSX.Element {
   const [isYesVote, setIsYesVote] = useState(true);
   const [contract, setContract] = useState<ContractI>({
     market: 0,
-    predictedPrice: "",
-    date: "",
-    volume: "",
-    yesPrice: "",
-    noPrice: "",
+    predictedPrice: "$X",
+    date: "dd/mm/yyyy",
+    volume: 0,
+    yesPrice: toBN(UNDEFINED_PRICE),
+    noPrice: toBN(UNDEFINED_PRICE),
     address: address,
   });
+  const [numShares, setNumShares] = useState(UNDEFINED_NUM_SHARES);
+  const [canBuy, setCanBuy] = useState(false);
+  const [totalPrice, setTotalPrice] = useState(toBN(UNDEFINED_PRICE));
+
+  const priceOfShares = (): BN => {
+    const pricePerShare = isYesVote ? contract.yesPrice : contract.noPrice;
+    return pricePerShare.mul(toBN(numShares));
+  };
+
+  useEffect(() => {
+    setCanBuy(active && numShares > UNDEFINED_NUM_SHARES);
+  }, [active, numShares]);
+
+  useEffect(() => {
+    setTotalPrice(priceOfShares());
+  }, [numShares, isYesVote]);
 
   useEffect(() => {
     getContractInfo(address, web3, setContract);
@@ -123,6 +144,10 @@ function Market({ address }: PropsT): JSX.Element {
             </Grid>
             <Grid item xs={6}>
               <ThemeProvider theme={yesTheme}>
+                <Typography component="p">{`${fromWei(
+                  contract.yesPrice,
+                  "ether"
+                )} AVAX`}</Typography>
                 <Button
                   variant="contained"
                   color={isYesVote ? "primary" : "inherit"}
@@ -136,6 +161,10 @@ function Market({ address }: PropsT): JSX.Element {
             </Grid>
             <Grid item xs={6}>
               <ThemeProvider theme={noTheme}>
+                <Typography component="p">{`${fromWei(
+                  contract.noPrice,
+                  "ether"
+                )} AVAX`}</Typography>
                 <Button
                   variant="contained"
                   color={isYesVote ? "inherit" : "primary"}
@@ -150,16 +179,42 @@ function Market({ address }: PropsT): JSX.Element {
             <Grid item xs={12}>
               <Typography component="p">{"How many shares?"}</Typography>
             </Grid>
-            <Grid item xs={12}></Grid>
             <Grid item xs={12}>
-              <Typography component="p">{"Total Price: $X.XX"}</Typography>
+              <Input
+                type="number"
+                value={numShares}
+                onChange={(e) => {
+                  const newValue = parseInt(e.target.value);
+                  if (
+                    (!newValue && newValue !== UNDEFINED_NUM_SHARES) ||
+                    newValue < UNDEFINED_NUM_SHARES
+                  ) {
+                    return;
+                  }
+                  setNumShares(newValue);
+                }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Typography component="p">{`Total Price: ${fromWei(
+                totalPrice,
+                "ether"
+              )} AVAX`}</Typography>
             </Grid>
             <Grid item xs={12}>
               <Button
                 variant="contained"
                 color="inherit"
                 className={classes.button}
-                disabled={!active}
+                disabled={!canBuy}
+                onClick={() =>
+                  buy(
+                    contract.address,
+                    web3,
+                    isYesVote ? Vote.Yes : Vote.No,
+                    priceOfShares()
+                  )
+                }
                 startIcon={<ShoppingCartIcon />}>
                 Buy
               </Button>
