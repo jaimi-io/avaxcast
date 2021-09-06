@@ -67,7 +67,9 @@ export async function getContractInfo(
     });
   }
   const contractInfo = {
-    market: (await contract.methods.market().call({ from: account })) as Market,
+    market: parseInt(
+      await contract.methods.market().call({ from: account })
+    ) as Market,
     predictedPrice: `$${(
       (await contract.methods.predictedPrice().call({ from: account })) /
       FLOAT_TO_SOL_NUM
