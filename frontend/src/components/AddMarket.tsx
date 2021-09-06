@@ -132,9 +132,7 @@ function AddMarket(): JSX.Element {
           id="markets-select"
           type="text"
           error={!validMarket(market)}
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          onChange={(e) => setMarket(e.target.value)}>
+          onChange={(e) => setMarket(e.target.value as Market)}>
           {marketNames.map((mk, index) => (
             <MenuItem value={index} key={index}>
               {mk}
