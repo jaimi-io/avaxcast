@@ -52,9 +52,9 @@ contract PredictionMarket {
   uint256 public endTime;
 
   /**
-   * @notice Current price for a yes or no share
+   * @notice Current price for a yes share
    */
-  uint256 public currentPrice;
+  uint256 public yesPrice;
 
   /**
    * @notice Bool for whether the prediction market has been resolved or not
@@ -81,7 +81,7 @@ contract PredictionMarket {
    * @notice Construct a new prediction market
    * @param _market The currency pair for this prediction market i.e. AVAX/USD
    * @param _predictedPrice Predicted price goal for the currency pair
-   * @param _endTime TEnd time for the prediction market to be resolved at
+   * @param _endTime End time for the prediction market to be resolved at
    */
   constructor(
     Market _market,
@@ -92,7 +92,7 @@ contract PredictionMarket {
     predictedPrice = _predictedPrice;
     endTime = _endTime;
     _setPriceFeed(_market);
-    currentPrice = 10000000000000000;
+    yesPrice = 0.01 ether;
   }
 
   /**
@@ -110,6 +110,15 @@ contract PredictionMarket {
   }
 
   /**
+   * @dev Update yesPrice after shares have been bought
+   */
+  function updatePrice() private {
+    uint256 totalVotes = numberShares[Vote.No] + numberShares[Vote.Yes];
+    uint256 yesPercent = (numberShares[Vote.Yes] * 100) / totalVotes;
+    yesPrice = (yesPercent * 0.02 ether) / 100;
+  }
+
+  /**
    * @notice Buys shares in the market for user of a given vote
    * @dev Only executed if called before market end time
    * @param _vote The vote (yes/no) in the market
@@ -119,9 +128,13 @@ contract PredictionMarket {
       !isResolved && block.timestamp <= endTime,
       "Cannot buy shares after market endTime"
     );
-    uint256 numShares = msg.value / currentPrice;
+    uint256 pricePerShare = _vote == Vote.Yes
+      ? yesPrice
+      : 0.02 ether - yesPrice;
+    uint256 numShares = msg.value / pricePerShare;
     numberShares[_vote] += numShares;
     sharesPerPerson[msg.sender][_vote] += numShares;
+    updatePrice();
   }
 
   /**
