@@ -15,7 +15,9 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { useWeb3React } from "@web3-react/core";
 import { green, red } from "@material-ui/core/colors";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { ContractI, getContractInfo } from "common/contract";
+import { marketNames } from "common/markets";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -37,11 +39,28 @@ const noTheme = createTheme({
   },
 });
 
-function Market(): JSX.Element {
-  const classes = useStyles();
-  const { active } = useWeb3React();
+interface PropsT {
+  address: string;
+}
 
+function Market({ address }: PropsT): JSX.Element {
+  const classes = useStyles();
+  const web3 = useWeb3React();
+  const { active } = web3;
   const [isYesVote, setIsYesVote] = useState(true);
+  const [contract, setContract] = useState<ContractI>({
+    market: 0,
+    predictedPrice: "",
+    date: "",
+    volume: "",
+    yesPrice: "",
+    noPrice: "",
+    address: address,
+  });
+
+  useEffect(() => {
+    getContractInfo(address, setContract, web3);
+  }, [active]);
 
   return (
     <>
@@ -50,7 +69,9 @@ function Market(): JSX.Element {
           <Grid container justifyContent="center">
             <Grid item xs={6}>
               <Typography component="h1" variant="h6">
-                {"Will AVAX/USD reach $X.XX by 31-08-2021?"}
+                {`Will ${marketNames[contract.market]} reach ${
+                  contract.predictedPrice
+                } by ${contract.date}?`}
               </Typography>
             </Grid>
             <Grid item xs={2}>
@@ -61,7 +82,9 @@ function Market(): JSX.Element {
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>
-                  <Typography component="p">{"$X.XX"}</Typography>
+                  <Typography component="p">
+                    {contract.predictedPrice}
+                  </Typography>
                 </Grid>
               </Grid>
             </Grid>
@@ -73,7 +96,7 @@ function Market(): JSX.Element {
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>
-                  <Typography component="p">{"31-08-2021"}</Typography>
+                  <Typography component="p">{contract.date}</Typography>
                 </Grid>
               </Grid>
             </Grid>
@@ -85,7 +108,7 @@ function Market(): JSX.Element {
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>
-                  <Typography component="p">{"$X,XXX"}</Typography>
+                  <Typography component="p">{contract.volume}</Typography>
                 </Grid>
               </Grid>
             </Grid>
