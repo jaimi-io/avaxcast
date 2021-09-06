@@ -59,7 +59,7 @@ function Market({ address }: PropsT): JSX.Element {
   });
 
   useEffect(() => {
-    getContractInfo(address, setContract, web3);
+    getContractInfo(address, web3, setContract);
   }, [active]);
 
   return (
