@@ -15,10 +15,10 @@ interface SkyDBGetResult {
   dataLink: `sia://${string}`;
 }
 
-export async function getContractAddresses(
+export function getContractAddresses(
   setFunc?: Dispatch<SetStateAction<string[]>>
 ): Promise<string[]> {
-  await client.db
+  return client.db
     .getJSON(publicKey, process.env.REACT_APP_DATA_KEY)
     .then((res: SkyDBGetResult) => {
       const {
@@ -29,8 +29,10 @@ export async function getContractAddresses(
       }
       return addresses;
     })
-    .catch(console.error);
-  return [];
+    .catch((err: Error) => {
+      console.error(err);
+      return [];
+    });
 }
 
 export async function insertContractAddress(address: string): Promise<void> {
