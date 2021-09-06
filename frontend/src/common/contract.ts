@@ -58,6 +58,14 @@ export async function getContractInfo(
   const numNoShares = parseInt(
     await contract.methods.numberShares(Vote.No).call({ from: account })
   );
+  const isResolved = await contract.methods
+    .isResolved()
+    .call({ from: account });
+  if (endDate.getDate() > Date.now() && !isResolved) {
+    contract.methods.resolveMarket().send({
+      from: account,
+    });
+  }
   const contractInfo = {
     market: (await contract.methods.market().call({ from: account })) as Market,
     predictedPrice: `$${(
