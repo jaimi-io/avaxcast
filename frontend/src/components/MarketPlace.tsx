@@ -10,12 +10,14 @@ import Select from "@material-ui/core/Select";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import { filterMarketActions } from "actions";
+import { ContractI, getAllContractInfo } from "common/contract";
 import { getDate } from "common/date";
 import { marketIcons, marketNames } from "common/markets";
 import { getContractAddresses } from "common/skyDb";
 import Posts from "components/Posts";
 import { useAppDispatch, useAppSelector } from "hooks";
 import { useState, useEffect } from "react";
+import { useWeb3React } from "@web3-react/core";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -80,12 +82,18 @@ export default function Markets(): JSX.Element {
   const marketFilter = useAppSelector((state) => state.marketFilter);
   const icon = marketIcons[marketFilter];
   const [open, setOpen] = useState(false);
-  const [markets, setMarkets] = useState<string[]>([]);
+  const [addresses, setAddresses] = useState<string[]>([]);
+  const web3 = useWeb3React();
+  const [contracts, setContracts] = useState<ContractI[]>([]);
 
   useEffect(() => {
-    getContractAddresses(setMarkets);
-    console.log(markets);
+    getContractAddresses(setAddresses);
+    console.log(addresses);
   }, []);
+
+  useEffect(() => {
+    getAllContractInfo(addresses, web3, setContracts);
+  }, [addresses, web3]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -124,7 +132,7 @@ export default function Markets(): JSX.Element {
           }}
         />
       </form>
-      <Posts />
+      <Posts contracts={contracts} />
     </div>
   );
 }
