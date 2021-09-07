@@ -1,5 +1,4 @@
-/* eslint-disable no-magic-numbers */
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Collapse from "@material-ui/core/Collapse";
@@ -14,6 +13,11 @@ import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
+import { getHoldings, MarketRecord } from "common/contract";
+import { marketNames } from "common/markets";
+import { getContractAddresses } from "common/skyDb";
+import { useWeb3React } from "@web3-react/core";
+import { fromWei } from "web3-utils";
 
 const useRowStyles = makeStyles({
   root: {
@@ -23,37 +27,7 @@ const useRowStyles = makeStyles({
   },
 });
 
-function createData(
-  name: string,
-  yesVotes: number,
-  noVotes: number,
-  totalMoney: number,
-  deadline: string,
-  investment: number
-) {
-  return {
-    name,
-    yesVotes,
-    noVotes,
-    totalMoney,
-    deadline,
-    investment,
-    history: [
-      { date: "2020-01-05", customerId: "11091700", vote: "yes", price: 20 },
-      { date: "2020-01-02", customerId: "Anonymous", vote: "no", price: 30 },
-    ],
-  };
-}
-
-const rows = [
-  createData("Bitcon", 159, 6, 24, "2020-01-05", 3.99),
-  createData("Dogecoin", 237, 9.0, 37, "2020-01-05", 4.99),
-  createData("Ethereum", 262, 16.0, 24, "2020-01-05", 3.79),
-  createData("Cardano", 305, 3.7, 67, "2020-01-05", 2.5),
-  createData("Binance Coin", 356, 16.0, 49, "2020-01-05", 1.5),
-];
-
-function Row(props: { row: ReturnType<typeof createData> }) {
+function Row(props: { row: MarketRecord }) {
   const { row } = props;
   const [open, setOpen] = useState(false);
   const classes = useRowStyles();
@@ -69,11 +43,11 @@ function Row(props: { row: ReturnType<typeof createData> }) {
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
-          {row.name}
+          {marketNames[row.market]}
         </TableCell>
         <TableCell align="right">{row.yesVotes}</TableCell>
         <TableCell align="right">{row.noVotes}</TableCell>
-        <TableCell align="right">{row.totalMoney}</TableCell>
+        <TableCell align="right">{fromWei(row.totalMoney)}</TableCell>
         <TableCell align="right">{row.deadline}</TableCell>
       </TableRow>
       <TableRow>
@@ -86,10 +60,10 @@ function Row(props: { row: ReturnType<typeof createData> }) {
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Date</TableCell>
-                    <TableCell>Transcation ID</TableCell>
+                    <TableCell>Block Number</TableCell>
+                    <TableCell>Transaction Hash</TableCell>
                     <TableCell align="right">Vote</TableCell>
-                    <TableCell align="right">Investment ($)</TableCell>
+                    <TableCell align="right">Investment (AVAX)</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -98,9 +72,11 @@ function Row(props: { row: ReturnType<typeof createData> }) {
                       <TableCell component="th" scope="row">
                         {historyRow.date}
                       </TableCell>
-                      <TableCell>{historyRow.customerId}</TableCell>
-                      <TableCell align="right">{historyRow.vote}</TableCell>
-                      <TableCell align="right">{historyRow.price}</TableCell>
+                      <TableCell>{historyRow.transactionHash}</TableCell>
+                      <TableCell align="right">{`${historyRow.vote}`}</TableCell>
+                      <TableCell align="right">
+                        {fromWei(historyRow.price)}
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -114,6 +90,27 @@ function Row(props: { row: ReturnType<typeof createData> }) {
 }
 
 function Portfolio(): JSX.Element {
+  const [records, setRecords] = useState<MarketRecord[]>([]);
+  const web3 = useWeb3React();
+
+  const fetchRecords = async () => {
+    const allAddresses = await getContractAddresses();
+    const marketRecords = await getHoldings(allAddresses, web3);
+    setRecords(marketRecords);
+  };
+
+  useEffect(() => {
+    if (web3.active) {
+      fetchRecords();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (web3.active) {
+      fetchRecords();
+    }
+  }, [web3.active]);
+
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
@@ -123,13 +120,13 @@ function Portfolio(): JSX.Element {
             <TableCell>Markets</TableCell>
             <TableCell align="right">Yes Votes</TableCell>
             <TableCell align="right">No Votes</TableCell>
-            <TableCell align="right">Total ($)</TableCell>
+            <TableCell align="right">Total (AVAX)</TableCell>
             <TableCell align="right">Deadline</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <Row key={row.name} row={row} />
+          {records.map((row) => (
+            <Row key={row.address} row={row} />
           ))}
         </TableBody>
       </Table>

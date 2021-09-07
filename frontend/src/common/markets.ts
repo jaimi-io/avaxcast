@@ -12,3 +12,5 @@ export const marketNames = [
   "ALL MARKETS",
 ];
 export const marketIcons = [AvaxLogo, BtcLogo, EthLogo, LinkLogo, CryptoLogo];
+
+export const voteString = ["Yes", "No"];
