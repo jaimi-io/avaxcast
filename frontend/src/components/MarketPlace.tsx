@@ -5,8 +5,6 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import FormControl from "@material-ui/core/FormControl";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import { filterMarketActions } from "actions";
@@ -16,8 +14,7 @@ import { marketIcons, marketNames } from "common/markets";
 import { getContractAddresses } from "common/skyDb";
 import Posts from "components/Posts";
 import { useAppDispatch, useAppSelector } from "hooks";
-import { useState, useEffect } from "react";
-// import { useWeb3React } from "@web3-react/core";
+import { useEffect, useState } from "react";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -25,17 +22,11 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: theme.spacing(1),
       minWidth: 120,
     },
-    selectEmpty: {
-      // eslint-disable-next-line no-magic-numbers
-      marginTop: theme.spacing(2),
-    },
-    container: {
-      display: "flex",
-      flexWrap: "wrap",
+    form: {
+      marginTop: theme.spacing(1),
+      marginLeft: theme.spacing(1),
     },
     textField: {
-      marginLeft: theme.spacing(1),
-      marginRight: theme.spacing(1),
       width: 200,
     },
   })
@@ -111,16 +102,11 @@ export default function Markets(): JSX.Element {
         </Button>
         <MarketDialog open={open} onClose={handleClose} />
       </FormControl>
-      <FormControl className={classes.formControl}>
-        <Select defaultValue="Open" labelId="open-select" id="open-select">
-          <MenuItem value={"Open"}>Open</MenuItem>
-          <MenuItem value={"Closed"}>Closed</MenuItem>
-        </Select>
-      </FormControl>
-      <form className={classes.container} noValidate>
+      <form className={classes.form} noValidate>
         <TextField
           id="date"
           label="Deadline"
+          variant="outlined"
           type="date"
           defaultValue={getDate()}
           className={classes.textField}
