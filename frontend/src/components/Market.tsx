@@ -197,7 +197,7 @@ function Market({ address }: PropsT): JSX.Element {
                 </Grid>
                 <Button
                   variant="contained"
-                  color={isYesVote ? "primary" : "inherit"}
+                  color={isYesVote ? "primary" : "default"}
                   className={classes.button}
                   disabled={!active}
                   onClick={() => setIsYesVote(true)}
@@ -229,7 +229,7 @@ function Market({ address }: PropsT): JSX.Element {
                 </Grid>
                 <Button
                   variant="contained"
-                  color={isYesVote ? "inherit" : "primary"}
+                  color={isYesVote ? "default" : "primary"}
                   className={classes.button}
                   disabled={!active}
                   onClick={() => setIsYesVote(false)}
