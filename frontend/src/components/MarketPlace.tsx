@@ -17,7 +17,7 @@ import { getContractAddresses } from "common/skyDb";
 import Posts from "components/Posts";
 import { useAppDispatch, useAppSelector } from "hooks";
 import { useState, useEffect } from "react";
-import { useWeb3React } from "@web3-react/core";
+// import { useWeb3React } from "@web3-react/core";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -82,23 +82,15 @@ export default function Markets(): JSX.Element {
   const marketFilter = useAppSelector((state) => state.marketFilter);
   const icon = marketIcons[marketFilter];
   const [open, setOpen] = useState(false);
-  const [addresses, setAddresses] = useState<string[]>([]);
-  const web3 = useWeb3React();
   const [contracts, setContracts] = useState<ContractI[]>([]);
 
   useEffect(() => {
-    const fetchContractAddresses = async () => {
-      setAddresses(await getContractAddresses());
+    const fetch = async () => {
+      const adds = await getContractAddresses();
+      setContracts(await getAllContractInfo(adds));
     };
-    fetchContractAddresses();
+    fetch();
   }, []);
-
-  useEffect(() => {
-    const fetchAllContractInfo = async () => {
-      setContracts(await getAllContractInfo(addresses));
-    };
-    fetchAllContractInfo();
-  }, [addresses, web3]);
 
   const handleClickOpen = () => {
     setOpen(true);
