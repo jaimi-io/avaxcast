@@ -18,18 +18,18 @@ import { AbiItem } from "web3-utils";
 
 const MIN_PREDICTED_PRICE = 0;
 
-function validMarket(market: number): boolean {
-  return market !== Market.ALL;
+function invalidMarket(market: number): boolean {
+  return market === Market.ALL;
 }
 
-function validPrice(price: number): boolean {
-  return price >= MIN_PREDICTED_PRICE;
+function invalidPrice(price: number): boolean {
+  return price <= MIN_PREDICTED_PRICE;
 }
 
-function validDate(date: string): boolean {
+function invalidDate(date: string): boolean {
   const now = new Date();
   const selectedDate = new Date(date);
-  return now < selectedDate;
+  return now >= selectedDate;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -101,9 +101,9 @@ function AddMarket(): JSX.Element {
   useEffect(() => {
     setInvalid(
       () =>
-        !validMarket(market) ||
-        !validPrice(predictedPrice) ||
-        !validDate(deadline) ||
+        invalidMarket(market) ||
+        invalidPrice(predictedPrice) ||
+        invalidDate(deadline) ||
         !active
     );
   }, [market, predictedPrice, deadline, active]);
@@ -131,7 +131,8 @@ function AddMarket(): JSX.Element {
           labelId="markets-select"
           id="markets-select"
           type="text"
-          error={!validMarket(market)}
+          variant="outlined"
+          error={invalidMarket(market)}
           onChange={(e) => setMarket(e.target.value as Market)}>
           {marketNames.map((mk, index) => (
             <MenuItem value={index} key={index}>
@@ -148,6 +149,7 @@ function AddMarket(): JSX.Element {
         className={classes.textField}
         onChange={(e) => setPredictedPrice(parseFloat(e.target.value))}
         error={predictedPrice < MIN_PREDICTED_PRICE}
+        variant="outlined"
         helperText="Range $0 - $X"
         InputProps={{
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -161,14 +163,15 @@ function AddMarket(): JSX.Element {
           label="Deadline"
           type="date"
           defaultValue={INITIAL_DATE}
+          variant="outlined"
           className={classes.textField}
           InputLabelProps={{
             shrink: true,
           }}
           onChange={(e) => setDeadline(e.target.value)}
-          error={!validDate(deadline)}
+          error={invalidDate(deadline)}
           helperText={
-            validDate(deadline) ? "" : "Select a date after the current date"
+            invalidDate(deadline) ? "Select a date after the current date" : ""
           }
         />
       </form>
