@@ -67,7 +67,7 @@ function Market({ address }: PropsT): JSX.Element {
   const [contract, setContract] = useState<ContractI>({
     market: 0,
     predictedPrice: "$X",
-    date: "dd/mm/yyyy",
+    date: new Date(),
     volume: 0,
     yesPrice: toBN(UNDEFINED_PRICE),
     noPrice: toBN(UNDEFINED_PRICE),
@@ -127,7 +127,7 @@ function Market({ address }: PropsT): JSX.Element {
               <Typography component="h1" variant="h6">
                 {`Will ${marketNames[contract.market]} reach ${
                   contract.predictedPrice
-                } by ${contract.date}?`}
+                } by ${contract.date.toDateString()}?`}
               </Typography>
             </Grid>
             <Grid item xs={2}>
