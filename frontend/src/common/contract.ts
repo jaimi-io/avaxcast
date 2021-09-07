@@ -102,10 +102,7 @@ export async function buy(
   vote: Vote,
   price: BN
 ): Promise<void> {
-  const { library, account, active } = web3;
-  if (!active) {
-    return;
-  }
+  const { library, account } = web3;
   const contract = new library.eth.Contract(
     Prediction.abi as AbiItem[],
     contractAddress
