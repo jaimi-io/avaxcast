@@ -101,12 +101,12 @@ function Market({ address }: PropsT): JSX.Element {
   }, [active]);
 
   useEffect(() => {
-    setCanBuy(active && numShares > UNDEFINED_NUM_SHARES);
-  }, [active, numShares]);
-
-  useEffect(() => {
     setTotalPrice(priceOfShares());
   }, [numShares, isYesVote]);
+
+  useEffect(() => {
+    setCanBuy(active && numShares > UNDEFINED_NUM_SHARES && totalPrice.gtn(0));
+  }, [active, numShares, totalPrice]);
 
   return (
     <>
