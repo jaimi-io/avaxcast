@@ -1,7 +1,6 @@
 import Market from "common/enums";
 import { AbiItem, toBN } from "web3-utils";
 import Prediction from "contracts/PredictionMarket.json";
-import { Dispatch, SetStateAction } from "react";
 import {
   DECIMAL_PLACES,
   FLOAT_TO_SOL_NUM,
@@ -35,8 +34,7 @@ interface MarketInfo {
 }
 
 export async function getContractInfo(
-  contractAddress: string,
-  setStateContract?: Dispatch<SetStateAction<ContractI>>
+  contractAddress: string
 ): Promise<ContractI> {
   const library = new Web3(
     new Web3.providers.HttpProvider(
@@ -66,7 +64,7 @@ export async function getContractInfo(
   const volume =
     parseInt(marketInfo.numberYesShares) + parseInt(marketInfo.numberNoShares);
 
-  const contractInfo = {
+  return {
     market: parseInt(marketInfo.market) as Market,
     predictedPrice: `$${(marketInfo.predictedPrice / FLOAT_TO_SOL_NUM).toFixed(
       DECIMAL_PLACES
@@ -77,12 +75,6 @@ export async function getContractInfo(
     noPrice: noPrice,
     address: contractAddress,
   };
-
-  if (setStateContract) {
-    setStateContract(contractInfo);
-  }
-
-  return contractInfo;
 }
 
 export async function getAllContractInfo(
