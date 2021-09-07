@@ -18,6 +18,7 @@ function Post({
   yesPrice,
   noPrice,
 }: ContractI): JSX.Element {
+  const formattedDate = date.toDateString();
   return (
     <LinkContainer to={`/market/${address}`}>
       <Grid item>
@@ -32,12 +33,12 @@ function Post({
                   <Typography component="p">{predictedPrice}</Typography>
                 </Grid>
                 <Grid item xs>
-                  <Typography component="p">{date}</Typography>
+                  <Typography component="p">{formattedDate}</Typography>
                 </Grid>
               </Grid>
 
               <Typography variant="h6" component="p">
-                {`Will ${marketNames[market]} reach ${predictedPrice} by ${date}`}
+                {`Will ${marketNames[market]} reach ${predictedPrice} by ${formattedDate}`}
               </Typography>
               <Grid container>
                 <Grid item xs>

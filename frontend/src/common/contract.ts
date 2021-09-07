@@ -17,7 +17,7 @@ import { voteString } from "./markets";
 export interface ContractI {
   market: Market;
   predictedPrice: string;
-  date: string;
+  date: Date;
   volume: number;
   yesPrice: BN;
   noPrice: BN;
@@ -71,7 +71,7 @@ export async function getContractInfo(
     predictedPrice: `$${(marketInfo.predictedPrice / FLOAT_TO_SOL_NUM).toFixed(
       DECIMAL_PLACES
     )}`,
-    date: endDate.toDateString(),
+    date: endDate,
     volume: volume,
     yesPrice: yesPrice,
     noPrice: noPrice,
