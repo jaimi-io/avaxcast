@@ -73,6 +73,7 @@ function Market({ address }: PropsT): JSX.Element {
     noPrice: toBN(UNDEFINED_PRICE),
     address: address,
   });
+  const formattedDate = contract.date.toDateString();
   const [numShares, setNumShares] = useState(UNDEFINED_NUM_SHARES);
   const [canBuy, setCanBuy] = useState(false);
   const [totalPrice, setTotalPrice] = useState(toBN(UNDEFINED_PRICE));
@@ -127,7 +128,7 @@ function Market({ address }: PropsT): JSX.Element {
               <Typography component="h1" variant="h6">
                 {`Will ${marketNames[contract.market]} reach ${
                   contract.predictedPrice
-                } by ${contract.date.toDateString()}?`}
+                } by ${formattedDate}?`}
               </Typography>
             </Grid>
             <Grid item xs={2}>
@@ -152,7 +153,7 @@ function Market({ address }: PropsT): JSX.Element {
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>
-                  <Typography component="p">{contract.date}</Typography>
+                  <Typography component="p">{formattedDate}</Typography>
                 </Grid>
               </Grid>
             </Grid>
