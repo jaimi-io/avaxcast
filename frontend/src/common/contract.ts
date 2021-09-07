@@ -26,7 +26,7 @@ export interface ContractI {
 interface MarketInfo {
   numberNoShares: string;
   numberYesShares: string;
-  market: number;
+  market: string;
   predictedPrice: number;
   endTime: number;
   yesPrice: string;
@@ -66,7 +66,7 @@ export async function getContractInfo(
     parseInt(marketInfo.numberYesShares) + parseInt(marketInfo.numberNoShares);
 
   const contractInfo = {
-    market: marketInfo.market as Market,
+    market: parseInt(marketInfo.market) as Market,
     predictedPrice: `$${(marketInfo.predictedPrice / FLOAT_TO_SOL_NUM).toFixed(
       DECIMAL_PLACES
     )}`,
@@ -108,4 +108,36 @@ export async function buy(
     from: account,
     value: price,
   });
+}
+
+export interface VotesPerPerson {
+  yesVotes: number;
+  noVotes: number;
+}
+
+export async function getCurrentVotes(
+  contractAddress: string,
+  web3: Web3ReactContextInterface
+): Promise<VotesPerPerson> {
+  const { library, account } = web3;
+  const contract = new library.eth.Contract(
+    Prediction.abi as AbiItem[],
+    contractAddress
+  );
+  let yesVotes = parseInt(
+    await contract.methods.sharesPerPerson(account, Vote.Yes).call()
+  );
+  let noVotes = parseInt(
+    await contract.methods.sharesPerPerson(account, Vote.No).call()
+  );
+  if (isNaN(yesVotes)) {
+    yesVotes = 0;
+  }
+  if (isNaN(noVotes)) {
+    noVotes = 0;
+  }
+  return {
+    yesVotes: yesVotes,
+    noVotes: noVotes,
+  };
 }
