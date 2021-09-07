@@ -23,9 +23,18 @@ export interface ContractI {
   address: string;
 }
 
+interface MarketInfo {
+  numberNoShares: string;
+  numberYesShares: string;
+  market: number;
+  predictedPrice: number;
+  endTime: number;
+  yesPrice: string;
+  isResolved: boolean;
+}
+
 export async function getContractInfo(
   contractAddress: string,
-  web3: Web3ReactContextInterface,
   setStateContract?: Dispatch<SetStateAction<ContractI>>
 ): Promise<ContractI> {
   const library = new Web3(
@@ -38,16 +47,7 @@ export async function getContractInfo(
     Prediction.abi as AbiItem[],
     contractAddress
   );
-  const unixTimestamp = await contract.methods.endTime().call();
-  const endDate = new Date(unixTimestamp * MS_TO_SECS);
-  const yesPrice = toBN(await contract.methods.yesPrice().call());
-  const noPrice = MAX_AVAX_SHARE_PRICE.sub(yesPrice);
-  const numYesShares = parseInt(
-    await contract.methods.numberShares(Vote.Yes).call()
-  );
-  const numNoShares = parseInt(
-    await contract.methods.numberShares(Vote.No).call()
-  );
+
   // const isResolved = await contract.methods
   //   .isResolved()
   //   .call();
@@ -58,19 +58,25 @@ export async function getContractInfo(
   //   });
   // }
 
+  const marketInfo: MarketInfo = await contract.methods.marketInfo().call();
+  const endDate = new Date(marketInfo.endTime * MS_TO_SECS);
+  const yesPrice = toBN(marketInfo.yesPrice);
+  const noPrice = MAX_AVAX_SHARE_PRICE.sub(yesPrice);
+  const volume =
+    parseInt(marketInfo.numberYesShares) + parseInt(marketInfo.numberNoShares);
+
   const contractInfo = {
-    market: parseInt(await contract.methods.market().call()) as Market,
-    predictedPrice: `$${(
-      (await contract.methods.predictedPrice().call()) / FLOAT_TO_SOL_NUM
-    ).toFixed(DECIMAL_PLACES)}`,
+    market: marketInfo.market as Market,
+    predictedPrice: `$${(marketInfo.predictedPrice / FLOAT_TO_SOL_NUM).toFixed(
+      DECIMAL_PLACES
+    )}`,
     date: endDate.toDateString(),
-    volume: numYesShares + numNoShares,
+    volume: volume,
     yesPrice: yesPrice,
     noPrice: noPrice,
     address: contractAddress,
   };
 
-  console.log(contractInfo);
   if (setStateContract) {
     setStateContract(contractInfo);
   }
@@ -84,7 +90,7 @@ export async function getAllContractInfo(
   setStateContract: Dispatch<SetStateAction<ContractI[]>>
 ): Promise<ContractI[]> {
   const allContractInfo = await Promise.all(
-    contractAddresses.map((addr) => getContractInfo(addr, web3))
+    contractAddresses.map((addr) => getContractInfo(addr))
   );
   setStateContract(allContractInfo);
   return allContractInfo;
