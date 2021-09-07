@@ -9,7 +9,7 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import { filterMarketActions } from "actions";
 import { ContractI, getAllContractInfo } from "common/contract";
-import { getDate, monthAfter } from "common/date";
+import { getCurrentDateString, monthAfter } from "common/date";
 import { marketIcons, marketNames } from "common/markets";
 import { getContractAddresses } from "common/skyDb";
 import Posts from "components/Posts";
@@ -74,7 +74,7 @@ function MarketPlace(): JSX.Element {
   const classes = useStyles();
   const marketFilter = useAppSelector((state) => state.marketFilter);
   const icon = marketIcons[marketFilter];
-  const DEFAULT_DATE = getDate();
+  const DEFAULT_DATE = getCurrentDateString();
   const DEFAULT_END_DATE = monthAfter(DEFAULT_DATE);
   const [startDate, setStartDate] = useState(DEFAULT_DATE);
   const [endDate, setEndDate] = useState(DEFAULT_END_DATE);
