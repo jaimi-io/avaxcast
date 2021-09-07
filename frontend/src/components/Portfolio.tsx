@@ -103,21 +103,20 @@ function Portfolio(): JSX.Element {
   const web3 = useWeb3React();
 
   const fetchRecords = async () => {
+    if (!web3.active) {
+      return;
+    }
     const allAddresses = await getContractAddresses();
     const marketRecords = await getHoldings(allAddresses, web3);
     setRecords(marketRecords);
   };
 
   useEffect(() => {
-    if (web3.active) {
-      fetchRecords();
-    }
+    fetchRecords();
   }, []);
 
   useEffect(() => {
-    if (web3.active) {
-      fetchRecords();
-    }
+    fetchRecords();
   }, [web3.active]);
 
   return (
