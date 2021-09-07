@@ -15,8 +15,7 @@ import Prediction from "contracts/PredictionMarket.json";
 import { useEffect, useState } from "react";
 import NumberFormat from "react-number-format";
 import { AbiItem } from "web3-utils";
-import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
-import Snackbar from "@material-ui/core/Snackbar";
+import SuccessSnackbar from "./SuccessSnackbar";
 
 function invalidMarket(market: number): boolean {
   return market === Market.ALL;
@@ -86,10 +85,6 @@ function NumberFormatCustom(props: NumberFormatCustomProps) {
       prefix="$"
     />
   );
-}
-
-function Alert(props: AlertProps) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
 function AddMarket(): JSX.Element {
@@ -201,15 +196,14 @@ function AddMarket(): JSX.Element {
         onClick={handleAddMarket}>
         Submit
       </Button>
-      <Snackbar
+
+      <SuccessSnackbar
+        successMsg={"Successfully added!"}
+        failMsg={"Failed to add."}
+        success={success}
         open={openSnackbar}
-        autoHideDuration={6000}
-        onClose={handleClose}>
-        <Alert onClose={handleClose} severity={success ? "success" : "error"}>
-          {success ? "Successfully added!" : "Failed to add."}
-        </Alert>
-      </Snackbar>
-      ;
+        handleClose={handleClose}
+      />
     </div>
   );
 }
