@@ -15,6 +15,7 @@ import { InjectedConnector } from "@web3-react/injected-connector";
 import { useState } from "react";
 import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet";
 import MetaMaskIcon from "images/metamask.svg";
+import { createStyles, Theme } from "@material-ui/core/styles";
 
 /*
   active: is a wallet actively connected right now?
@@ -25,22 +26,17 @@ import MetaMaskIcon from "images/metamask.svg";
   deactivate: the method to disconnect from a wallet 
 */
 
-const avaxLocalId = 43112;
-const avaxFujiId = 43113;
-
-const injected = new InjectedConnector({
-  supportedChainIds: [avaxLocalId, avaxFujiId],
-});
-
-const useStyles = makeStyles({
-  avatar: {
-    backgroundColor: blue[100],
-    color: blue[600],
-  },
-  button: {
-    // margin: theme.spacing(1),
-  },
-});
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    avatar: {
+      backgroundColor: blue[100],
+      color: blue[600],
+    },
+    button: {
+      margin: theme.spacing(1),
+    },
+  })
+);
 
 interface SimpleDialogProps {
   open: boolean;
@@ -78,9 +74,25 @@ function SimpleDialog(props: SimpleDialogProps): JSX.Element {
   );
 }
 
+const FIFTH_DIGIT = 5;
+const LAST_DIGIT = -1;
+
+function displayAccount(account: string | null | undefined): string {
+  if (!account) {
+    return "ADDRESS NOT FOUND";
+  }
+  return `${account.substring(0, FIFTH_DIGIT)}...${account.slice(LAST_DIGIT)}`;
+}
+
+const AVAX_LOCAL_ID = 43112;
+const AVAX_FUJI_ID = 43113;
+const injected = new InjectedConnector({
+  supportedChainIds: [AVAX_LOCAL_ID, AVAX_FUJI_ID],
+});
+
 function Wallet(): JSX.Element {
-  const { active, activate } = useWeb3React();
   const classes = useStyles();
+  const { active, account, activate } = useWeb3React();
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -104,7 +116,7 @@ function Wallet(): JSX.Element {
         className={classes.button}
         startIcon={<AccountBalanceWalletIcon />}
         disabled={active}>
-        {active ? "Wallet Connected" : "Wallet"}
+        {active ? `${displayAccount(account)}` : "Wallet"}
       </Button>
       <SimpleDialog connect={connect} open={open} onClose={handleClose} />
     </div>
