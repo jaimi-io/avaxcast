@@ -36,6 +36,7 @@ const useStyles = makeStyles((theme: Theme) => {
   return createStyles({
     root: {
       display: "flex",
+      margin: "30ch",
     },
     textField: {
       marginLeft: spacing,
