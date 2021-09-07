@@ -88,7 +88,6 @@ export default function Markets(): JSX.Element {
 
   useEffect(() => {
     getContractAddresses(setAddresses);
-    console.log(addresses);
   }, []);
 
   useEffect(() => {

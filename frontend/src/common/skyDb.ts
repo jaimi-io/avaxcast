@@ -40,10 +40,9 @@ export async function insertContractAddress(address: string): Promise<void> {
     const addresses = await getContractAddresses();
     addresses.push(address);
     const dataKey = process.env.REACT_APP_DATA_KEY;
-    await client.db.setJSON(privateKey, dataKey, {
+    client.db.setJSON(privateKey, dataKey, {
       addresses: addresses,
     });
-    console.log(addresses, "updated address array");
   } catch (error) {
     console.error(error);
   }
