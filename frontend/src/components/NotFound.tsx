@@ -1,7 +1,7 @@
 import { createStyles, makeStyles } from "@material-ui/core/styles";
-import { useAppSelector } from "hooks";
 import NothingHereLogo from "images/nothing_here.svg";
 import NothingHereLogoBlack from "images/nothing_here_black.svg";
+import SvgLogo from "./SvgLogo";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -16,10 +16,10 @@ const useStyles = makeStyles(() =>
 
 function NotFound(): JSX.Element {
   const classes = useStyles();
-  const isDark = useAppSelector((state) => state.isDark);
   return (
-    <img
-      src={isDark ? NothingHereLogo : NothingHereLogoBlack}
+    <SvgLogo
+      darkIcon={NothingHereLogo}
+      lightIcon={NothingHereLogoBlack}
       className={classes.svg}
     />
   );
