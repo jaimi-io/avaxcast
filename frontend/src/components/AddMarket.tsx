@@ -16,6 +16,8 @@ import { useEffect, useState } from "react";
 import NumberFormat from "react-number-format";
 import { AbiItem } from "web3-utils";
 import SuccessSnackbar from "./SuccessSnackbar";
+import Backdrop from "@material-ui/core/Backdrop";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 function invalidMarket(market: number): boolean {
   return market === Market.ALL;
@@ -50,6 +52,10 @@ const useStyles = makeStyles((theme: Theme) => {
     button: {
       minWidth: 120,
       maxHeight: 50,
+    },
+    backdrop: {
+      zIndex: theme.zIndex.drawer + 1,
+      color: "#fff",
     },
   });
 });
@@ -95,6 +101,7 @@ function AddMarket(): JSX.Element {
   const [invalid, setInvalid] = useState(true);
   const [success, setSuccess] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { active, account, library } = useWeb3React();
 
   const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
@@ -115,6 +122,7 @@ function AddMarket(): JSX.Element {
   }, [market, predictedPrice, deadline, active]);
 
   const handleAddMarket = async () => {
+    setLoading(true);
     const contract = new library.eth.Contract(Prediction.abi as AbiItem[]);
     const unixDeadline = Math.floor(new Date(deadline).getTime() / MS_TO_SECS);
     await contract
@@ -131,6 +139,7 @@ function AddMarket(): JSX.Element {
       .catch(() => {
         setSuccess(false);
       });
+    setLoading(false);
     setOpenSnackbar(true);
   };
 
@@ -201,6 +210,9 @@ function AddMarket(): JSX.Element {
         open={openSnackbar}
         handleClose={handleClose}
       />
+      <Backdrop className={classes.backdrop} open={loading}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </div>
   );
 }
