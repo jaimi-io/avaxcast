@@ -16,14 +16,12 @@ import { useEffect, useState } from "react";
 import NumberFormat from "react-number-format";
 import { AbiItem } from "web3-utils";
 
-const MIN_PREDICTED_PRICE = 0;
-
 function invalidMarket(market: number): boolean {
   return market === Market.ALL;
 }
 
 function invalidPrice(price: number): boolean {
-  return price <= MIN_PREDICTED_PRICE;
+  return price < 0;
 }
 
 function invalidDate(date: string): boolean {
@@ -100,6 +98,9 @@ function AddMarket(): JSX.Element {
   const { active, account, library } = useWeb3React();
 
   useEffect(() => {
+    console.log(market);
+    console.log(predictedPrice);
+    console.log(deadline);
     setInvalid(
       () =>
         invalidMarket(market) ||
@@ -149,7 +150,7 @@ function AddMarket(): JSX.Element {
         defaultValue={INITIAL_PREDICTED_PRICE}
         className={classes.textField}
         onChange={(e) => setPredictedPrice(parseFloat(e.target.value))}
-        error={predictedPrice < MIN_PREDICTED_PRICE}
+        error={invalidPrice(predictedPrice)}
         variant="outlined"
         helperText="Range $0 - $X"
         InputProps={{
