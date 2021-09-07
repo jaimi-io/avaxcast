@@ -204,7 +204,6 @@ async function retrieveHoldingInfo(
     deadline: contractInfo.date,
     history: history,
   };
-  console.log(holdingInfo);
   return holdingInfo;
 }
 
@@ -228,7 +227,6 @@ export async function getHoldings(
     })
   );
   const filteredEvents = contractEvents.filter((events) => events.length !== 0);
-  console.log(filteredEvents);
   const holdingInfos = await Promise.all(
     filteredEvents.map((events) => retrieveHoldingInfo(events, web3))
   );
