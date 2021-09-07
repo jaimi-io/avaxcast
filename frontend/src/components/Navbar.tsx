@@ -1,4 +1,9 @@
-import { List, ListItem, ListItemText } from "@material-ui/core";
+import {
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
@@ -11,6 +16,7 @@ import Brightness2Icon from "@material-ui/icons/Brightness2";
 import { lightOff, lightOn } from "actions";
 import { useAppDispatch, useAppSelector } from "hooks";
 import Wallet from "./Wallet";
+import AvaxcastLogo from "images/avaxcast_logo.svg";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -28,6 +34,10 @@ export default function Navbar(): JSX.Element {
   return (
     <List component="nav">
       <ListItem component="div">
+        <ListItemAvatar>
+          <img src={AvaxcastLogo} width={"200px"} />
+        </ListItemAvatar>
+
         <ListItemText inset>
           <LinkContainer to="/">
             <Button
