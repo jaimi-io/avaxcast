@@ -15,6 +15,8 @@ import Prediction from "contracts/PredictionMarket.json";
 import { useEffect, useState } from "react";
 import NumberFormat from "react-number-format";
 import { AbiItem } from "web3-utils";
+import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
+import Snackbar from "@material-ui/core/Snackbar";
 
 function invalidMarket(market: number): boolean {
   return market === Market.ALL;
@@ -86,6 +88,10 @@ function NumberFormatCustom(props: NumberFormatCustomProps) {
   );
 }
 
+function Alert(props: AlertProps) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 function AddMarket(): JSX.Element {
   const classes = useStyles();
   const INITIAL_PREDICTED_PRICE = 0.0;
@@ -95,12 +101,18 @@ function AddMarket(): JSX.Element {
   const [predictedPrice, setPredictedPrice] = useState(INITIAL_PREDICTED_PRICE);
   const [deadline, setDeadline] = useState(INITIAL_DATE);
   const [invalid, setInvalid] = useState(true);
+  const [success, setSuccess] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
   const { active, account, library } = useWeb3React();
 
+  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenSnackbar(false);
+  };
+
   useEffect(() => {
-    console.log(market);
-    console.log(predictedPrice);
-    console.log(deadline);
     setInvalid(
       () =>
         invalidMarket(market) ||
@@ -120,8 +132,14 @@ function AddMarket(): JSX.Element {
       })
       .send({ from: account })
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .then((newContractInstance: any) => {
-        insertContractAddress(newContractInstance.options.address);
+      .then(async (newContractInstance: any) => {
+        await insertContractAddress(newContractInstance.options.address);
+        setSuccess(true);
+        setOpenSnackbar(true);
+      })
+      .catch(() => {
+        setSuccess(false);
+        setOpenSnackbar(true);
       });
   };
 
@@ -143,7 +161,6 @@ function AddMarket(): JSX.Element {
           ))}
         </Select>
       </FormControl>
-
       <TextField
         label="Predicted Price ($)"
         id="formatted-numberformat-input"
@@ -158,7 +175,6 @@ function AddMarket(): JSX.Element {
           inputComponent: NumberFormatCustom as any,
         }}
       />
-
       <form className={classes.container}>
         <TextField
           id="date"
@@ -177,16 +193,24 @@ function AddMarket(): JSX.Element {
           }
         />
       </form>
-
       <Button
         variant="contained"
         color="inherit"
         className={classes.button}
         disabled={invalid}
         startIcon={<PublishIcon />}
-        onClick={() => handleAddMarket()}>
+        onClick={handleAddMarket}>
         Submit
       </Button>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleClose}>
+        <Alert onClose={handleClose} severity={success ? "success" : "error"}>
+          {success ? "Successfully added!" : "Failed to add."}
+        </Alert>
+      </Snackbar>
+      ;
     </div>
   );
 }
