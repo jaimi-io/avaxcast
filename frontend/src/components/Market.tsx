@@ -28,6 +28,8 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     button: {
       margin: theme.spacing(1),
+      minHeight: 50,
+      minWidth: 150,
     },
   })
 );
@@ -204,7 +206,7 @@ function Market({ address }: PropsT): JSX.Element {
             <Grid item xs={12}>
               <Button
                 variant="contained"
-                color="inherit"
+                color="primary"
                 className={classes.button}
                 disabled={!canBuy}
                 onClick={() =>
