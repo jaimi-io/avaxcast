@@ -74,6 +74,10 @@ function MarketPlace(): JSX.Element {
   const classes = useStyles();
   const marketFilter = useAppSelector((state) => state.marketFilter);
   const icon = marketIcons[marketFilter];
+  const DEFAULT_DATE = getDate();
+  // const DEFAULT_END_DATE = monthAfter(DEFAULT_DATE);
+  const [startDate, setStartDate] = useState(DEFAULT_DATE);
+  const [endDate, setEndDate] = useState(DEFAULT_DATE);
   const [openDialog, setOpenDialog] = useState(false);
   const [contracts, setContracts] = useState<ContractI[]>([]);
 
@@ -108,17 +112,32 @@ function MarketPlace(): JSX.Element {
       <form className={classes.form} noValidate>
         <TextField
           id="date"
-          label="Deadline"
+          label="Start Deadline"
           variant="outlined"
           type="date"
-          defaultValue={getDate()}
+          onChange={(e) => setStartDate(e.target.value)}
+          defaultValue={DEFAULT_DATE}
           className={classes.textField}
           InputLabelProps={{
             shrink: true,
           }}
         />
       </form>
-      <Posts contracts={contracts} />
+      <form className={classes.form} noValidate>
+        <TextField
+          id="date"
+          label="End Deadline"
+          variant="outlined"
+          type="date"
+          onChange={(e) => setEndDate(e.target.value)}
+          defaultValue={DEFAULT_DATE}
+          className={classes.textField}
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+      </form>
+      <Posts contracts={contracts} deadlineFilter={[startDate, endDate]} />
     </div>
   );
 }

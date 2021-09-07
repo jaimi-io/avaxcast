@@ -81,16 +81,21 @@ function Post({
 
 interface PropsT {
   contracts: ContractI[];
+  deadlineFilter: string[];
 }
 
-function Posts({ contracts }: PropsT): JSX.Element {
+function Posts({ contracts, deadlineFilter }: PropsT): JSX.Element {
   const marketFilter = useAppSelector((state) => state.marketFilter);
+  const [start, end] = deadlineFilter;
+  const startDate = new Date(start);
+  const endDate = new Date(end);
 
-  const filterPost = (post: ContractI) => {
+  const filterPost = (post: ContractI): boolean => {
+    const withinDates = startDate <= post.date && post.date <= endDate;
     if (marketFilter === Market.ALL) {
-      return true;
+      return withinDates;
     }
-    return post.market === marketFilter;
+    return post.market === marketFilter && withinDates;
   };
 
   const filtered = contracts.filter(filterPost);
