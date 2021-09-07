@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
 import { genKeyPairFromSeed, SkynetClient } from "skynet-js";
 
 const client = new SkynetClient("https://siasky.net");
@@ -15,18 +14,13 @@ interface SkyDBGetResult {
   dataLink: `sia://${string}`;
 }
 
-export function getContractAddresses(
-  setFunc?: Dispatch<SetStateAction<string[]>>
-): Promise<string[]> {
+export function getContractAddresses(): Promise<string[]> {
   return client.db
     .getJSON(publicKey, process.env.REACT_APP_DATA_KEY)
     .then((res: SkyDBGetResult) => {
       const {
         data: { addresses },
       } = res;
-      if (setFunc) {
-        setFunc(addresses);
-      }
       return addresses;
     })
     .catch((err: Error) => {

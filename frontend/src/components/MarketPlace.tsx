@@ -87,11 +87,17 @@ export default function Markets(): JSX.Element {
   const [contracts, setContracts] = useState<ContractI[]>([]);
 
   useEffect(() => {
-    getContractAddresses(setAddresses);
+    const fetchContractAddresses = async () => {
+      setAddresses(await getContractAddresses());
+    };
+    fetchContractAddresses();
   }, []);
 
   useEffect(() => {
-    getAllContractInfo(addresses, web3, setContracts);
+    const fetchAllContractInfo = async () => {
+      setContracts(await getAllContractInfo(addresses));
+    };
+    fetchAllContractInfo();
   }, [addresses, web3]);
 
   const handleClickOpen = () => {
