@@ -7,7 +7,7 @@ import TextField from "@material-ui/core/TextField";
 import PublishIcon from "@material-ui/icons/Publish";
 import { useWeb3React } from "@web3-react/core";
 import { FLOAT_TO_SOL_NUM, MS_TO_SECS } from "common/constants";
-import { getDate } from "common/date";
+import { getCurrentDateString } from "common/date";
 import Market from "common/enums";
 import { marketNames } from "common/markets";
 import { insertContractAddress } from "common/skyDb";
@@ -87,7 +87,7 @@ function NumberFormatCustom(props: NumberFormatCustomProps) {
 function AddMarket(): JSX.Element {
   const classes = useStyles();
   const INITIAL_PREDICTED_PRICE = 0.0;
-  const INITIAL_DATE = getDate();
+  const INITIAL_DATE = getCurrentDateString();
   // state
   const [market, setMarket] = useState(Market.ALL);
   const [predictedPrice, setPredictedPrice] = useState(INITIAL_PREDICTED_PRICE);

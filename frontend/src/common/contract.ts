@@ -53,7 +53,7 @@ export async function getContractInfo(
   //   .isResolved()
   //   .call();
 
-  // if (endDate.getDate() > Date.now() && !isResolved) {
+  // if (endDate.getCurrentDateString() > Date.now() && !isResolved) {
   //   contract.methods.resolveMarket().send({
   //     from: account,
   //   });

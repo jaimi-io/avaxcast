@@ -9,7 +9,7 @@ function dateToString(date: Date): string {
   return dateString;
 }
 
-export function getDate(): string {
+export function getCurrentDateString(): string {
   return dateToString(new Date());
 }
 
