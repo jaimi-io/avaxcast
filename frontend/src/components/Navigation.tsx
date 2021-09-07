@@ -6,7 +6,7 @@ import {
   useParams,
 } from "react-router-dom";
 import AddMarket from "./AddMarket";
-import Markets from "./MarketPlace";
+import MarketPlace from "./MarketPlace";
 import Navbar from "./Navbar";
 import Portfolio from "./Portfolio";
 
@@ -23,7 +23,7 @@ export default function Navigation(): JSX.Element {
     <Router>
       <Navbar />
       <Switch>
-        <Route exact path="/" component={Markets} />
+        <Route exact path="/" component={MarketPlace} />
         <Route exact path="/portfolio" component={Portfolio}></Route>
         <Route exact path="/addmarket" component={AddMarket}></Route>
         <Route exact path="/market/:address" component={MarketFunc}></Route>

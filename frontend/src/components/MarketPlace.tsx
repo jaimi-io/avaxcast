@@ -70,11 +70,11 @@ function MarketDialog({ onClose, open }: MarketDialogProps): JSX.Element {
   );
 }
 
-export default function Markets(): JSX.Element {
+function MarketPlace(): JSX.Element {
   const classes = useStyles();
   const marketFilter = useAppSelector((state) => state.marketFilter);
   const icon = marketIcons[marketFilter];
-  const [open, setOpen] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
   const [contracts, setContracts] = useState<ContractI[]>([]);
 
   useEffect(() => {
@@ -86,11 +86,11 @@ export default function Markets(): JSX.Element {
   }, []);
 
   const handleClickOpen = () => {
-    setOpen(true);
+    setOpenDialog(true);
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setOpenDialog(false);
   };
 
   return (
@@ -103,7 +103,7 @@ export default function Markets(): JSX.Element {
           startIcon={<img src={icon} width={"20px"} />}>
           Select Market
         </Button>
-        <MarketDialog open={open} onClose={handleClose} />
+        <MarketDialog open={openDialog} onClose={handleClose} />
       </FormControl>
       <form className={classes.form} noValidate>
         <TextField
@@ -122,3 +122,5 @@ export default function Markets(): JSX.Element {
     </div>
   );
 }
+
+export default MarketPlace;
