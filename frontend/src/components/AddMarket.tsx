@@ -47,10 +47,6 @@ const useStyles = makeStyles((theme: Theme) => {
       marginRight: spacing,
       minWidth: 120,
     },
-    container: {
-      display: "flex",
-      flexWrap: "wrap",
-    },
     button: {
       minWidth: 120,
       maxHeight: 50,
@@ -170,7 +166,7 @@ function AddMarket(): JSX.Element {
           inputComponent: NumberFormatCustom as any,
         }}
       />
-      <form className={classes.container}>
+      <form>
         <TextField
           id="date"
           label="Deadline"
