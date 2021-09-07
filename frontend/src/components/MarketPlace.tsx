@@ -26,6 +26,9 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: theme.spacing(1),
       marginLeft: theme.spacing(1),
     },
+    button: {
+      minHeight: 55,
+    },
     textField: {
       width: 200,
     },
@@ -37,8 +40,7 @@ interface MarketDialogProps {
   onClose: () => void;
 }
 
-function MarketDialog(props: MarketDialogProps): JSX.Element {
-  const { onClose, open } = props;
+function MarketDialog({ onClose, open }: MarketDialogProps): JSX.Element {
   const dispatch = useAppDispatch();
 
   const handleClose = (num: number) => {
@@ -96,6 +98,7 @@ export default function Markets(): JSX.Element {
       <FormControl className={classes.formControl}>
         <Button
           variant="outlined"
+          className={classes.button}
           onClick={handleClickOpen}
           startIcon={<img src={icon} width={"20px"} />}>
           Select Market
