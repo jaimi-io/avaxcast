@@ -17,6 +17,7 @@ import { lightOff, lightOn } from "actions";
 import { useAppDispatch, useAppSelector } from "hooks";
 import Wallet from "./Wallet";
 import AvaxcastLogo from "images/avaxcast_logo.svg";
+import BlackAvaxcastLogo from "images/avaxcast_black.svg";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -35,7 +36,10 @@ export default function Navbar(): JSX.Element {
     <List component="nav">
       <ListItem component="div">
         <ListItemAvatar>
-          <img src={AvaxcastLogo} width={"200px"} />
+          <img
+            src={isDark ? AvaxcastLogo : BlackAvaxcastLogo}
+            width={"200px"}
+          />
         </ListItemAvatar>
 
         <ListItemText inset>
