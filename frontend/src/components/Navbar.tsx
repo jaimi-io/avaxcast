@@ -18,14 +18,25 @@ import { useAppDispatch, useAppSelector } from "hooks";
 import Wallet from "./Wallet";
 import AvaxcastLogo from "images/avaxcast_logo.svg";
 import BlackAvaxcastLogo from "images/avaxcast_black.svg";
+import SvgLogo from "./SvgLogo";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    button: {
-      margin: theme.spacing(1),
+const useStyles = makeStyles((theme: Theme) => {
+  const SPACING = theme.spacing(1);
+  return createStyles({
+    svg: {
+      width: 200,
+      margin: SPACING,
     },
-  })
-);
+    icon: {
+      margin: SPACING,
+    },
+    button: {
+      margin: SPACING,
+      minWidth: 110,
+      // minHeight: 50,
+    },
+  });
+});
 
 export default function Navbar(): JSX.Element {
   const classes = useStyles();
@@ -36,9 +47,14 @@ export default function Navbar(): JSX.Element {
     <List component="nav">
       <ListItem component="div">
         <ListItemAvatar>
-          <img
+          {/* <img
             src={isDark ? AvaxcastLogo : BlackAvaxcastLogo}
             width={"200px"}
+          /> */}
+          <SvgLogo
+            lightIcon={BlackAvaxcastLogo}
+            darkIcon={AvaxcastLogo}
+            className={classes.svg}
           />
         </ListItemAvatar>
 
@@ -86,7 +102,7 @@ export default function Navbar(): JSX.Element {
           <IconButton
             aria-label="dark"
             color="default"
-            className={classes.button}
+            className={classes.icon}
             onClick={() => dispatch(lightOn())}>
             <Brightness6Icon />
           </IconButton>
@@ -94,7 +110,7 @@ export default function Navbar(): JSX.Element {
           <IconButton
             aria-label="dark"
             color="inherit"
-            className={classes.button}
+            className={classes.icon}
             onClick={() => dispatch(lightOff())}>
             <Brightness2Icon />
           </IconButton>
