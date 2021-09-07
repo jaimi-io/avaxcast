@@ -30,6 +30,7 @@ import { fromWei, toBN } from "web3-utils";
 import BN from "bn.js";
 import { UNDEFINED_NUM_SHARES, UNDEFINED_PRICE } from "common/constants";
 import SuccessSnackbar from "./SuccessSnackbar";
+import Loading from "./Loading";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -61,6 +62,7 @@ function Market({ address }: PropsT): JSX.Element {
   const classes = useStyles();
   const web3 = useWeb3React();
   const { active } = web3;
+  const [loading, setLoading] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [success, setSuccess] = useState(false);
   const [isYesVote, setIsYesVote] = useState(true);
@@ -271,6 +273,7 @@ function Market({ address }: PropsT): JSX.Element {
                 className={classes.button}
                 disabled={!canBuy}
                 onClick={async () => {
+                  setLoading(true);
                   await buy(
                     contract.address,
                     web3,
@@ -283,11 +286,13 @@ function Market({ address }: PropsT): JSX.Element {
                     .catch(() => {
                       setSuccess(false);
                     });
+                  setLoading(false);
                   setOpenSnackbar(true);
                 }}
                 startIcon={<ShoppingCartIcon />}>
                 Buy
               </Button>
+
               <SuccessSnackbar
                 successMsg={"Successfully bought!"}
                 failMsg={"Transaction failed."}
@@ -295,6 +300,8 @@ function Market({ address }: PropsT): JSX.Element {
                 open={openSnackbar}
                 handleClose={handleClose}
               />
+
+              <Loading isLoading={loading} />
             </Grid>
           </Grid>
         </CardContent>
