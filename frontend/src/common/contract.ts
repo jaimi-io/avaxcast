@@ -201,7 +201,7 @@ async function retrieveHoldingInfo(
     yesVotes: voteInfo.yesVotes,
     noVotes: voteInfo.noVotes,
     totalMoney: totalMoney,
-    deadline: contractInfo.date,
+    deadline: contractInfo.date.toDateString(),
     history: history,
   };
   return holdingInfo;
