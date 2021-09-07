@@ -47,9 +47,38 @@ contract PredictionMarket {
   );
 
   /**
-   * @notice Mapping for the number of shares on both the Yes and No side
+   * @notice Struct containing all important market info for FE retrieval
    */
-  mapping(Vote => uint256) public numberShares;
+  struct MarketInfo {
+    /**
+     * @notice Number of `Yes` shares currently bought
+     */
+    uint256 numberYesShares;
+    /**
+     * @notice Number of `No` shares currently bought
+     */
+    uint256 numberNoShares;
+    /**
+     * @notice Current currency prediction market
+     */
+    Market market;
+    /**
+     * @notice Predicted price goal for the currency pair
+     */
+    int256 predictedPrice;
+    /**
+     * @notice End time for the prediction market to be resolved at
+     */
+    uint256 endTime;
+    /**
+     * @notice Current price for a yes share
+     */
+    uint256 yesPrice;
+    /**
+     * @notice Bool for whether the prediction market has been resolved or not
+     */
+    bool isResolved;
+  }
 
   /**
    * @notice Mapping for the number of shares an address has for both the Yes and No side
@@ -57,35 +86,9 @@ contract PredictionMarket {
   mapping(address => mapping(Vote => uint256)) public sharesPerPerson;
 
   /**
-   * @notice Current currency prediction market
-   */
-  Market public market;
-
-  /**
-   * @notice Predicted price goal for the currency pair
-   */
-  int256 public predictedPrice;
-
-  /**
-   * @notice End time for the prediction market to be resolved at
-   */
-  uint256 public endTime;
-
-  /**
-   * @notice Current price for a yes share
-   */
-  uint256 public yesPrice;
-
-  /**
-   * @notice Bool for whether the prediction market has been resolved or not
-   */
-  bool public isResolved = false;
-
-  /**
-   * @notice Which vote (yes/no) has won/lost the prediction market (once resolved)
+   * @notice Which vote (yes/no) has won/ the prediction market (once resolved)
    */
   Vote public winner;
-  Vote public loser;
 
   /**
    * @notice The winnings per share in AVAX, calculated once market is resolved
@@ -98,6 +101,11 @@ contract PredictionMarket {
   AggregatorV3Interface private priceFeed;
 
   /**
+   * @dev Struct to contain important market information
+   */
+  MarketInfo public marketInfo;
+
+  /**
    * @notice Construct a new prediction market
    * @param _market The currency pair for this prediction market i.e. AVAX/USD
    * @param _predictedPrice Predicted price goal for the currency pair
@@ -108,11 +116,11 @@ contract PredictionMarket {
     int256 _predictedPrice,
     uint256 _endTime
   ) {
-    market = _market;
-    predictedPrice = _predictedPrice;
-    endTime = _endTime;
+    marketInfo.market = _market;
+    marketInfo.predictedPrice = _predictedPrice;
+    marketInfo.endTime = _endTime;
     _setPriceFeed(_market);
-    yesPrice = 0.01 ether;
+    marketInfo.yesPrice = 0.01 ether;
   }
 
   /**
@@ -133,9 +141,9 @@ contract PredictionMarket {
    * @dev Update yesPrice after shares have been bought
    */
   function updatePrice() private {
-    uint256 totalVotes = numberShares[Vote.No] + numberShares[Vote.Yes];
-    uint256 yesPercent = (numberShares[Vote.Yes] * 100) / totalVotes;
-    yesPrice = (yesPercent * 0.02 ether) / 100;
+    uint256 totalVotes = marketInfo.numberNoShares + marketInfo.numberYesShares;
+    uint256 yesPercent = (marketInfo.numberYesShares * 100) / totalVotes;
+    marketInfo.yesPrice = (yesPercent * 0.02 ether) / 100;
   }
 
   /**
@@ -145,14 +153,18 @@ contract PredictionMarket {
    */
   function buyShares(Vote _vote) external payable {
     require(
-      !isResolved && block.timestamp <= endTime,
+      !marketInfo.isResolved && block.timestamp <= marketInfo.endTime,
       "Cannot buy shares after market endTime"
     );
     uint256 pricePerShare = _vote == Vote.Yes
-      ? yesPrice
-      : 0.02 ether - yesPrice;
+      ? marketInfo.yesPrice
+      : 0.02 ether - marketInfo.yesPrice;
     uint256 numShares = msg.value / pricePerShare;
-    numberShares[_vote] += numShares;
+    if (_vote == Vote.Yes) {
+      marketInfo.numberYesShares += numShares;
+    } else {
+      marketInfo.numberNoShares += numShares;
+    }
     sharesPerPerson[msg.sender][_vote] += numShares;
     emit Buy(msg.sender, numShares, _vote, msg.value);
     updatePrice();
@@ -163,32 +175,36 @@ contract PredictionMarket {
    to resolve the market & declare the winning vote
    */
   function resolveMarket() external {
-    require(!isResolved, "Market has already been resolved");
-    require(block.timestamp > endTime, "Cannot resolve market before endTime");
+    require(!marketInfo.isResolved, "Market has already been resolved");
+    require(
+      block.timestamp > marketInfo.endTime,
+      "Cannot resolve market before endTime"
+    );
     uint80 roundID;
     int256 price;
     uint256 timeStamp;
     (roundID, price, , timeStamp, ) = priceFeed.latestRoundData();
-    while (timeStamp > endTime) {
+    while (timeStamp > marketInfo.endTime) {
       roundID--;
       (roundID, price, , timeStamp, ) = priceFeed.getRoundData(roundID);
     }
-    if (price >= predictedPrice) {
+    uint256 numWinningShares;
+    if (price >= marketInfo.predictedPrice) {
       winner = Vote.Yes;
-      loser = Vote.No;
+      numWinningShares = marketInfo.numberYesShares;
     } else {
       winner = Vote.No;
-      loser = Vote.Yes;
+      numWinningShares = marketInfo.numberNoShares;
     }
-    isResolved = true;
-    winningPerShare = address(this).balance / numberShares[winner];
+    marketInfo.isResolved = true;
+    winningPerShare = address(this).balance / numWinningShares;
   }
 
   /**
    * @notice Withdraw winning shares, only active once market is resolved
    */
   function withdrawWinnings() external {
-    require(isResolved, "Market has not been resolved yet");
+    require(marketInfo.isResolved, "Market has not been resolved yet");
     uint256 winningShares = sharesPerPerson[msg.sender][winner];
     require(winningShares > 0, "You have no winning shares");
     sharesPerPerson[msg.sender][winner] = 0;
