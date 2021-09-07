@@ -28,7 +28,9 @@ describe("PredictionMarket", function () {
 
   describe("Constructor", function () {
     it("Should set market correctly", async function () {
-      expect(await this.predictionMarket.market()).to.equal(Market.AVAX);
+      expect((await this.predictionMarket.marketInfo()).market).to.equal(
+        Market.AVAX
+      );
     });
   });
 
@@ -37,7 +39,9 @@ describe("PredictionMarket", function () {
       await this.predictionMarket.buyShares(Vote.Yes, {
         value: ethers.utils.parseEther("0.05"),
       });
-      expect(await this.predictionMarket.numberShares(Vote.Yes)).to.equal(5);
+      expect(
+        (await this.predictionMarket.marketInfo()).numberYesShares
+      ).to.equal(5);
     });
 
     it("Should set total number of no votes correctly", async function () {
@@ -45,7 +49,9 @@ describe("PredictionMarket", function () {
         value: ethers.utils.parseEther("0.13"),
       });
 
-      expect(await this.predictionMarket.numberShares(Vote.No)).to.equal(13);
+      expect(
+        (await this.predictionMarket.marketInfo()).numberNoShares
+      ).to.equal(13);
     });
 
     it("Should set number of votes individually correctly", async function () {
