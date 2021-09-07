@@ -80,7 +80,7 @@ function Market({ address }: PropsT): JSX.Element {
   }, [numShares, isYesVote]);
 
   useEffect(() => {
-    getContractInfo(address, web3, setContract);
+    getContractInfo(address, setContract);
   }, [active]);
 
   return (
