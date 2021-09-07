@@ -47,10 +47,6 @@ export default function Navbar(): JSX.Element {
     <List component="nav">
       <ListItem component="div">
         <ListItemAvatar>
-          {/* <img
-            src={isDark ? AvaxcastLogo : BlackAvaxcastLogo}
-            width={"200px"}
-          /> */}
           <SvgLogo
             lightIcon={BlackAvaxcastLogo}
             darkIcon={AvaxcastLogo}
