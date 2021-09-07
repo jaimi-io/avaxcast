@@ -32,19 +32,19 @@ function invalidDate(date: string): boolean {
   return now >= selectedDate;
 }
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
+const useStyles = makeStyles((theme: Theme) => {
+  const spacing = theme.spacing(1);
+  return createStyles({
     root: {
       display: "flex",
-      flexWrap: "wrap",
     },
     textField: {
-      marginLeft: theme.spacing(1),
-      marginRight: theme.spacing(1),
+      marginLeft: spacing,
+      marginRight: spacing,
       width: "25ch",
     },
     formControl: {
-      margin: theme.spacing(1),
+      marginRight: spacing,
       minWidth: 120,
     },
     container: {
@@ -52,10 +52,11 @@ const useStyles = makeStyles((theme: Theme) =>
       flexWrap: "wrap",
     },
     button: {
-      margin: theme.spacing(1),
+      minWidth: 120,
+      maxHeight: 50,
     },
-  })
-);
+  });
+});
 
 interface NumberFormatCustomProps {
   inputRef: (instance: NumberFormat | null) => void;
