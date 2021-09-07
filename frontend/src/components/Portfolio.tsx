@@ -18,6 +18,8 @@ import { marketNames } from "common/markets";
 import { getContractAddresses } from "common/skyDb";
 import { useWeb3React } from "@web3-react/core";
 import { fromWei } from "web3-utils";
+import { Button } from "@material-ui/core";
+import { LinkContainer } from "react-router-bootstrap";
 
 const useRowStyles = makeStyles({
   root: {
@@ -49,9 +51,16 @@ function Row(props: { row: MarketRecord }) {
         <TableCell align="right">{row.noVotes}</TableCell>
         <TableCell align="right">{fromWei(row.totalMoney)}</TableCell>
         <TableCell align="right">{row.deadline}</TableCell>
+        <TableCell align="right">
+          <LinkContainer to={`/market/${row.address}`}>
+            <Button variant="contained" color="default">
+              VISIT
+            </Button>
+          </LinkContainer>
+        </TableCell>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
               <Typography variant="h6" gutterBottom component="div">
@@ -122,6 +131,7 @@ function Portfolio(): JSX.Element {
             <TableCell align="right">No Votes</TableCell>
             <TableCell align="right">Total (AVAX)</TableCell>
             <TableCell align="right">Deadline</TableCell>
+            <TableCell align="right">Market Page</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
