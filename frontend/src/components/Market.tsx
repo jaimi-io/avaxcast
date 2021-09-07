@@ -105,7 +105,11 @@ function Market({ address }: PropsT): JSX.Element {
   };
 
   useEffect(() => {
-    getContractInfo(address, setContract);
+    const fetchContractInfo = async () => {
+      const contract = await getContractInfo(address);
+      setContract(contract);
+    };
+    fetchContractInfo();
     fetchCurrentVotes();
   }, []);
 
