@@ -29,6 +29,7 @@ import { Vote } from "common/enums";
 import { fromWei, toBN } from "web3-utils";
 import BN from "bn.js";
 import { UNDEFINED_NUM_SHARES, UNDEFINED_PRICE } from "common/constants";
+import SuccessSnackbar from "./SuccessSnackbar";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -60,6 +61,8 @@ function Market({ address }: PropsT): JSX.Element {
   const classes = useStyles();
   const web3 = useWeb3React();
   const { active } = web3;
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [success, setSuccess] = useState(false);
   const [isYesVote, setIsYesVote] = useState(true);
   const [contract, setContract] = useState<ContractI>({
     market: 0,
@@ -77,6 +80,13 @@ function Market({ address }: PropsT): JSX.Element {
     yesVotes: 0,
     noVotes: 0,
   });
+
+  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenSnackbar(false);
+  };
 
   const priceOfShares = (): BN => {
     const pricePerShare = isYesVote ? contract.yesPrice : contract.noPrice;
@@ -259,17 +269,31 @@ function Market({ address }: PropsT): JSX.Element {
                 color="primary"
                 className={classes.button}
                 disabled={!canBuy}
-                onClick={() =>
-                  buy(
+                onClick={async () => {
+                  await buy(
                     contract.address,
                     web3,
                     isYesVote ? Vote.Yes : Vote.No,
                     priceOfShares()
                   )
-                }
+                    .then(() => {
+                      setSuccess(true);
+                    })
+                    .catch(() => {
+                      setSuccess(false);
+                    });
+                  setOpenSnackbar(true);
+                }}
                 startIcon={<ShoppingCartIcon />}>
                 Buy
               </Button>
+              <SuccessSnackbar
+                successMsg={"Successfully bought!"}
+                failMsg={"Transaction failed."}
+                success={success}
+                open={openSnackbar}
+                handleClose={handleClose}
+              />
             </Grid>
           </Grid>
         </CardContent>
