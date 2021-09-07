@@ -9,7 +9,7 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import { filterMarketActions } from "actions";
 import { ContractI, getAllContractInfo } from "common/contract";
-import { getDate } from "common/date";
+import { getDate, monthAfter } from "common/date";
 import { marketIcons, marketNames } from "common/markets";
 import { getContractAddresses } from "common/skyDb";
 import Posts from "components/Posts";
@@ -75,9 +75,9 @@ function MarketPlace(): JSX.Element {
   const marketFilter = useAppSelector((state) => state.marketFilter);
   const icon = marketIcons[marketFilter];
   const DEFAULT_DATE = getDate();
-  // const DEFAULT_END_DATE = monthAfter(DEFAULT_DATE);
+  const DEFAULT_END_DATE = monthAfter(DEFAULT_DATE);
   const [startDate, setStartDate] = useState(DEFAULT_DATE);
-  const [endDate, setEndDate] = useState(DEFAULT_DATE);
+  const [endDate, setEndDate] = useState(DEFAULT_END_DATE);
   const [openDialog, setOpenDialog] = useState(false);
   const [contracts, setContracts] = useState<ContractI[]>([]);
 
@@ -130,7 +130,7 @@ function MarketPlace(): JSX.Element {
           variant="outlined"
           type="date"
           onChange={(e) => setEndDate(e.target.value)}
-          defaultValue={DEFAULT_DATE}
+          defaultValue={DEFAULT_END_DATE}
           className={classes.textField}
           InputLabelProps={{
             shrink: true,
