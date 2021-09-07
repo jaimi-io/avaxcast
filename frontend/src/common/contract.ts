@@ -12,6 +12,7 @@ import { Vote } from "./enums";
 import { Web3ReactContextInterface } from "@web3-react/core/dist/types";
 import BN from "bn.js";
 import Web3 from "web3";
+import { voteString } from "./markets";
 
 export interface ContractI {
   market: Market;
@@ -140,4 +141,96 @@ export async function getCurrentVotes(
     yesVotes: yesVotes,
     noVotes: noVotes,
   };
+}
+
+interface TransactionRecord {
+  date: string;
+  transactionHash: string;
+  vote: string;
+  price: BN;
+}
+
+export interface MarketRecord {
+  address: string;
+  market: Market;
+  yesVotes: number;
+  noVotes: number;
+  totalMoney: BN;
+  deadline: string;
+  history: TransactionRecord[];
+}
+
+interface BuyReturnValues {
+  _numberShares: string;
+  _vote: string;
+  _totalPrice: string;
+}
+
+interface ContractEvent {
+  transactionHash: string;
+  address: string;
+  returnValues: BuyReturnValues;
+  blockNumber: number;
+}
+
+function convertToTransRecord(event: ContractEvent) {
+  return {
+    date: `${event.blockNumber}`,
+    transactionHash: event.transactionHash,
+    vote: voteString[parseInt(event.returnValues._vote)],
+    price: toBN(event.returnValues._totalPrice),
+  };
+}
+
+async function retrieveHoldingInfo(
+  filteredEvents: ContractEvent[],
+  web3: Web3ReactContextInterface
+): Promise<MarketRecord> {
+  const contractAddress = filteredEvents[0].address;
+  const contractInfo = await getContractInfo(contractAddress);
+  const voteInfo = await getCurrentVotes(contractAddress, web3);
+  let totalMoney = toBN(0);
+  const history = filteredEvents.map((event) => {
+    const record = convertToTransRecord(event);
+    totalMoney = totalMoney.add(record.price);
+    return record;
+  });
+  const holdingInfo = {
+    address: contractAddress,
+    market: contractInfo.market,
+    yesVotes: voteInfo.yesVotes,
+    noVotes: voteInfo.noVotes,
+    totalMoney: totalMoney,
+    deadline: contractInfo.date,
+    history: history,
+  };
+  console.log(holdingInfo);
+  return holdingInfo;
+}
+
+export async function getHoldings(
+  contractAddresses: string[],
+  web3: Web3ReactContextInterface
+): Promise<MarketRecord[]> {
+  const { library, account } = web3;
+  const contractEvents = await Promise.all(
+    contractAddresses.map(async (addr) => {
+      const contract = new library.eth.Contract(
+        Prediction.abi as AbiItem[],
+        addr
+      );
+      const events: ContractEvent[] = await contract.getPastEvents("Buy", {
+        filter: { address: account },
+        fromBlock: 0,
+        toBlock: "latest",
+      });
+      return events;
+    })
+  );
+  const filteredEvents = contractEvents.filter((events) => events.length !== 0);
+  console.log(filteredEvents);
+  const holdingInfos = await Promise.all(
+    filteredEvents.map((events) => retrieveHoldingInfo(events, web3))
+  );
+  return holdingInfos;
 }
