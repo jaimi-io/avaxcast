@@ -15,9 +15,8 @@ import Prediction from "contracts/PredictionMarket.json";
 import { useEffect, useState } from "react";
 import NumberFormat from "react-number-format";
 import { AbiItem } from "web3-utils";
+import Loading from "./Loading";
 import SuccessSnackbar from "./SuccessSnackbar";
-import Backdrop from "@material-ui/core/Backdrop";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 function invalidMarket(market: number): boolean {
   return market === Market.ALL;
@@ -52,10 +51,6 @@ const useStyles = makeStyles((theme: Theme) => {
     button: {
       minWidth: 120,
       maxHeight: 50,
-    },
-    backdrop: {
-      zIndex: theme.zIndex.drawer + 1,
-      color: "#fff",
     },
   });
 });
@@ -210,9 +205,8 @@ function AddMarket(): JSX.Element {
         open={openSnackbar}
         handleClose={handleClose}
       />
-      <Backdrop className={classes.backdrop} open={loading}>
-        <CircularProgress color="inherit" />
-      </Backdrop>
+
+      <Loading isLoading={loading} />
     </div>
   );
 }
