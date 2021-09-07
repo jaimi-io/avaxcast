@@ -122,10 +122,10 @@ function AddMarket(): JSX.Element {
     );
   }, [market, predictedPrice, deadline, active]);
 
-  const handleAddMarket = () => {
+  const handleAddMarket = async () => {
     const contract = new library.eth.Contract(Prediction.abi as AbiItem[]);
     const unixDeadline = Math.floor(new Date(deadline).getTime() / MS_TO_SECS);
-    contract
+    await contract
       .deploy({
         data: Prediction.bytecode,
         arguments: [market, predictedPrice * FLOAT_TO_SOL_NUM, unixDeadline],
@@ -135,12 +135,11 @@ function AddMarket(): JSX.Element {
       .then(async (newContractInstance: any) => {
         await insertContractAddress(newContractInstance.options.address);
         setSuccess(true);
-        setOpenSnackbar(true);
       })
       .catch(() => {
         setSuccess(false);
-        setOpenSnackbar(true);
       });
+    setOpenSnackbar(true);
   };
 
   return (
