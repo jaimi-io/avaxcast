@@ -16,7 +16,13 @@ import Typography from "@material-ui/core/Typography";
 import { useWeb3React } from "@web3-react/core";
 import { green, red } from "@material-ui/core/colors";
 import { useState, useEffect } from "react";
-import { buy, ContractI, getContractInfo } from "common/contract";
+import {
+  buy,
+  ContractI,
+  getContractInfo,
+  getCurrentVotes,
+  VotesPerPerson,
+} from "common/contract";
 import { marketNames } from "common/markets";
 import Input from "@material-ui/core/Input";
 import { Vote } from "common/enums";
@@ -67,11 +73,32 @@ function Market({ address }: PropsT): JSX.Element {
   const [numShares, setNumShares] = useState(UNDEFINED_NUM_SHARES);
   const [canBuy, setCanBuy] = useState(false);
   const [totalPrice, setTotalPrice] = useState(toBN(UNDEFINED_PRICE));
+  const [currentVotes, setCurrentVotes] = useState<VotesPerPerson>({
+    yesVotes: 0,
+    noVotes: 0,
+  });
 
   const priceOfShares = (): BN => {
     const pricePerShare = isYesVote ? contract.yesPrice : contract.noPrice;
     return pricePerShare.mul(toBN(numShares));
   };
+
+  const fetchCurrentVotes = async () => {
+    if (!active) {
+      return;
+    }
+    const votes = await getCurrentVotes(address, web3);
+    setCurrentVotes(votes);
+  };
+
+  useEffect(() => {
+    getContractInfo(address, setContract);
+    fetchCurrentVotes();
+  }, []);
+
+  useEffect(() => {
+    fetchCurrentVotes();
+  }, [active]);
 
   useEffect(() => {
     setCanBuy(active && numShares > UNDEFINED_NUM_SHARES);
@@ -80,10 +107,6 @@ function Market({ address }: PropsT): JSX.Element {
   useEffect(() => {
     setTotalPrice(priceOfShares());
   }, [numShares, isYesVote]);
-
-  useEffect(() => {
-    getContractInfo(address, setContract);
-  }, [active]);
 
   return (
     <>
@@ -141,15 +164,27 @@ function Market({ address }: PropsT): JSX.Element {
       <Card>
         <CardContent>
           <Grid container justifyContent="center">
-            <Grid item xs={12}>
-              <Typography component="p">{"Pick outcome:"}</Typography>
-            </Grid>
             <Grid item xs={6}>
               <ThemeProvider theme={yesTheme}>
-                <Typography component="p">{`${fromWei(
-                  contract.yesPrice,
-                  "ether"
-                )} AVAX`}</Typography>
+                <Grid container>
+                  <Grid item xs={3}>
+                    <Typography variant="body2" component="p">
+                      {"Price"}
+                    </Typography>
+                    <Typography component="p">{`${fromWei(
+                      contract.yesPrice,
+                      "ether"
+                    )} AVAX`}</Typography>
+                  </Grid>
+                  <Grid item xs={3}>
+                    <Typography variant="body2" component="p">
+                      {"Your Votes"}
+                    </Typography>
+                    <Typography component="p">
+                      {currentVotes.yesVotes}
+                    </Typography>
+                  </Grid>
+                </Grid>
                 <Button
                   variant="contained"
                   color={isYesVote ? "primary" : "inherit"}
@@ -163,10 +198,25 @@ function Market({ address }: PropsT): JSX.Element {
             </Grid>
             <Grid item xs={6}>
               <ThemeProvider theme={noTheme}>
-                <Typography component="p">{`${fromWei(
-                  contract.noPrice,
-                  "ether"
-                )} AVAX`}</Typography>
+                <Grid container>
+                  <Grid item xs={3}>
+                    <Typography variant="body2" component="p">
+                      {"Price"}
+                    </Typography>
+                    <Typography component="p">{`${fromWei(
+                      contract.noPrice,
+                      "ether"
+                    )} AVAX`}</Typography>
+                  </Grid>
+                  <Grid item xs={3}>
+                    <Typography variant="body2" component="p">
+                      {"Your Votes"}
+                    </Typography>
+                    <Typography component="p">
+                      {currentVotes.noVotes}
+                    </Typography>
+                  </Grid>
+                </Grid>
                 <Button
                   variant="contained"
                   color={isYesVote ? "inherit" : "primary"}
