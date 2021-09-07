@@ -18,6 +18,9 @@ import { useEffect, useState } from "react";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    filters: {
+      display: "flex",
+    },
     formControl: {
       margin: theme.spacing(1),
       minWidth: 120,
@@ -99,44 +102,47 @@ function MarketPlace(): JSX.Element {
 
   return (
     <div>
-      <FormControl className={classes.formControl}>
-        <Button
-          variant="outlined"
-          className={classes.button}
-          onClick={handleClickOpen}
-          startIcon={<img src={icon} width={"20px"} />}>
-          Select Market
-        </Button>
-        <MarketDialog open={openDialog} onClose={handleClose} />
-      </FormControl>
-      <form className={classes.form} noValidate>
-        <TextField
-          id="date"
-          label="Start Deadline"
-          variant="outlined"
-          type="date"
-          onChange={(e) => setStartDate(e.target.value)}
-          defaultValue={DEFAULT_DATE}
-          className={classes.textField}
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
-      </form>
-      <form className={classes.form} noValidate>
-        <TextField
-          id="date"
-          label="End Deadline"
-          variant="outlined"
-          type="date"
-          onChange={(e) => setEndDate(e.target.value)}
-          defaultValue={DEFAULT_END_DATE}
-          className={classes.textField}
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
-      </form>
+      <div className={classes.filters}>
+        <FormControl className={classes.formControl}>
+          <Button
+            variant="outlined"
+            className={classes.button}
+            onClick={handleClickOpen}
+            startIcon={<img src={icon} width={"20px"} />}>
+            Select Market
+          </Button>
+          <MarketDialog open={openDialog} onClose={handleClose} />
+        </FormControl>
+
+        <form className={classes.form} noValidate>
+          <TextField
+            id="date"
+            label="Start Deadline"
+            variant="outlined"
+            type="date"
+            onChange={(e) => setStartDate(e.target.value)}
+            defaultValue={DEFAULT_DATE}
+            className={classes.textField}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </form>
+        <form className={classes.form} noValidate>
+          <TextField
+            id="date"
+            label="End Deadline"
+            variant="outlined"
+            type="date"
+            onChange={(e) => setEndDate(e.target.value)}
+            defaultValue={DEFAULT_END_DATE}
+            className={classes.textField}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </form>
+      </div>
       <Posts contracts={contracts} deadlineFilter={[startDate, endDate]} />
     </div>
   );
