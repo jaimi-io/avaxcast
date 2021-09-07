@@ -85,14 +85,11 @@ export async function getContractInfo(
 }
 
 export async function getAllContractInfo(
-  contractAddresses: string[],
-  web3: Web3ReactContextInterface,
-  setStateContract: Dispatch<SetStateAction<ContractI[]>>
+  contractAddresses: string[]
 ): Promise<ContractI[]> {
   const allContractInfo = await Promise.all(
     contractAddresses.map((addr) => getContractInfo(addr))
   );
-  setStateContract(allContractInfo);
   return allContractInfo;
 }
 
