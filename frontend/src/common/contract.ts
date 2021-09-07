@@ -7,11 +7,11 @@ import {
   FLOAT_TO_SOL_NUM,
   MAX_AVAX_SHARE_PRICE,
   MS_TO_SECS,
-  UNDEFINED_PRICE,
 } from "./constants";
 import { Vote } from "./enums";
 import { Web3ReactContextInterface } from "@web3-react/core/dist/types";
 import BN from "bn.js";
+import Web3 from "web3";
 
 export interface ContractI {
   market: Market;
@@ -28,51 +28,40 @@ export async function getContractInfo(
   web3: Web3ReactContextInterface,
   setStateContract?: Dispatch<SetStateAction<ContractI>>
 ): Promise<ContractI> {
-  const { library, account, active } = web3;
-  if (!active) {
-    return {
-      market: Market.AVAX,
-      predictedPrice: "string",
-      date: "string",
-      volume: 0,
-      yesPrice: toBN(UNDEFINED_PRICE),
-      noPrice: toBN(UNDEFINED_PRICE),
-      address: contractAddress,
-    };
-  }
+  const library = new Web3(
+    new Web3.providers.HttpProvider(
+      "https://api.avax-test.network/ext/bc/C/rpc"
+    )
+  );
+
   const contract = new library.eth.Contract(
     Prediction.abi as AbiItem[],
     contractAddress
   );
-  const unixTimestamp = await contract.methods
-    .endTime()
-    .call({ from: account });
+  const unixTimestamp = await contract.methods.endTime().call();
   const endDate = new Date(unixTimestamp * MS_TO_SECS);
-  const yesPrice = toBN(
-    await contract.methods.yesPrice().call({ from: account })
-  );
+  const yesPrice = toBN(await contract.methods.yesPrice().call());
   const noPrice = MAX_AVAX_SHARE_PRICE.sub(yesPrice);
   const numYesShares = parseInt(
-    await contract.methods.numberShares(Vote.Yes).call({ from: account })
+    await contract.methods.numberShares(Vote.Yes).call()
   );
   const numNoShares = parseInt(
-    await contract.methods.numberShares(Vote.No).call({ from: account })
+    await contract.methods.numberShares(Vote.No).call()
   );
-  const isResolved = await contract.methods
-    .isResolved()
-    .call({ from: account });
-  if (endDate.getDate() > Date.now() && !isResolved) {
-    contract.methods.resolveMarket().send({
-      from: account,
-    });
-  }
+  // const isResolved = await contract.methods
+  //   .isResolved()
+  //   .call();
+
+  // if (endDate.getDate() > Date.now() && !isResolved) {
+  //   contract.methods.resolveMarket().send({
+  //     from: account,
+  //   });
+  // }
+
   const contractInfo = {
-    market: parseInt(
-      await contract.methods.market().call({ from: account })
-    ) as Market,
+    market: parseInt(await contract.methods.market().call()) as Market,
     predictedPrice: `$${(
-      (await contract.methods.predictedPrice().call({ from: account })) /
-      FLOAT_TO_SOL_NUM
+      (await contract.methods.predictedPrice().call()) / FLOAT_TO_SOL_NUM
     ).toFixed(DECIMAL_PLACES)}`,
     date: endDate.toDateString(),
     volume: numYesShares + numNoShares,
