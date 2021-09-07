@@ -27,6 +27,26 @@ contract PredictionMarket {
   }
 
   /**
+   * @notice Event for buying shares in a prediction
+   */
+  event Buy(
+    address indexed _from,
+    uint256 _numberShares,
+    Vote _vote,
+    uint256 _totalPrice
+  );
+
+  /**
+   * @notice Event for withdrawing shares in a winning prediction
+   */
+  event Withdraw(
+    address indexed _to,
+    uint256 _numberShares,
+    Vote _vote,
+    uint256 _totalPrice
+  );
+
+  /**
    * @notice Mapping for the number of shares on both the Yes and No side
    */
   mapping(Vote => uint256) public numberShares;
@@ -134,6 +154,7 @@ contract PredictionMarket {
     uint256 numShares = msg.value / pricePerShare;
     numberShares[_vote] += numShares;
     sharesPerPerson[msg.sender][_vote] += numShares;
+    emit Buy(msg.sender, numShares, _vote, msg.value);
     updatePrice();
   }
 
@@ -171,6 +192,8 @@ contract PredictionMarket {
     uint256 winningShares = sharesPerPerson[msg.sender][winner];
     require(winningShares > 0, "You have no winning shares");
     sharesPerPerson[msg.sender][winner] = 0;
-    payable(msg.sender).transfer(winningShares * winningPerShare);
+    uint256 winningAmount = winningShares * winningPerShare;
+    payable(msg.sender).transfer(winningAmount);
+    emit Withdraw(msg.sender, winningShares, winner, winningAmount);
   }
 }
