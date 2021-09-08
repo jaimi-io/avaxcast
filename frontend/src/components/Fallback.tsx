@@ -1,8 +1,8 @@
 import { Snackbar } from "@material-ui/core";
-import { Alert } from "./SuccessSnackbar";
+import { Alert } from "common/Snackbar";
+import { SyntheticEvent } from "react";
 import Loading from "./Loading";
 import NotFound from "./NotFound";
-import { SyntheticEvent } from "react";
 
 interface PropsT {
   warning?: string;

@@ -1,9 +1,9 @@
 import Button from "@material-ui/core/Button";
-import CheckIcon from "@material-ui/icons/Check";
-import CloseIcon from "@material-ui/icons/Close";
-import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
+import { green, red } from "@material-ui/core/colors";
+import Grid from "@material-ui/core/Grid";
+import Input from "@material-ui/core/Input";
 import {
   createStyles,
   createTheme,
@@ -11,11 +11,13 @@ import {
   Theme,
   ThemeProvider,
 } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
+import CheckIcon from "@material-ui/icons/Check";
+import CloseIcon from "@material-ui/icons/Close";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { useWeb3React } from "@web3-react/core";
-import { green, red } from "@material-ui/core/colors";
-import { useState, useEffect } from "react";
+import BN from "bn.js";
+import { UNDEFINED_NUM_SHARES, UNDEFINED_PRICE } from "common/constants";
 import {
   buy,
   ContractI,
@@ -23,14 +25,13 @@ import {
   getCurrentVotes,
   VotesPerPerson,
 } from "common/contract";
-import { marketNames } from "common/markets";
-import Input from "@material-ui/core/Input";
 import { Vote } from "common/enums";
+import { marketNames } from "common/markets";
+import { handleSnackbarClose } from "common/Snackbar";
+import { useEffect, useState } from "react";
 import { fromWei, toBN } from "web3-utils";
-import BN from "bn.js";
-import { UNDEFINED_NUM_SHARES, UNDEFINED_PRICE } from "common/constants";
-import SuccessSnackbar from "./SuccessSnackbar";
 import Loading from "./Loading";
+import SuccessSnackbar from "./SuccessSnackbar";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -83,13 +84,6 @@ function Market({ address }: PropsT): JSX.Element {
     yesVotes: 0,
     noVotes: 0,
   });
-
-  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpenSnackbar(false);
-  };
 
   const priceOfShares = (): BN => {
     const pricePerShare = isYesVote ? contract.yesPrice : contract.noPrice;
@@ -302,7 +296,7 @@ function Market({ address }: PropsT): JSX.Element {
                 failMsg={"Transaction failed."}
                 success={success}
                 open={openSnackbar}
-                handleClose={handleClose}
+                handleClose={handleSnackbarClose(setOpenSnackbar)}
               />
 
               <Loading isLoading={loading} />

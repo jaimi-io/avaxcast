@@ -11,6 +11,7 @@ import { getCurrentDateString } from "common/date";
 import Market from "common/enums";
 import { marketNames } from "common/markets";
 import { insertContractAddress } from "common/skyDb";
+import { handleSnackbarClose } from "common/Snackbar";
 import Prediction from "contracts/PredictionMarket.json";
 import { useEffect, useState } from "react";
 import NumberFormat from "react-number-format";
@@ -98,13 +99,6 @@ function AddMarket(): JSX.Element {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [loading, setLoading] = useState(false);
   const { active, account, library } = useWeb3React();
-
-  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpenSnackbar(false);
-  };
 
   useEffect(() => {
     setInvalid(
@@ -203,7 +197,7 @@ function AddMarket(): JSX.Element {
         failMsg={"Failed to add."}
         success={success}
         open={openSnackbar}
-        handleClose={handleClose}
+        handleClose={handleSnackbarClose(setOpenSnackbar)}
       />
 
       <Loading isLoading={loading} />
