@@ -4,9 +4,9 @@
 
 A prediction market for cryptocurrency pair prices, built on Avalanche &amp; uses Chainlink price feeds to resolve markets.
 
-Website:  [https://040bl7t9ja07qmi7an751hujghtqkhtsfr6n6j746dqljhmrocb4ds0.siasky.net/](https://040bl7t9ja07qmi7an751hujghtqkhtsfr6n6j746dqljhmrocb4ds0.siasky.net/ "Avaxcast Homepage")
+Website: [https://040bl7t9ja07qmi7an751hujghtqkhtsfr6n6j746dqljhmrocb4ds0.siasky.net/](https://040bl7t9ja07qmi7an751hujghtqkhtsfr6n6j746dqljhmrocb4ds0.siasky.net/ "Avaxcast Homepage")
 
-Demo:     [https://youtu.be/OHCry_mTMYc](https://youtu.be/OHCry_mTMYc "Demo Video")
+Demo: [https://youtu.be/OHCry_mTMYc](https://youtu.be/OHCry_mTMYc "Demo Video")
 
 ## Skynet
 
@@ -15,3 +15,7 @@ We use Skynet to deploy our frontend via their Github Action.
 To add our app to your Skynet Homescreen please press the button above.
 
 We also use SkyDB to store a JSON containing an array of all deployed Prediction Market contract addresses
+
+## Documentation
+
+Documentation can be found in the [docs folder](../tree/main/docs)
