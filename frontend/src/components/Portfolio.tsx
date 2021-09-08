@@ -17,7 +17,8 @@ import { useWeb3React } from "@web3-react/core";
 import { getHoldings, MarketRecord } from "common/contract";
 import { marketNames } from "common/markets";
 import { getContractAddresses } from "common/skyDb";
-import { Fragment, SyntheticEvent, useEffect, useState } from "react";
+import { handleSnackbarClose } from "common/Snackbar";
+import { Fragment, useEffect, useState } from "react";
 import { LinkContainer } from "react-router-bootstrap";
 import { fromWei } from "web3-utils";
 import Fallback from "./Fallback";
@@ -109,13 +110,6 @@ function Portfolio(): JSX.Element {
     setLoading(false);
   };
 
-  const handleSnackbarClose = (event?: SyntheticEvent, reason?: string) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpenSnackbar(false);
-  };
-
   const fetchRecords = async () => {
     if (!web3.active) {
       return;
@@ -141,7 +135,7 @@ function Portfolio(): JSX.Element {
       <Fallback
         warning={"CONNECT YOUR WALLET"}
         isSnackbarOpen={openSnackbar}
-        handleSnackbarClose={handleSnackbarClose}
+        handleSnackbarClose={handleSnackbarClose(setOpenSnackbar)}
         loading={loading}
         handleLoadingClose={handleLoadingClose}
       />
