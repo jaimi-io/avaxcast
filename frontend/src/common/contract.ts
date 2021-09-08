@@ -244,6 +244,9 @@ interface TransactionRecord {
   price: BN;
 }
 
+/**
+ * Information for any Market the user has invested in
+ */
 export interface MarketRecord {
   address: string;
   market: Market;
