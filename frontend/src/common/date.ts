@@ -1,5 +1,5 @@
 /**
- * Changes a Date to a string in the format yyyy/mm/dd
+ * Changes a Date to a string in the format yyyy-mm-dd
  * @param date - The date to be formatted
  * @returns The date as a formatted string
  */
@@ -15,7 +15,7 @@ function dateToString(date: Date): string {
 }
 
 /**
- * Gets the current date as a string in the format yyyy/mm/dd
+ * Gets the current date as a string in the format yyyy-mm-dd
  * @returns The current date as a formatted string
  */
 export function getCurrentDateString(): string {
@@ -25,8 +25,8 @@ export function getCurrentDateString(): string {
 const MONTH_OFFSET = 1;
 
 /**
- * Gets the date one month after the given date in the format yyyy/mm/dd
- * @param oldDate - A date in the format yyyy/mm/dd
+ * Gets the date one month after the given date in the format yyyy-mm-dd
+ * @param oldDate - A date in the format yyyy-mm-dd
  * @returns The new date
  */
 export function monthAfter(oldDate: string): string {
