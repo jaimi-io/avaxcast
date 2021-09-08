@@ -68,7 +68,7 @@ function Market({ address }: PropsT): JSX.Element {
     market: 0,
     predictedPrice: "$X",
     date: new Date(),
-    volume: 0,
+    volume: toBN(UNDEFINED_PRICE),
     yesPrice: toBN(UNDEFINED_PRICE),
     noPrice: toBN(UNDEFINED_PRICE),
     address: address,
@@ -247,7 +247,9 @@ function Market({ address }: PropsT): JSX.Element {
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>
-                  <Typography component="p">{contract.volume}</Typography>
+                  <Typography component="p">{`${fromWei(
+                    contract.volume
+                  )} AVAX`}</Typography>
                 </Grid>
               </Grid>
             </Grid>
