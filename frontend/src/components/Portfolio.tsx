@@ -31,7 +31,12 @@ const useRowStyles = makeStyles({
   },
 });
 
-function Row({ row }: { row: MarketRecord }) {
+/**
+ * Generates record UI for an invested Market
+ * @param props - row : {@link MarketRecord}
+ * @returns UI for a Market Record
+ */
+function Row({ row }: { row: MarketRecord }): JSX.Element {
   const [open, setOpen] = useState(false);
   const classes = useRowStyles();
   return (
@@ -99,6 +104,10 @@ function Row({ row }: { row: MarketRecord }) {
   );
 }
 
+/**
+ * Generates table of user's invested markets
+ * @returns The Portfolio Component
+ */
 function Portfolio(): JSX.Element {
   const [loading, setLoading] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(true);

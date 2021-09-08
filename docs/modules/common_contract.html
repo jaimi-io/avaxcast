@@ -151,6 +151,13 @@
                         >get<wbr />Holdings</a
                       >
                     </li>
+                    <li class="tsd-kind-function tsd-parent-kind-module">
+                      <a
+                        href="common_contract.html#withdraw"
+                        class="tsd-kind-icon"
+                        >withdraw</a
+                      >
+                    </li>
                   </ul>
                 </section>
               </div>
@@ -199,15 +206,15 @@
                       <li>
                         Defined in
                         <a
-                          href="https://github.com/jaimi-io/avaxcast/blob/5c7a206/frontend/src/common/contract.ts#L115"
-                          >src/common/contract.ts:115</a
+                          href="https://github.com/jaimi-io/avaxcast/blob/1384a60/frontend/src/common/contract.ts#L168"
+                          >src/common/contract.ts:168</a
                         >
                       </li>
                     </ul>
                   </aside>
                   <div class="tsd-comment tsd-typography">
                     <div class="lead">
-                      <p>Puchase shares</p>
+                      <p>Purchase shares</p>
                     </div>
                   </div>
                   <h4 class="tsd-parameters-title">Parameters</h4>
@@ -249,7 +256,7 @@
                     <li>
                       <h5>price: <span class="tsd-signature-type">BN</span></h5>
                       <div class="tsd-comment tsd-typography">
-                        <p>Predicted price</p>
+                        <p>Total price of shares to buy</p>
                       </div>
                     </li>
                   </ul>
@@ -299,8 +306,8 @@
                       <li>
                         Defined in
                         <a
-                          href="https://github.com/jaimi-io/avaxcast/blob/5c7a206/frontend/src/common/contract.ts#L99"
-                          >src/common/contract.ts:99</a
+                          href="https://github.com/jaimi-io/avaxcast/blob/1384a60/frontend/src/common/contract.ts#L152"
+                          >src/common/contract.ts:152</a
                         >
                       </li>
                     </ul>
@@ -376,8 +383,8 @@
                       <li>
                         Defined in
                         <a
-                          href="https://github.com/jaimi-io/avaxcast/blob/5c7a206/frontend/src/common/contract.ts#L50"
-                          >src/common/contract.ts:50</a
+                          href="https://github.com/jaimi-io/avaxcast/blob/1384a60/frontend/src/common/contract.ts#L97"
+                          >src/common/contract.ts:97</a
                         >
                       </li>
                     </ul>
@@ -455,8 +462,8 @@
                       <li>
                         Defined in
                         <a
-                          href="https://github.com/jaimi-io/avaxcast/blob/5c7a206/frontend/src/common/contract.ts#L146"
-                          >src/common/contract.ts:146</a
+                          href="https://github.com/jaimi-io/avaxcast/blob/1384a60/frontend/src/common/contract.ts#L218"
+                          >src/common/contract.ts:218</a
                         >
                       </li>
                     </ul>
@@ -542,8 +549,8 @@
                       <li>
                         Defined in
                         <a
-                          href="https://github.com/jaimi-io/avaxcast/blob/5c7a206/frontend/src/common/contract.ts#L257"
-                          >src/common/contract.ts:257</a
+                          href="https://github.com/jaimi-io/avaxcast/blob/1384a60/frontend/src/common/contract.ts#L338"
+                          >src/common/contract.ts:338</a
                         >
                       </li>
                     </ul>
@@ -589,6 +596,82 @@
                     ><span class="tsd-signature-symbol">&gt;</span>
                   </h4>
                   <p>Promise of all information for many markets</p>
+                </li>
+              </ul>
+            </section>
+            <section
+              class="
+                tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module
+              "
+            >
+              <a name="withdraw" class="tsd-anchor"></a>
+              <h3>withdraw</h3>
+              <ul
+                class="tsd-signatures tsd-kind-function tsd-parent-kind-module"
+              >
+                <li class="tsd-signature tsd-kind-icon">
+                  withdraw<span class="tsd-signature-symbol">(</span
+                  >contractAddress<span class="tsd-signature-symbol">: </span
+                  ><span class="tsd-signature-type">string</span>, web3<span
+                    class="tsd-signature-symbol"
+                    >: </span
+                  ><span class="tsd-signature-type"
+                    >Web3ReactContextInterface</span
+                  ><span class="tsd-signature-symbol">)</span
+                  ><span class="tsd-signature-symbol">: </span
+                  ><span class="tsd-signature-type">Promise</span
+                  ><span class="tsd-signature-symbol">&lt;</span
+                  ><span class="tsd-signature-type">void</span
+                  ><span class="tsd-signature-symbol">&gt;</span>
+                </li>
+              </ul>
+              <ul class="tsd-descriptions">
+                <li class="tsd-description">
+                  <aside class="tsd-sources">
+                    <ul>
+                      <li>
+                        Defined in
+                        <a
+                          href="https://github.com/jaimi-io/avaxcast/blob/1384a60/frontend/src/common/contract.ts#L190"
+                          >src/common/contract.ts:190</a
+                        >
+                      </li>
+                    </ul>
+                  </aside>
+                  <div class="tsd-comment tsd-typography">
+                    <div class="lead">
+                      <p>Withdraw winning shares</p>
+                    </div>
+                  </div>
+                  <h4 class="tsd-parameters-title">Parameters</h4>
+                  <ul class="tsd-parameters">
+                    <li>
+                      <h5>
+                        contractAddress:
+                        <span class="tsd-signature-type">string</span>
+                      </h5>
+                      <div class="tsd-comment tsd-typography">
+                        <p>Address of the contract</p>
+                      </div>
+                    </li>
+                    <li>
+                      <h5>
+                        web3:
+                        <span class="tsd-signature-type"
+                          >Web3ReactContextInterface</span
+                        >
+                      </h5>
+                      <div class="tsd-comment tsd-typography">
+                        <p>Web3 instance</p>
+                      </div>
+                    </li>
+                  </ul>
+                  <h4 class="tsd-returns-title">
+                    Returns <span class="tsd-signature-type">Promise</span
+                    ><span class="tsd-signature-symbol">&lt;</span
+                    ><span class="tsd-signature-type">void</span
+                    ><span class="tsd-signature-symbol">&gt;</span>
+                  </h4>
                 </li>
               </ul>
             </section>
@@ -655,6 +738,11 @@
               <li class="tsd-kind-function tsd-parent-kind-module">
                 <a href="common_contract.html#getHoldings" class="tsd-kind-icon"
                   >get<wbr />Holdings</a
+                >
+              </li>
+              <li class="tsd-kind-function tsd-parent-kind-module">
+                <a href="common_contract.html#withdraw" class="tsd-kind-icon"
+                  >withdraw</a
                 >
               </li>
             </ul>
