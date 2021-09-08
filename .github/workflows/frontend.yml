@@ -22,7 +22,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Set-up seed env vars
-        run: echo "REACT_APP_SEED=${{ secrets.SEED }}" >> frontend/.env    
+        run: echo "REACT_APP_SEED=${{ secrets.SEED }}" >> frontend/.env
       - name: Install dependencies
         run: yarn && cd frontend/ && yarn
       - name: Build
