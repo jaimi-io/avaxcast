@@ -1,4 +1,4 @@
-import { Button, Snackbar } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import Collapse from "@material-ui/core/Collapse";
 import IconButton from "@material-ui/core/IconButton";
@@ -20,9 +20,7 @@ import { getContractAddresses } from "common/skyDb";
 import { Fragment, SyntheticEvent, useEffect, useState } from "react";
 import { LinkContainer } from "react-router-bootstrap";
 import { fromWei } from "web3-utils";
-import Loading from "./Loading";
-import NotFound from "./NotFound";
-import { Alert } from "./SuccessSnackbar";
+import Fallback from "./Fallback";
 
 const useRowStyles = makeStyles({
   root: {
@@ -140,15 +138,13 @@ function Portfolio(): JSX.Element {
 
   if (records.length === 0) {
     return (
-      <>
-        <NotFound />
-        <Snackbar open={openSnackbar} onClose={handleSnackbarClose}>
-          <Alert onClose={handleSnackbarClose} severity="warning">
-            CONNECT YOUR WALLET!
-          </Alert>
-        </Snackbar>
-        <Loading isLoading={loading} handleClose={handleLoadingClose} />
-      </>
+      <Fallback
+        warning={"CONNECT YOUR WALLET"}
+        isSnackbarOpen={openSnackbar}
+        handleSnackbarClose={handleSnackbarClose}
+        loading={loading}
+        handleLoadingClose={handleLoadingClose}
+      />
     );
   }
 

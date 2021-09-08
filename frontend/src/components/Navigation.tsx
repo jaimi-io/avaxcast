@@ -7,7 +7,7 @@ import {
   useParams,
 } from "react-router-dom";
 import { lazy, Suspense } from "react";
-import Fallback from "./Fallback";
+// import Fallback from "./Fallback";
 
 const AddMarket = lazy(() => import("./AddMarket"));
 const MarketPlace = lazy(() => import("./MarketPlace"));
@@ -26,7 +26,7 @@ const MarketFunc = () => {
 export default function Navigation(): JSX.Element {
   return (
     <Router>
-      <Suspense fallback={<Fallback />}>
+      <Suspense fallback={<div> Loading... </div>}>
         <Navbar />
         <Switch>
           <Route exact path="/" component={MarketPlace} />
