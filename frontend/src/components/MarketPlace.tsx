@@ -83,21 +83,28 @@ function MarketPlace(): JSX.Element {
   const [endDate, setEndDate] = useState(DEFAULT_END_DATE);
   const [openDialog, setOpenDialog] = useState(false);
   const [contracts, setContracts] = useState<ContractI[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetch = async () => {
+      setLoading(true);
       const adds = await getContractAddresses();
       setContracts(await getAllContractInfo(adds));
+      setLoading(false);
     };
     fetch();
   }, []);
 
-  const handleClickOpen = () => {
+  const handleDialogOpen = () => {
     setOpenDialog(true);
   };
 
-  const handleClose = () => {
+  const handleDialogClose = () => {
     setOpenDialog(false);
+  };
+
+  const handleLoadingClose = () => {
+    setLoading(false);
   };
 
   return (
@@ -107,11 +114,11 @@ function MarketPlace(): JSX.Element {
           <Button
             variant="outlined"
             className={classes.button}
-            onClick={handleClickOpen}
+            onClick={handleDialogOpen}
             startIcon={<img src={icon} width={"20px"} />}>
             Select Market
           </Button>
-          <MarketDialog open={openDialog} onClose={handleClose} />
+          <MarketDialog open={openDialog} onClose={handleDialogClose} />
         </FormControl>
 
         <form className={classes.form} noValidate>
@@ -143,7 +150,12 @@ function MarketPlace(): JSX.Element {
           />
         </form>
       </div>
-      <Posts contracts={contracts} deadlineFilter={[startDate, endDate]} />
+      <Posts
+        contracts={contracts}
+        deadlineFilter={[startDate, endDate]}
+        loading={loading}
+        handleLoadingClose={handleLoadingClose}
+      />
     </div>
   );
 }
