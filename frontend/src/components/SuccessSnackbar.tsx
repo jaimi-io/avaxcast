@@ -1,10 +1,6 @@
-import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
+import { Alert } from "common/Snackbar";
 import { SyntheticEvent } from "react";
-
-function Alert(props: AlertProps) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
 
 interface PropsT {
   successMsg: string;

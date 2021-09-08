@@ -1,7 +1,6 @@
 import Market from "common/enums";
 import { AbiItem, toBN } from "web3-utils";
 import Prediction from "contracts/PredictionMarket.json";
-import { Dispatch, SetStateAction } from "react";
 import {
   DECIMAL_PLACES,
   FLOAT_TO_SOL_NUM,
@@ -77,8 +76,7 @@ interface MarketInfo {
 }
 
 export async function getContractInfo(
-  contractAddress: string,
-  setStateContract?: Dispatch<SetStateAction<ContractI>>
+  contractAddress: string
 ): Promise<ContractI> {
   const library = new Web3(
     process.env.REACT_APP_RPC_URL ||
@@ -122,10 +120,6 @@ export async function getContractInfo(
     contractInfo.winningPerShare = toBN(
       await contract.methods.winningPerShare().call()
     );
-  }
-
-  if (setStateContract) {
-    setStateContract(contractInfo);
   }
 
   return contractInfo;

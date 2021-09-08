@@ -11,10 +11,12 @@ import { getCurrentDateString } from "common/date";
 import Market from "common/enums";
 import { marketNames } from "common/markets";
 import { insertContractAddress } from "common/skyDb";
+import { handleSnackbarClose } from "common/Snackbar";
 import Prediction from "contracts/PredictionMarket.json";
 import { useEffect, useState } from "react";
 import NumberFormat from "react-number-format";
 import { AbiItem } from "web3-utils";
+import Loading from "./Loading";
 import SuccessSnackbar from "./SuccessSnackbar";
 
 function invalidMarket(market: number): boolean {
@@ -95,14 +97,8 @@ function AddMarket(): JSX.Element {
   const [invalid, setInvalid] = useState(true);
   const [success, setSuccess] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { active, account, library } = useWeb3React();
-
-  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpenSnackbar(false);
-  };
 
   useEffect(() => {
     setInvalid(
@@ -115,6 +111,7 @@ function AddMarket(): JSX.Element {
   }, [market, predictedPrice, deadline, active]);
 
   const handleAddMarket = async () => {
+    setLoading(true);
     const contract = new library.eth.Contract(Prediction.abi as AbiItem[]);
     const unixDeadline = Math.floor(new Date(deadline).getTime() / MS_TO_SECS);
     await contract
@@ -131,6 +128,7 @@ function AddMarket(): JSX.Element {
       .catch(() => {
         setSuccess(false);
       });
+    setLoading(false);
     setOpenSnackbar(true);
   };
 
@@ -199,8 +197,10 @@ function AddMarket(): JSX.Element {
         failMsg={"Failed to add."}
         success={success}
         open={openSnackbar}
-        handleClose={handleClose}
+        handleClose={handleSnackbarClose(setOpenSnackbar)}
       />
+
+      <Loading isLoading={loading} />
     </div>
   );
 }

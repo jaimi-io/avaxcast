@@ -1,9 +1,9 @@
 import Button from "@material-ui/core/Button";
-import CheckIcon from "@material-ui/icons/Check";
-import CloseIcon from "@material-ui/icons/Close";
-import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
+import { green, red } from "@material-ui/core/colors";
+import Grid from "@material-ui/core/Grid";
+import Input from "@material-ui/core/Input";
 import {
   createStyles,
   createTheme,
@@ -11,11 +11,13 @@ import {
   Theme,
   ThemeProvider,
 } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
+import CheckIcon from "@material-ui/icons/Check";
+import CloseIcon from "@material-ui/icons/Close";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { useWeb3React } from "@web3-react/core";
-import { green, red } from "@material-ui/core/colors";
-import { useState, useEffect } from "react";
+import BN from "bn.js";
+import { UNDEFINED_NUM_SHARES, UNDEFINED_PRICE } from "common/constants";
 import {
   buy,
   ContractI,
@@ -23,12 +25,12 @@ import {
   getCurrentVotes,
   VotesPerPerson,
 } from "common/contract";
-import { marketNames } from "common/markets";
-import Input from "@material-ui/core/Input";
 import { Vote } from "common/enums";
+import { marketNames } from "common/markets";
+import { handleSnackbarClose } from "common/Snackbar";
+import { useEffect, useState } from "react";
 import { fromWei, toBN } from "web3-utils";
-import BN from "bn.js";
-import { UNDEFINED_NUM_SHARES, UNDEFINED_PRICE } from "common/constants";
+import Loading from "./Loading";
 import SuccessSnackbar from "./SuccessSnackbar";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -61,6 +63,7 @@ function Market({ address }: PropsT): JSX.Element {
   const classes = useStyles();
   const web3 = useWeb3React();
   const { active } = web3;
+  const [loading, setLoading] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [success, setSuccess] = useState(false);
   const [isYesVote, setIsYesVote] = useState(true);
@@ -83,13 +86,6 @@ function Market({ address }: PropsT): JSX.Element {
     noVotes: 0,
   });
 
-  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpenSnackbar(false);
-  };
-
   const priceOfShares = (): BN => {
     const pricePerShare = isYesVote ? contract.yesPrice : contract.noPrice;
     return pricePerShare.mul(toBN(numShares));
@@ -104,7 +100,11 @@ function Market({ address }: PropsT): JSX.Element {
   };
 
   useEffect(() => {
-    getContractInfo(address, setContract);
+    const fetchContractInfo = async () => {
+      const contract = await getContractInfo(address);
+      setContract(contract);
+    };
+    fetchContractInfo();
     fetchCurrentVotes();
   }, []);
 
@@ -119,87 +119,6 @@ function Market({ address }: PropsT): JSX.Element {
   useEffect(() => {
     setCanBuy(active && numShares > UNDEFINED_NUM_SHARES && totalPrice.gtn(0));
   }, [active, numShares, totalPrice]);
-
-  const buyButton = () => {
-    return (
-      <>
-        <Button
-          variant="contained"
-          color="primary"
-          className={classes.button}
-          disabled={!canBuy}
-          onClick={async () => {
-            await buy(
-              contract.address,
-              web3,
-              isYesVote ? Vote.Yes : Vote.No,
-              priceOfShares()
-            )
-              .then(() => {
-                setSuccess(true);
-              })
-              .catch(() => {
-                setSuccess(false);
-              });
-            setOpenSnackbar(true);
-          }}
-          startIcon={<ShoppingCartIcon />}>
-          Buy
-        </Button>
-        <SuccessSnackbar
-          successMsg={"Successfully bought!"}
-          failMsg={"Transaction failed."}
-          success={success}
-          open={openSnackbar}
-          handleClose={handleClose}
-        />
-      </>
-    );
-  };
-
-  const withdrawButton = () => {
-    return (
-      <>
-        <Button
-          variant="contained"
-          color="primary"
-          className={classes.button}
-          disabled={!canBuy}
-          onClick={async () => {
-            await buy(
-              contract.address,
-              web3,
-              isYesVote ? Vote.Yes : Vote.No,
-              priceOfShares()
-            )
-              .then(() => {
-                setSuccess(true);
-              })
-              .catch(() => {
-                setSuccess(false);
-              });
-            setOpenSnackbar(true);
-          }}
-          startIcon={<ShoppingCartIcon />}>
-          Withdraw
-        </Button>
-        <SuccessSnackbar
-          successMsg={"Successfully bought!"}
-          failMsg={"Transaction failed."}
-          success={success}
-          open={openSnackbar}
-          handleClose={handleClose}
-        />
-      </>
-    );
-  };
-
-  const finalButton = () => {
-    if (contract.isResolved) {
-      return withdrawButton();
-    }
-    return buyButton();
-  };
 
   return (
     <>
@@ -349,7 +268,41 @@ function Market({ address }: PropsT): JSX.Element {
               )} AVAX`}</Typography>
             </Grid>
             <Grid item xs={12}>
-              {finalButton()}
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                disabled={!canBuy}
+                onClick={async () => {
+                  setLoading(true);
+                  await buy(
+                    contract.address,
+                    web3,
+                    isYesVote ? Vote.Yes : Vote.No,
+                    priceOfShares()
+                  )
+                    .then(() => {
+                      setSuccess(true);
+                    })
+                    .catch(() => {
+                      setSuccess(false);
+                    });
+                  setLoading(false);
+                  setOpenSnackbar(true);
+                }}
+                startIcon={<ShoppingCartIcon />}>
+                Buy
+              </Button>
+
+              <SuccessSnackbar
+                successMsg={"Successfully bought!"}
+                failMsg={"Transaction failed."}
+                success={success}
+                open={openSnackbar}
+                handleClose={handleSnackbarClose(setOpenSnackbar)}
+              />
+
+              <Loading isLoading={loading} />
             </Grid>
           </Grid>
         </CardContent>

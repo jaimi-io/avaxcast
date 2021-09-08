@@ -8,6 +8,7 @@ import { useAppSelector } from "hooks";
 import { ContractI } from "common/contract";
 import { LinkContainer } from "react-router-bootstrap";
 import { fromWei } from "web3-utils";
+import Fallback from "./Fallback";
 
 function Post({
   address,
@@ -78,9 +79,16 @@ function Post({
 interface PropsT {
   contracts: ContractI[];
   deadlineFilter: string[];
+  loading: boolean;
+  handleLoadingClose: () => void;
 }
 
-function Posts({ contracts, deadlineFilter }: PropsT): JSX.Element {
+function Posts({
+  contracts,
+  deadlineFilter,
+  loading,
+  handleLoadingClose,
+}: PropsT): JSX.Element {
   const marketFilter = useAppSelector((state) => state.marketFilter);
   const [start, end] = deadlineFilter;
   const startDate = new Date(start);
@@ -95,6 +103,17 @@ function Posts({ contracts, deadlineFilter }: PropsT): JSX.Element {
   };
 
   const filtered = contracts.filter(filterPost);
+
+  if (filtered.length === 0) {
+    return (
+      <Fallback
+        warning={""}
+        isSnackbarOpen={false}
+        loading={loading}
+        handleLoadingClose={handleLoadingClose}
+      />
+    );
+  }
 
   return (
     <div style={{ marginTop: 20, padding: 50 }}>
