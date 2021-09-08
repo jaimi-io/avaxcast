@@ -138,12 +138,36 @@ contract PredictionMarket {
   }
 
   /**
-   * @dev Update yesPrice after shares have been bought
+   * @dev Update yesPrice after shares have been bought, for under 1000 votes use
+   * an increasing spread with the percent.
    */
   function updatePrice() private {
     uint256 totalVotes = marketInfo.numberNoShares + marketInfo.numberYesShares;
-    uint256 yesPercent = (marketInfo.numberYesShares * 100) / totalVotes;
-    marketInfo.yesPrice = (yesPercent * 0.02 ether) / 100;
+    uint256 precision = 100;
+    uint256 yesPercent = (marketInfo.numberYesShares * precision) / totalVotes;
+    if (yesPercent == 0) {
+      yesPercent = 1;
+    }
+    if (totalVotes >= 1000) {
+      if (yesPercent == 100) {
+        yesPercent = 99;
+      }
+      marketInfo.yesPrice = (yesPercent * 0.02 ether) / precision;
+      return;
+    }
+    uint256 spread = totalVotes / 10;
+    if (spread == 0) {
+      spread = 1;
+    }
+    uint256 mid = (spread * precision) / 2;
+    uint256 spreadPercent = yesPercent * spread;
+    uint256 midPercent = 50 * precision;
+    if (spreadPercent > mid) {
+      yesPercent = midPercent + (spreadPercent - mid);
+    } else {
+      yesPercent = midPercent - (mid - spreadPercent);
+    }
+    marketInfo.yesPrice = (yesPercent * 0.02 ether) / (precision * precision);
   }
 
   /**
