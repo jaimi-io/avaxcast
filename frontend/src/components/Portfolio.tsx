@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, SyntheticEvent, useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Collapse from "@material-ui/core/Collapse";
@@ -18,8 +18,10 @@ import { marketNames } from "common/markets";
 import { getContractAddresses } from "common/skyDb";
 import { useWeb3React } from "@web3-react/core";
 import { fromWei } from "web3-utils";
-import { Button } from "@material-ui/core";
+import { Button, Snackbar } from "@material-ui/core";
 import { LinkContainer } from "react-router-bootstrap";
+import NotFound from "./NotFound";
+import { Alert } from "./SuccessSnackbar";
 
 const useRowStyles = makeStyles({
   root: {
@@ -99,13 +101,22 @@ function Row(props: { row: MarketRecord }) {
 }
 
 function Portfolio(): JSX.Element {
+  const [openSnackbar, setOpenSnackbar] = useState(true);
   const [records, setRecords] = useState<MarketRecord[]>([]);
   const web3 = useWeb3React();
+
+  const handleClose = (event?: SyntheticEvent, reason?: string) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenSnackbar(false);
+  };
 
   const fetchRecords = async () => {
     if (!web3.active) {
       return;
     }
+    setOpenSnackbar(false);
     const allAddresses = await getContractAddresses();
     const marketRecords = await getHoldings(allAddresses, web3);
     setRecords(marketRecords);
@@ -118,6 +129,19 @@ function Portfolio(): JSX.Element {
   useEffect(() => {
     fetchRecords();
   }, [web3.active]);
+
+  if (records.length === 0) {
+    return (
+      <>
+        <NotFound />
+        <Snackbar open={openSnackbar} onClose={handleClose}>
+          <Alert onClose={handleClose} severity="warning">
+            CONNECT YOUR WALLET!
+          </Alert>
+        </Snackbar>
+      </>
+    );
+  }
 
   return (
     <TableContainer component={Paper}>
