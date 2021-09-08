@@ -54,6 +54,9 @@ export interface ContractI {
   yesPrice: BN;
   noPrice: BN;
   address: string;
+  isResolved: boolean;
+  winner?: Vote;
+  winningPerShare?: BN;
 }
 
 interface MarketInfo {
@@ -80,19 +83,20 @@ export async function getContractInfo(
     contractAddress
   );
 
-  const marketInfo: MarketInfo = await contract.methods.marketInfo().call();
-  const endDate = new Date(marketInfo.endTime * MS_TO_SECS);
+  let marketInfo: MarketInfo = await contract.methods.marketInfo().call();
+  let endDate = new Date(marketInfo.endTime * MS_TO_SECS);
   if (endDate < new Date(Date.now()) && !marketInfo.isResolved) {
-    console.log(endDate);
-    console.log(marketInfo.isResolved);
-    resolveMarket(contract, library);
+    await resolveMarket(contract, library);
+    marketInfo = await contract.methods.marketInfo().call();
+    endDate = new Date(marketInfo.endTime * MS_TO_SECS);
   }
+
   const yesPrice = toBN(marketInfo.yesPrice);
   const noPrice = MAX_AVAX_SHARE_PRICE.sub(yesPrice);
   const volume =
     parseInt(marketInfo.numberYesShares) + parseInt(marketInfo.numberNoShares);
 
-  const contractInfo = {
+  const contractInfo: ContractI = {
     market: parseInt(marketInfo.market) as Market,
     predictedPrice: `$${(marketInfo.predictedPrice / FLOAT_TO_SOL_NUM).toFixed(
       DECIMAL_PLACES
@@ -102,7 +106,17 @@ export async function getContractInfo(
     yesPrice: yesPrice,
     noPrice: noPrice,
     address: contractAddress,
+    isResolved: marketInfo.isResolved,
   };
+
+  if (marketInfo.isResolved) {
+    contractInfo.winner = parseInt(
+      await contract.methods.winner().call()
+    ) as Vote;
+    contractInfo.winningPerShare = toBN(
+      await contract.methods.winningPerShare().call()
+    );
+  }
 
   if (setStateContract) {
     setStateContract(contractInfo);
