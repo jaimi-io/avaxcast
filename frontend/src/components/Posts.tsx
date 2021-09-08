@@ -2,7 +2,7 @@ import { Grid, Typography } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
-import Market from "common/enums";
+import { Market } from "common/enums";
 import { marketIcons, marketNames } from "common/markets";
 import { useAppSelector } from "hooks";
 import { ContractI } from "common/contract";
@@ -10,6 +10,11 @@ import { LinkContainer } from "react-router-bootstrap";
 import { fromWei } from "web3-utils";
 import Fallback from "./Fallback";
 
+/**
+ * Post for a Market
+ * @param props - {@link ContractI}
+ * @returns The Post Component
+ */
 function Post({
   address,
   market,
@@ -83,6 +88,11 @@ interface PropsT {
   handleLoadingClose: () => void;
 }
 
+/**
+ * A collection of all posts for the markets
+ * @param props - {@link PropsT}
+ * @returns The Posts Component
+ */
 function Posts({
   contracts,
   deadlineFilter,

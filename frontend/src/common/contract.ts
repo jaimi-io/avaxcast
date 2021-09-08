@@ -1,4 +1,4 @@
-import Market from "common/enums";
+import { Market } from "common/enums";
 import { AbiItem, toBN } from "web3-utils";
 import Prediction from "contracts/PredictionMarket.json";
 import {
@@ -52,7 +52,13 @@ async function resolveMarket(contract: any, library: Web3) {
     });
 }
 
+/**
+ * Information regarding a contract
+ */
 export interface ContractI {
+  /**
+   * {@link Market}
+   */
   market: Market;
   predictedPrice: string;
   date: Date;
@@ -65,6 +71,9 @@ export interface ContractI {
   winningPerShare?: BN;
 }
 
+/**
+ * Information regarding each {@link Market}
+ */
 interface MarketInfo {
   numberNoShares: string;
   numberYesShares: string;
@@ -75,6 +84,11 @@ interface MarketInfo {
   isResolved: boolean;
 }
 
+/**
+ * Obtains information on the contract with address `contractAddress`
+ * @param contractAddress - Address of contract
+ * @returns Promise of information on the contract
+ */
 export async function getContractInfo(
   contractAddress: string
 ): Promise<ContractI> {
@@ -125,6 +139,11 @@ export async function getContractInfo(
   return contractInfo;
 }
 
+/**
+ * Obtains information on all contracts with an address in `contractAddress`
+ * @param contractAddresses - Addresses of all the contracts
+ * @returns Promise of all contract information
+ */
 export async function getAllContractInfo(
   contractAddresses: string[]
 ): Promise<ContractI[]> {
@@ -134,6 +153,13 @@ export async function getAllContractInfo(
   return allContractInfo;
 }
 
+/**
+ * Purchase shares
+ * @param contractAddress - Address of the contract
+ * @param web3 - Web3 instance
+ * @param vote - Yes or No
+ * @param price - Total price of shares to buy
+ */
 export async function buy(
   contractAddress: string,
   web3: Web3ReactContextInterface,
@@ -151,6 +177,11 @@ export async function buy(
   });
 }
 
+/**
+ * Withdraw winning shares
+ * @param contractAddress - Address of the contract
+ * @param web3 - Web3 instance
+ */
 export async function withdraw(
   contractAddress: string,
   web3: Web3ReactContextInterface
@@ -165,11 +196,20 @@ export async function withdraw(
   });
 }
 
+/**
+ * Number of {@link Vote}s per person
+ */
 export interface VotesPerPerson {
   yesVotes: number;
   noVotes: number;
 }
 
+/**
+ * Obtains number of votes for Yes and No
+ * @param contractAddress - Address of the contract
+ * @param web3 - Web3 instance
+ * @returns Number of Yes and No votes
+ */
 export async function getCurrentVotes(
   contractAddress: string,
   web3: Web3ReactContextInterface
@@ -227,7 +267,12 @@ interface ContractEvent {
   blockNumber: number;
 }
 
-function convertToTransRecord(event: ContractEvent) {
+/**
+ * Converts an event to a transcation record
+ * @param event - The event to convert
+ * @returns The transcation record
+ */
+function convertToTransRecord(event: ContractEvent): TransactionRecord {
   return {
     date: `${event.blockNumber}`,
     transactionHash: event.transactionHash,
@@ -236,6 +281,12 @@ function convertToTransRecord(event: ContractEvent) {
   };
 }
 
+/**
+ * Retrieves information for one market
+ * @param filteredEvents - Events the user has invested in
+ * @param web3 - Web3 instance
+ * @returns Promise of information for the market
+ */
 async function retrieveHoldingInfo(
   filteredEvents: ContractEvent[],
   web3: Web3ReactContextInterface
@@ -261,6 +312,12 @@ async function retrieveHoldingInfo(
   return holdingInfo;
 }
 
+/**
+ * Retrieves information for the markets
+ * @param contractAddresses - The contract address
+ * @param web3 - Web3 instance
+ * @returns Promise of all information for many markets
+ */
 export async function getHoldings(
   contractAddresses: string[],
   web3: Web3ReactContextInterface

@@ -14,6 +14,10 @@ const useStyles = makeStyles(() =>
   })
 );
 
+/**
+ * Used for when data can be found i.e. 404 page
+ * @returns The NotFound Component
+ */
 function NotFound(): JSX.Element {
   const classes = useStyles();
   return (

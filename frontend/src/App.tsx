@@ -5,6 +5,10 @@ import "App.css";
 import { useEffect } from "react";
 import { useAppSelector } from "hooks";
 
+/**
+ * The DApp
+ * @returns The App Component
+ */
 function App(): JSX.Element {
   const isDark = useAppSelector((state) => state.isDark);
 

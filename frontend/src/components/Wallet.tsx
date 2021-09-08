@@ -17,15 +17,6 @@ import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet";
 import MetaMaskIcon from "images/metamask.svg";
 import { createStyles, Theme } from "@material-ui/core/styles";
 
-/*
-  active: is a wallet actively connected right now?
-  account: the blockchain address that is connected
-  library: this is either web3 or ethers, depending what you passed in
-  connector: the current connector. So, when we connect it will be the injected connector in this example
-  activate: the method to connect to a wallet
-  deactivate: the method to disconnect from a wallet 
-*/
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     avatar: {
@@ -38,15 +29,21 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface SimpleDialogProps {
+interface WalletDialogProps {
   open: boolean;
-  onClose: () => void;
+  active: boolean;
   connect: () => Promise<void>;
+  onClose: () => void;
 }
 
-function SimpleDialog(props: SimpleDialogProps): JSX.Element {
+/**
+ * Dialog to connect the user's wallet
+ * @param props - {@link WalletDialogProps}
+ * @returns Wallet Dialog Component
+ */
+function WalletDialog(props: WalletDialogProps): JSX.Element {
   const classes = useStyles();
-  const { onClose, open, connect } = props;
+  const { open, connect, onClose } = props;
 
   const handleClose = () => {
     onClose();
@@ -77,6 +74,11 @@ function SimpleDialog(props: SimpleDialogProps): JSX.Element {
 const FIFTH_DIGIT = 5;
 const LAST_DIGIT = -1;
 
+/**
+ * Changes the address to the format of 0xABC...4 to be displayed
+ * @param account - The address of the wallet connected
+ * @returns Formatted address
+ */
 function displayAccount(account: string | null | undefined): string {
   if (!account) {
     return "ADDRESS NOT FOUND";
@@ -90,6 +92,10 @@ const injected = new InjectedConnector({
   supportedChainIds: [AVAX_LOCAL_ID, AVAX_FUJI_ID],
 });
 
+/**
+ * Wallet used to interact on the AVAX C-chain
+ * @returns The Wallet Component
+ */
 function Wallet(): JSX.Element {
   const classes = useStyles();
   const { active, account, activate } = useWeb3React();
@@ -118,7 +124,12 @@ function Wallet(): JSX.Element {
         disabled={active}>
         {active ? `${displayAccount(account)}` : "Wallet"}
       </Button>
-      <SimpleDialog connect={connect} open={open} onClose={handleClose} />
+      <WalletDialog
+        open={open}
+        active={active}
+        connect={connect}
+        onClose={handleClose}
+      />
     </div>
   );
 }

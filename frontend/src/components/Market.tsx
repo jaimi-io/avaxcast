@@ -62,6 +62,11 @@ interface PropsT {
   address: string;
 }
 
+/**
+ * Deatiled information regarding a Market
+ * @param props - {@link PropsT}
+ * @returns The Market Component
+ */
 function Market({ address }: PropsT): JSX.Element {
   const classes = useStyles();
   const web3 = useWeb3React();
@@ -89,11 +94,19 @@ function Market({ address }: PropsT): JSX.Element {
     noVotes: 0,
   });
 
+  /**
+   * Gets the price of the shares selected
+   * @returns Price of shares as a {@link BN}
+   */
   const priceOfShares = (): BN => {
     const pricePerShare = isYesVote ? contract.yesPrice : contract.noPrice;
     return pricePerShare.mul(toBN(numShares));
   };
 
+  /**
+   * Fetches the number of votes for the Market
+   * @returns Number of votes
+   */
   const fetchCurrentVotes = async () => {
     if (!active) {
       return;

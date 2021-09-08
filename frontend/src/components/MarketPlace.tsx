@@ -43,11 +43,20 @@ interface MarketDialogProps {
   onClose: () => void;
 }
 
+/**
+ * Dialog for the {@link Market} filter
+ * @param props - {@link MarketDialogProps}
+ * @returns Dialog with each {@link Market}
+ */
 function MarketDialog({ onClose, open }: MarketDialogProps): JSX.Element {
   const dispatch = useAppDispatch();
 
-  const handleClose = (num: number) => {
-    dispatch(filterMarketActions[num]());
+  /**
+   * Closes {@link MarketDialog}
+   * @param index - Index used to dispatch the chose {@link Market}
+   */
+  const handleClose = (index: number) => {
+    dispatch(filterMarketActions[index]());
     onClose();
   };
 
@@ -73,6 +82,10 @@ function MarketDialog({ onClose, open }: MarketDialogProps): JSX.Element {
   );
 }
 
+/**
+ * Displays all Markets
+ * @returns The MarketPlace Component
+ */
 function MarketPlace(): JSX.Element {
   const classes = useStyles();
   const marketFilter = useAppSelector((state) => state.marketFilter);

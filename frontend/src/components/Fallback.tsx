@@ -15,6 +15,11 @@ interface PropsT {
   handleLoadingClose?: () => void;
 }
 
+/**
+ * Fallback for data that has not been rendered on screen
+ * @param props - {@link PropsT}
+ * @returns The Fallback component
+ */
 function Fallback({
   warning,
   isSnackbarOpen = false,
