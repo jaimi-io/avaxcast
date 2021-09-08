@@ -72,6 +72,7 @@ function Market({ address }: PropsT): JSX.Element {
     yesPrice: toBN(UNDEFINED_PRICE),
     noPrice: toBN(UNDEFINED_PRICE),
     address: address,
+    isResolved: false,
   });
   const formattedDate = contract.date.toDateString();
   const [numShares, setNumShares] = useState(UNDEFINED_NUM_SHARES);
@@ -118,6 +119,87 @@ function Market({ address }: PropsT): JSX.Element {
   useEffect(() => {
     setCanBuy(active && numShares > UNDEFINED_NUM_SHARES && totalPrice.gtn(0));
   }, [active, numShares, totalPrice]);
+
+  const buyButton = () => {
+    return (
+      <>
+        <Button
+          variant="contained"
+          color="primary"
+          className={classes.button}
+          disabled={!canBuy}
+          onClick={async () => {
+            await buy(
+              contract.address,
+              web3,
+              isYesVote ? Vote.Yes : Vote.No,
+              priceOfShares()
+            )
+              .then(() => {
+                setSuccess(true);
+              })
+              .catch(() => {
+                setSuccess(false);
+              });
+            setOpenSnackbar(true);
+          }}
+          startIcon={<ShoppingCartIcon />}>
+          Buy
+        </Button>
+        <SuccessSnackbar
+          successMsg={"Successfully bought!"}
+          failMsg={"Transaction failed."}
+          success={success}
+          open={openSnackbar}
+          handleClose={handleClose}
+        />
+      </>
+    );
+  };
+
+  const withdrawButton = () => {
+    return (
+      <>
+        <Button
+          variant="contained"
+          color="primary"
+          className={classes.button}
+          disabled={!canBuy}
+          onClick={async () => {
+            await buy(
+              contract.address,
+              web3,
+              isYesVote ? Vote.Yes : Vote.No,
+              priceOfShares()
+            )
+              .then(() => {
+                setSuccess(true);
+              })
+              .catch(() => {
+                setSuccess(false);
+              });
+            setOpenSnackbar(true);
+          }}
+          startIcon={<ShoppingCartIcon />}>
+          Withdraw
+        </Button>
+        <SuccessSnackbar
+          successMsg={"Successfully bought!"}
+          failMsg={"Transaction failed."}
+          success={success}
+          open={openSnackbar}
+          handleClose={handleClose}
+        />
+      </>
+    );
+  };
+
+  const finalButton = () => {
+    if (contract.isResolved) {
+      return withdrawButton();
+    }
+    return buyButton();
+  };
 
   return (
     <>
@@ -265,36 +347,7 @@ function Market({ address }: PropsT): JSX.Element {
               )} AVAX`}</Typography>
             </Grid>
             <Grid item xs={12}>
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.button}
-                disabled={!canBuy}
-                onClick={async () => {
-                  await buy(
-                    contract.address,
-                    web3,
-                    isYesVote ? Vote.Yes : Vote.No,
-                    priceOfShares()
-                  )
-                    .then(() => {
-                      setSuccess(true);
-                    })
-                    .catch(() => {
-                      setSuccess(false);
-                    });
-                  setOpenSnackbar(true);
-                }}
-                startIcon={<ShoppingCartIcon />}>
-                Buy
-              </Button>
-              <SuccessSnackbar
-                successMsg={"Successfully bought!"}
-                failMsg={"Transaction failed."}
-                success={success}
-                open={openSnackbar}
-                handleClose={handleClose}
-              />
+              {finalButton()}
             </Grid>
           </Grid>
         </CardContent>
