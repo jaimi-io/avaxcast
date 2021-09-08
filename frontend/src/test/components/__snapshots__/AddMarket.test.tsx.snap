@@ -1,0 +1,255 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AddMarket snapshot 1`] = `
+<div
+  className="makeStyles-root-1"
+>
+  <div
+    className="MuiFormControl-root makeStyles-formControl-3"
+  >
+    <div
+      className="MuiInputBase-root MuiOutlinedInput-root Mui-error Mui-error MuiInputBase-formControl"
+      onClick={[Function]}
+    >
+      <div
+        aria-haspopup="listbox"
+        aria-labelledby="markets-select markets-select"
+        className="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input"
+        id="markets-select"
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onMouseDown={[Function]}
+        role="button"
+        tabIndex={0}
+      >
+        ALL MARKETS
+      </div>
+      <input
+        aria-hidden={true}
+        className="MuiSelect-nativeInput"
+        onAnimationStart={[Function]}
+        onChange={[Function]}
+        required={false}
+        tabIndex={-1}
+        value={4}
+      />
+      <svg
+        aria-hidden={true}
+        className="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconOutlined"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M7 10l5 5 5-5z"
+        />
+      </svg>
+      <fieldset
+        aria-hidden={true}
+        className="PrivateNotchedOutline-root-5 MuiOutlinedInput-notchedOutline"
+        style={
+          Object {
+            "paddingLeft": 8,
+          }
+        }
+      >
+        <legend
+          className="PrivateNotchedOutline-legend-6"
+          style={
+            Object {
+              "width": 0.01,
+            }
+          }
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#8203;",
+              }
+            }
+          />
+        </legend>
+      </fieldset>
+    </div>
+  </div>
+  <div
+    className="MuiFormControl-root MuiTextField-root makeStyles-textField-2"
+  >
+    <label
+      className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined"
+      data-shrink={false}
+      htmlFor="formatted-numberformat-input"
+      id="formatted-numberformat-input-label"
+    >
+      Predicted Price ($)
+    </label>
+    <div
+      className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
+      onClick={[Function]}
+    >
+      <input
+        aria-describedby="formatted-numberformat-input-helper-text"
+        aria-invalid={false}
+        autoFocus={false}
+        className="MuiInputBase-input MuiOutlinedInput-input"
+        disabled={false}
+        id="formatted-numberformat-input"
+        inputMode="numeric"
+        onAnimationStart={[Function]}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onMouseUp={[Function]}
+        required={false}
+        type="text"
+        value="$0.00"
+      />
+      <fieldset
+        aria-hidden={true}
+        className="PrivateNotchedOutline-root-5 MuiOutlinedInput-notchedOutline"
+      >
+        <legend
+          className="PrivateNotchedOutline-legendLabelled-7"
+        >
+          <span>
+            Predicted Price ($)
+          </span>
+        </legend>
+      </fieldset>
+    </div>
+    <p
+      className="MuiFormHelperText-root MuiFormHelperText-contained"
+      id="formatted-numberformat-input-helper-text"
+    >
+      Range $0 - $X
+    </p>
+  </div>
+  <form>
+    <div
+      className="MuiFormControl-root MuiTextField-root makeStyles-textField-2"
+    >
+      <label
+        className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined Mui-error Mui-error"
+        data-shrink={true}
+        htmlFor="date"
+        id="date-label"
+      >
+        Deadline
+      </label>
+      <div
+        className="MuiInputBase-root MuiOutlinedInput-root Mui-error Mui-error MuiInputBase-formControl"
+        onClick={[Function]}
+      >
+        <input
+          aria-describedby="date-helper-text"
+          aria-invalid={true}
+          autoFocus={false}
+          className="MuiInputBase-input MuiOutlinedInput-input"
+          defaultValue="2021-09-08"
+          disabled={false}
+          id="date"
+          onAnimationStart={[Function]}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          required={false}
+          type="date"
+        />
+        <fieldset
+          aria-hidden={true}
+          className="PrivateNotchedOutline-root-5 MuiOutlinedInput-notchedOutline"
+        >
+          <legend
+            className="PrivateNotchedOutline-legendLabelled-7 PrivateNotchedOutline-legendNotched-8"
+          >
+            <span>
+              Deadline
+            </span>
+          </legend>
+        </fieldset>
+      </div>
+      <p
+        className="MuiFormHelperText-root MuiFormHelperText-contained Mui-error"
+        id="date-helper-text"
+      >
+        Select a date after the current date
+      </p>
+    </div>
+  </form>
+  <button
+    className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-button-4 MuiButton-colorInherit Mui-disabled Mui-disabled"
+    disabled={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onDragLeave={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    tabIndex={-1}
+    type="button"
+  >
+    <span
+      className="MuiButton-label"
+    >
+      <span
+        className="MuiButton-startIcon MuiButton-iconSizeMedium"
+      >
+        <svg
+          aria-hidden={true}
+          className="MuiSvgIcon-root"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M5 4v2h14V4H5zm0 10h4v6h6v-6h4l-7-7-7 7z"
+          />
+        </svg>
+      </span>
+      Submit
+    </span>
+  </button>
+  <div
+    aria-hidden={true}
+    className="MuiBackdrop-root makeStyles-backdrop-9"
+    style={
+      Object {
+        "opacity": 0,
+        "visibility": "hidden",
+      }
+    }
+  >
+    <div
+      className="MuiCircularProgress-root MuiCircularProgress-indeterminate"
+      role="progressbar"
+      style={
+        Object {
+          "height": 40,
+          "width": 40,
+        }
+      }
+    >
+      <svg
+        className="MuiCircularProgress-svg"
+        viewBox="22 22 44 44"
+      >
+        <circle
+          className="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate"
+          cx={44}
+          cy={44}
+          fill="none"
+          r={20.2}
+          strokeWidth={3.6}
+          style={Object {}}
+        />
+      </svg>
+    </div>
+  </div>
+</div>
+`;

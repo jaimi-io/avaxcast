@@ -1,0 +1,183 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MarketPlace snapshot 1`] = `
+<div>
+  <div
+    className="makeStyles-filters-1"
+  >
+    <div
+      className="MuiFormControl-root makeStyles-formControl-2"
+    >
+      <button
+        className="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-button-4"
+        disabled={false}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        tabIndex={0}
+        type="button"
+      >
+        <span
+          className="MuiButton-label"
+        >
+          <span
+            className="MuiButton-startIcon MuiButton-iconSizeMedium"
+          >
+            <img
+              src="crypto.svg"
+              width="20px"
+            />
+          </span>
+          Select Market
+        </span>
+      </button>
+    </div>
+    <form
+      className="makeStyles-form-3"
+      noValidate={true}
+    >
+      <div
+        className="MuiFormControl-root MuiTextField-root makeStyles-textField-5"
+      >
+        <label
+          className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled"
+          data-shrink={true}
+          htmlFor="date"
+          id="date-label"
+        >
+          Start Deadline
+        </label>
+        <div
+          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiOutlinedInput-input"
+            defaultValue="2021-09-08"
+            disabled={false}
+            id="date"
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            required={false}
+            type="date"
+          />
+          <fieldset
+            aria-hidden={true}
+            className="PrivateNotchedOutline-root-6 MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              className="PrivateNotchedOutline-legendLabelled-8 PrivateNotchedOutline-legendNotched-9"
+            >
+              <span>
+                Start Deadline
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+    </form>
+    <form
+      className="makeStyles-form-3"
+      noValidate={true}
+    >
+      <div
+        className="MuiFormControl-root MuiTextField-root makeStyles-textField-5"
+      >
+        <label
+          className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled"
+          data-shrink={true}
+          htmlFor="date"
+          id="date-label"
+        >
+          End Deadline
+        </label>
+        <div
+          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiOutlinedInput-input"
+            defaultValue="2021-10-08"
+            disabled={false}
+            id="date"
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            required={false}
+            type="date"
+          />
+          <fieldset
+            aria-hidden={true}
+            className="PrivateNotchedOutline-root-6 MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              className="PrivateNotchedOutline-legendLabelled-8 PrivateNotchedOutline-legendNotched-9"
+            >
+              <span>
+                End Deadline
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+    </form>
+  </div>
+  <img
+    className="makeStyles-svg-10"
+    src="nothing_here_black.svg"
+  />
+  <div
+    aria-hidden={true}
+    className="MuiBackdrop-root makeStyles-backdrop-11"
+    onClick={[Function]}
+    style={
+      Object {
+        "opacity": 0,
+        "visibility": "hidden",
+      }
+    }
+  >
+    <div
+      className="MuiCircularProgress-root MuiCircularProgress-indeterminate"
+      role="progressbar"
+      style={
+        Object {
+          "height": 40,
+          "width": 40,
+        }
+      }
+    >
+      <svg
+        className="MuiCircularProgress-svg"
+        viewBox="22 22 44 44"
+      >
+        <circle
+          className="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate"
+          cx={44}
+          cy={44}
+          fill="none"
+          r={20.2}
+          strokeWidth={3.6}
+          style={Object {}}
+        />
+      </svg>
+    </div>
+  </div>
+</div>
+`;
