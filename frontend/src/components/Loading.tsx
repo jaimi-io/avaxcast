@@ -16,6 +16,11 @@ interface PropsT {
   handleClose?: () => void;
 }
 
+/**
+ * Loading circle to show the user data is in the process of being rendered
+ * @param props - {@link PropsT}
+ * @returns The Loading Component
+ */
 function Loading({ isLoading, handleClose }: PropsT): JSX.Element {
   const classes = useStyles();
 

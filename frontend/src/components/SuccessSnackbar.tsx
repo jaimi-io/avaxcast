@@ -13,6 +13,11 @@ interface PropsT {
   ) => void;
 }
 
+/**
+ * Snackbar used to display success or failure for an action
+ * @param props - {@link PropsT}
+ * @returns The SuccessSnackbar Component
+ */
 function SuccessSnackbar({
   successMsg,
   failMsg,

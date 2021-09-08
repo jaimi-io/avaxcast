@@ -19,11 +19,19 @@ interface PropsT {
   address: string;
 }
 
+/**
+ * Gives each Market a unique Route
+ * @returns Market Component for the address
+ */
 const MarketFunc = () => {
   return <Market address={useParams<PropsT>().address} />;
 };
 
-export default function Navigation(): JSX.Element {
+/**
+ * Routes used for the DApp
+ * @returns The Navigation Component
+ */
+function Navigation(): JSX.Element {
   return (
     <Router>
       <Suspense fallback={<div> Loading... </div>}>
@@ -40,3 +48,5 @@ export default function Navigation(): JSX.Element {
     </Router>
   );
 }
+
+export default Navigation;

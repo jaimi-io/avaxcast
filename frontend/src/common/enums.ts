@@ -1,5 +1,9 @@
 /* eslint-disable no-magic-numbers */
-enum Market {
+
+/**
+ * Markets supported by the DApp
+ */
+export enum Market {
   AVAX = 0,
   BTC,
   ETH,
@@ -7,9 +11,10 @@ enum Market {
   ALL,
 }
 
+/**
+ * Binary outcome
+ */
 export enum Vote {
   Yes = 0,
   No,
 }
-
-export default Market;

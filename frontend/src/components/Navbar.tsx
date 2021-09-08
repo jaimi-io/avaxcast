@@ -38,7 +38,11 @@ const useStyles = makeStyles((theme: Theme) => {
   });
 });
 
-export default function Navbar(): JSX.Element {
+/**
+ * Navbar used throughout the DApp
+ * @returns The Navbar Component
+ */
+function Navbar(): JSX.Element {
   const classes = useStyles();
   const isDark = useAppSelector((state) => state.isDark);
   const dispatch = useAppDispatch();
@@ -115,3 +119,5 @@ export default function Navbar(): JSX.Element {
     </List>
   );
 }
+
+export default Navbar;

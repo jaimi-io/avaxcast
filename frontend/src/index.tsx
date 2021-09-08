@@ -8,6 +8,11 @@ import { PersistGate } from "redux-persist/integration/react";
 import store, { persistor } from "store";
 import Web3 from "web3";
 
+/**
+ * Gets the library for Web3
+ * @param provider - Provider used to communicate with the AVAX C-chain
+ * @returns The Web3 instance
+ */
 const getLibrary = (provider: string) => {
   return new Web3(provider);
 };

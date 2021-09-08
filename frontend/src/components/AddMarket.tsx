@@ -8,7 +8,7 @@ import PublishIcon from "@material-ui/icons/Publish";
 import { useWeb3React } from "@web3-react/core";
 import { FLOAT_TO_SOL_NUM, MS_TO_SECS } from "common/constants";
 import { getCurrentDateString } from "common/date";
-import Market from "common/enums";
+import { Market } from "common/enums";
 import { marketNames } from "common/markets";
 import { insertContractAddress } from "common/skyDb";
 import { handleSnackbarClose } from "common/Snackbar";
@@ -19,14 +19,29 @@ import { AbiItem } from "web3-utils";
 import Loading from "./Loading";
 import SuccessSnackbar from "./SuccessSnackbar";
 
+/**
+ * Determines if the market given is invalid
+ * @param market - Current {@link Market} selected
+ * @returns If the market is invalid
+ */
 function invalidMarket(market: number): boolean {
   return market === Market.ALL;
 }
 
+/**
+ * Determines if the price given is invalid
+ * @param price - Current predicted price selected
+ * @returns If the price is invalid
+ */
 function invalidPrice(price: number): boolean {
   return price < 0;
 }
 
+/**
+ * Determines if the date given is invalid
+ * @param date - Current date selected
+ * @returns If the date is invalid
+ */
 function invalidDate(date: string): boolean {
   const now = new Date();
   const selectedDate = new Date(date);
@@ -62,7 +77,12 @@ interface NumberFormatCustomProps {
   name: string;
 }
 
-function NumberFormatCustom(props: NumberFormatCustomProps) {
+/**
+ * Input formatting for the predicted price
+ * @param props - {@link NumberFormatCustomProps}
+ * @returns The JSX.Element to format the price input
+ */
+function NumberFormatCustom(props: NumberFormatCustomProps): JSX.Element {
   const { inputRef, onChange, ...other } = props;
 
   return (
@@ -86,6 +106,10 @@ function NumberFormatCustom(props: NumberFormatCustomProps) {
   );
 }
 
+/**
+ * Input form to allow adding of Markets
+ * @returns The AddMarket component
+ */
 function AddMarket(): JSX.Element {
   const classes = useStyles();
   const INITIAL_PREDICTED_PRICE = 0.0;
@@ -110,6 +134,9 @@ function AddMarket(): JSX.Element {
     );
   }, [market, predictedPrice, deadline, active]);
 
+  /**
+   * Adds a market to SkyDB
+   */
   const handleAddMarket = async () => {
     setLoading(true);
     const contract = new library.eth.Contract(Prediction.abi as AbiItem[]);
