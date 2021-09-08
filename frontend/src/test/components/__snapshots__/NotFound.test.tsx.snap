@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NotFound snapshot 1`] = `
+<img
+  className="makeStyles-svg-1"
+  src="nothing_here_black.svg"
+/>
+`;
