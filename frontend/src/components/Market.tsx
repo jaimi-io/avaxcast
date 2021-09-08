@@ -339,7 +339,7 @@ function Market({ address }: PropsT): JSX.Element {
             <Grid item xs={6}>
               <ThemeProvider theme={yesTheme}>
                 <Grid container>
-                  <Grid item xs={3}>
+                  <Grid item xs={6}>
                     <Typography variant="body2" component="p">
                       {"Price"}
                     </Typography>
@@ -371,7 +371,7 @@ function Market({ address }: PropsT): JSX.Element {
             <Grid item xs={6}>
               <ThemeProvider theme={noTheme}>
                 <Grid container>
-                  <Grid item xs={3}>
+                  <Grid item xs={6}>
                     <Typography variant="body2" component="p">
                       {"Price"}
                     </Typography>
