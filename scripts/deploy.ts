@@ -1,7 +1,7 @@
 import { Contract, ContractFactory } from "ethers";
 import { ethers } from "hardhat";
 import { sleep } from "./helpers";
-import Market, { Vote } from "../frontend/src/common/enums";
+import { Market, Vote } from "../frontend/src/common/enums";
 
 const EXIT_SUCCESSFUL = 0;
 const PREDICTED_PRICE = 50;
