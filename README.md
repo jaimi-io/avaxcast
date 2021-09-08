@@ -18,4 +18,4 @@ We also use SkyDB to store a JSON containing an array of all deployed Prediction
 
 ## Documentation
 
-Documentation can be found in the [docs folder](../tree/main/docs)
+Documentation can be found in the [docs folder](../main/docs)
