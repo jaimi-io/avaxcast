@@ -14,6 +14,38 @@ import BN from "bn.js";
 import Web3 from "web3";
 import { voteString } from "./markets";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function resolveMarket(contract: any, library: Web3) {
+  const tx = {
+    from: process.env.REACT_APP_PUBLIC_KEY,
+    to: contract._address,
+    data: contract.methods.resolveMarket().encodeABI(),
+    gas: await contract.methods.resolveMarket().estimateGas(),
+  };
+
+  const signPromise = library.eth.accounts.signTransaction(
+    tx,
+    process.env.REACT_APP_PRIVATE_KEY || ""
+  );
+
+  signPromise
+    .then((signedTx) => {
+      if (!signedTx.rawTransaction) {
+        return;
+      }
+      const sentTx = library.eth.sendSignedTransaction(signedTx.rawTransaction);
+      sentTx.on("receipt", (receipt) => {
+        console.log(receipt);
+      });
+      sentTx.on("error", (err) => {
+        console.log(err);
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
 export interface ContractI {
   market: Market;
   predictedPrice: string;
@@ -39,9 +71,8 @@ export async function getContractInfo(
   setStateContract?: Dispatch<SetStateAction<ContractI>>
 ): Promise<ContractI> {
   const library = new Web3(
-    new Web3.providers.HttpProvider(
+    process.env.REACT_APP_RPC_URL ||
       "https://api.avax-test.network/ext/bc/C/rpc"
-    )
   );
 
   const contract = new library.eth.Contract(
@@ -49,18 +80,13 @@ export async function getContractInfo(
     contractAddress
   );
 
-  // const isResolved = await contract.methods
-  //   .isResolved()
-  //   .call();
-
-  // if (endDate.getCurrentDateString() > Date.now() && !isResolved) {
-  //   contract.methods.resolveMarket().send({
-  //     from: account,
-  //   });
-  // }
-
   const marketInfo: MarketInfo = await contract.methods.marketInfo().call();
   const endDate = new Date(marketInfo.endTime * MS_TO_SECS);
+  if (endDate < new Date(Date.now()) && !marketInfo.isResolved) {
+    console.log(endDate);
+    console.log(marketInfo.isResolved);
+    resolveMarket(contract, library);
+  }
   const yesPrice = toBN(marketInfo.yesPrice);
   const noPrice = MAX_AVAX_SHARE_PRICE.sub(yesPrice);
   const volume =
