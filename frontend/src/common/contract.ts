@@ -13,6 +13,11 @@ import BN from "bn.js";
 import Web3 from "web3";
 import { voteString } from "./markets";
 
+/**
+ * Calls the resolveMarket() function from the contract
+ * @param contract - Contract instance for PredictionMarket
+ * @param library - Web3 library instance
+ */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function resolveMarket(contract: any, library: Web3) {
   let gas: number;
@@ -237,6 +242,9 @@ export async function getCurrentVotes(
   };
 }
 
+/**
+ * Information for each Transaction the user has made with a Market
+ */
 interface TransactionRecord {
   date: string;
   transactionHash: string;
@@ -257,12 +265,18 @@ export interface MarketRecord {
   history: TransactionRecord[];
 }
 
+/**
+ * Information returned by the emitted `Buy` event
+ */
 interface BuyReturnValues {
   _numberShares: string;
   _vote: string;
   _totalPrice: string;
 }
 
+/**
+ * Information for any Event on the Contract
+ */
 interface ContractEvent {
   transactionHash: string;
   address: string;

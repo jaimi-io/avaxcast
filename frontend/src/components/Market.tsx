@@ -144,6 +144,10 @@ function Market({ address }: PropsT): JSX.Element {
     return userShares[contract.winner];
   };
 
+  /**
+   * Generates the UI for share buying
+   * @returns UI for buying shares
+   */
   const buyShares = () => {
     return (
       <>
@@ -213,6 +217,10 @@ function Market({ address }: PropsT): JSX.Element {
     );
   };
 
+  /**
+   * Generates the UI for withdrawing shares
+   * @returns UI to withdraw shares
+   */
   const withdrawShares = () => {
     return (
       <>
@@ -282,6 +290,10 @@ function Market({ address }: PropsT): JSX.Element {
     );
   };
 
+  /**
+   * Determines whether a market has been resolved to return Withdraw UI instead of Buy UI
+   * @returns Buy or Withdraw UI
+   */
   const buyOrWithdraw = () => {
     if (contract.isResolved) {
       return withdrawShares();
