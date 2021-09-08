@@ -151,6 +151,20 @@ export async function buy(
   });
 }
 
+export async function withdraw(
+  contractAddress: string,
+  web3: Web3ReactContextInterface
+): Promise<void> {
+  const { library, account } = web3;
+  const contract = new library.eth.Contract(
+    Prediction.abi as AbiItem[],
+    contractAddress
+  );
+  await contract.methods.withdrawWinnings().send({
+    from: account,
+  });
+}
+
 export interface VotesPerPerson {
   yesVotes: number;
   noVotes: number;
