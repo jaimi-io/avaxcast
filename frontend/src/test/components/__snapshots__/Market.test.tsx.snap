@@ -17,7 +17,7 @@ Array [
           <h1
             className="MuiTypography-root MuiTypography-h6"
           >
-            Will AVAX/USD reach $X by Wed Sep 08 2021?
+            Will AVAX/USD be greater than or equal to $X on Wed Sep 08 2021?
           </h1>
         </div>
         <div
@@ -93,7 +93,7 @@ Array [
               <p
                 className="MuiTypography-root MuiTypography-body1"
               >
-                0
+                0 AVAX
               </p>
             </div>
           </div>
@@ -117,7 +117,7 @@ Array [
             className="MuiGrid-root MuiGrid-container"
           >
             <div
-              className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+              className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
             >
               <p
                 className="MuiTypography-root MuiTypography-body2"
@@ -191,7 +191,7 @@ Array [
             className="MuiGrid-root MuiGrid-container"
           >
             <div
-              className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3"
+              className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
             >
               <p
                 className="MuiTypography-root MuiTypography-body2"
