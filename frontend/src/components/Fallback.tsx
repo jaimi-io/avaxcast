@@ -6,8 +6,8 @@ import { SyntheticEvent } from "react";
 
 interface PropsT {
   warning?: string;
-  isSnackbarOpen: boolean;
-  handleSnackbarClose: (
+  isSnackbarOpen?: boolean;
+  handleSnackbarClose?: (
     event?: SyntheticEvent<Element, Event> | undefined,
     reason?: string | undefined
   ) => void;
@@ -17,7 +17,7 @@ interface PropsT {
 
 function Fallback({
   warning,
-  isSnackbarOpen,
+  isSnackbarOpen = false,
   handleSnackbarClose,
   loading,
   handleLoadingClose,
