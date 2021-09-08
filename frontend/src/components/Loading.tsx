@@ -13,13 +13,17 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface PropsT {
   isLoading: boolean;
+  handleClose?: () => void;
 }
 
-function Loading({ isLoading }: PropsT): JSX.Element {
+function Loading({ isLoading, handleClose }: PropsT): JSX.Element {
   const classes = useStyles();
 
   return (
-    <Backdrop className={classes.backdrop} open={isLoading}>
+    <Backdrop
+      className={classes.backdrop}
+      open={isLoading}
+      onClick={handleClose}>
       <CircularProgress color="inherit" />
     </Backdrop>
   );
