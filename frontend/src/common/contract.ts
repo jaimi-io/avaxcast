@@ -16,11 +16,18 @@ import { voteString } from "./markets";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function resolveMarket(contract: any, library: Web3) {
+  let gas: number;
+  try {
+    gas = await contract.methods.resolveMarket().estimateGas();
+  } catch (error) {
+    console.log(error);
+    return;
+  }
   const tx = {
     from: process.env.REACT_APP_PUBLIC_KEY,
-    to: contract._address,
+    to: contract.options.address,
     data: contract.methods.resolveMarket().encodeABI(),
-    gas: await contract.methods.resolveMarket().estimateGas(),
+    gas: gas,
   };
 
   const signPromise = library.eth.accounts.signTransaction(
@@ -50,7 +57,7 @@ export interface ContractI {
   market: Market;
   predictedPrice: string;
   date: Date;
-  volume: number;
+  volume: BN;
   yesPrice: BN;
   noPrice: BN;
   address: string;
@@ -93,8 +100,7 @@ export async function getContractInfo(
 
   const yesPrice = toBN(marketInfo.yesPrice);
   const noPrice = MAX_AVAX_SHARE_PRICE.sub(yesPrice);
-  const volume =
-    parseInt(marketInfo.numberYesShares) + parseInt(marketInfo.numberNoShares);
+  const volume = await library.eth.getBalance(contractAddress);
 
   const contractInfo: ContractI = {
     market: parseInt(marketInfo.market) as Market,
@@ -102,7 +108,7 @@ export async function getContractInfo(
       DECIMAL_PLACES
     )}`,
     date: endDate,
-    volume: volume,
+    volume: toBN(volume),
     yesPrice: yesPrice,
     noPrice: noPrice,
     address: contractAddress,
