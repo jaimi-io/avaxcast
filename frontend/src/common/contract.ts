@@ -13,14 +13,56 @@ import BN from "bn.js";
 import Web3 from "web3";
 import { voteString } from "./markets";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function resolveMarket(contract: any, library: Web3) {
+  let gas: number;
+  try {
+    gas = await contract.methods.resolveMarket().estimateGas();
+  } catch (error) {
+    console.log(error);
+    return;
+  }
+  const tx = {
+    from: process.env.REACT_APP_PUBLIC_KEY,
+    to: contract.options.address,
+    data: contract.methods.resolveMarket().encodeABI(),
+    gas: gas,
+  };
+
+  const signPromise = library.eth.accounts.signTransaction(
+    tx,
+    process.env.REACT_APP_PRIVATE_KEY || ""
+  );
+
+  signPromise
+    .then((signedTx) => {
+      if (!signedTx.rawTransaction) {
+        return;
+      }
+      const sentTx = library.eth.sendSignedTransaction(signedTx.rawTransaction);
+      sentTx.on("receipt", (receipt) => {
+        console.log(receipt);
+      });
+      sentTx.on("error", (err) => {
+        console.log(err);
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
 export interface ContractI {
   market: Market;
   predictedPrice: string;
   date: Date;
-  volume: number;
+  volume: BN;
   yesPrice: BN;
   noPrice: BN;
   address: string;
+  isResolved: boolean;
+  winner?: Vote;
+  winningPerShare?: BN;
 }
 
 interface MarketInfo {
@@ -37,9 +79,8 @@ export async function getContractInfo(
   contractAddress: string
 ): Promise<ContractI> {
   const library = new Web3(
-    new Web3.providers.HttpProvider(
+    process.env.REACT_APP_RPC_URL ||
       "https://api.avax-test.network/ext/bc/C/rpc"
-    )
   );
 
   const contract = new library.eth.Contract(
@@ -47,34 +88,41 @@ export async function getContractInfo(
     contractAddress
   );
 
-  // const isResolved = await contract.methods
-  //   .isResolved()
-  //   .call();
+  let marketInfo: MarketInfo = await contract.methods.marketInfo().call();
+  let endDate = new Date(marketInfo.endTime * MS_TO_SECS);
+  if (endDate < new Date(Date.now()) && !marketInfo.isResolved) {
+    await resolveMarket(contract, library);
+    marketInfo = await contract.methods.marketInfo().call();
+    endDate = new Date(marketInfo.endTime * MS_TO_SECS);
+  }
 
-  // if (endDate.getCurrentDateString() > Date.now() && !isResolved) {
-  //   contract.methods.resolveMarket().send({
-  //     from: account,
-  //   });
-  // }
-
-  const marketInfo: MarketInfo = await contract.methods.marketInfo().call();
-  const endDate = new Date(marketInfo.endTime * MS_TO_SECS);
   const yesPrice = toBN(marketInfo.yesPrice);
   const noPrice = MAX_AVAX_SHARE_PRICE.sub(yesPrice);
-  const volume =
-    parseInt(marketInfo.numberYesShares) + parseInt(marketInfo.numberNoShares);
+  const volume = await library.eth.getBalance(contractAddress);
 
-  return {
+  const contractInfo: ContractI = {
     market: parseInt(marketInfo.market) as Market,
     predictedPrice: `$${(marketInfo.predictedPrice / FLOAT_TO_SOL_NUM).toFixed(
       DECIMAL_PLACES
     )}`,
     date: endDate,
-    volume: volume,
+    volume: toBN(volume),
     yesPrice: yesPrice,
     noPrice: noPrice,
     address: contractAddress,
+    isResolved: marketInfo.isResolved,
   };
+
+  if (marketInfo.isResolved) {
+    contractInfo.winner = parseInt(
+      await contract.methods.winner().call()
+    ) as Vote;
+    contractInfo.winningPerShare = toBN(
+      await contract.methods.winningPerShare().call()
+    );
+  }
+
+  return contractInfo;
 }
 
 export async function getAllContractInfo(
@@ -100,6 +148,20 @@ export async function buy(
   await contract.methods.buyShares(vote).send({
     from: account,
     value: price,
+  });
+}
+
+export async function withdraw(
+  contractAddress: string,
+  web3: Web3ReactContextInterface
+): Promise<void> {
+  const { library, account } = web3;
+  const contract = new library.eth.Contract(
+    Prediction.abi as AbiItem[],
+    contractAddress
+  );
+  await contract.methods.withdrawWinnings().send({
+    from: account,
   });
 }
 

@@ -31,8 +31,7 @@ const useRowStyles = makeStyles({
   },
 });
 
-function Row(props: { row: MarketRecord }) {
-  const { row } = props;
+function Row({ row }: { row: MarketRecord }) {
   const [open, setOpen] = useState(false);
   const classes = useRowStyles();
   return (

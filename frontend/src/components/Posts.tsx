@@ -46,7 +46,9 @@ function Post({
                   <Typography variant="body2" component="p">
                     {"Total Volume:"}
                   </Typography>
-                  <Typography component="p">{volume}</Typography>
+                  <Typography component="p">{`${fromWei(
+                    volume
+                  )} AVAX`}</Typography>
                 </Grid>
                 <Grid item xs>
                   <Grid container>
@@ -54,20 +56,14 @@ function Post({
                       <Typography
                         variant="body1"
                         component="p"
-                        align="right">{`Yes: ${fromWei(
-                        yesPrice,
-                        "ether"
-                      )}`}</Typography>
+                        align="right">{`Yes: ${fromWei(yesPrice)}`}</Typography>
                     </Grid>
 
                     <Grid item xs={12}>
                       <Typography
                         variant="body1"
                         component="p"
-                        align="right">{`No: ${fromWei(
-                        noPrice,
-                        "ether"
-                      )}`}</Typography>
+                        align="right">{`No: ${fromWei(noPrice)}`}</Typography>
                     </Grid>
                   </Grid>
                 </Grid>

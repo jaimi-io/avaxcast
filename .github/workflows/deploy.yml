@@ -25,6 +25,12 @@ jobs:
         run: echo "REACT_APP_SEED=${{ secrets.SEED }}" >> frontend/.env
       - name: Set-up data_key env vars
         run: echo "REACT_APP_DATA_KEY=${{ secrets.DATA_KEY }}" >> frontend/.env
+      - name: Set-up rpc_url env vars
+        run: echo "REACT_APP_RPC_URL=${{ secrets.RPC_URL }}" >> frontend/.env
+      - name: Set-up public_key env vars
+        run: echo "REACT_APP_PUBLIC_KEY=${{ secrets.PUBLIC_KEY }}" >> frontend/.env
+      - name: Set-up private_key env vars
+        run: echo "REACT_APP_PRIVATE_KEY=${{ secrets.PRIVATE_KEY }}" >> frontend/.env
       - name: Build
         run: yarn && cd frontend/ && yarn && yarn build
       - name: Deploy to Skynet

@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -12,6 +13,7 @@ import {
   ThemeProvider,
 } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+import { AttachMoney } from "@material-ui/icons";
 import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
@@ -24,9 +26,10 @@ import {
   getContractInfo,
   getCurrentVotes,
   VotesPerPerson,
+  withdraw,
 } from "common/contract";
 import { Vote } from "common/enums";
-import { marketNames } from "common/markets";
+import { marketNames, voteString } from "common/markets";
 import { handleSnackbarClose } from "common/Snackbar";
 import { useEffect, useState } from "react";
 import { fromWei, toBN } from "web3-utils";
@@ -71,10 +74,11 @@ function Market({ address }: PropsT): JSX.Element {
     market: 0,
     predictedPrice: "$X",
     date: new Date(),
-    volume: 0,
+    volume: toBN(UNDEFINED_PRICE),
     yesPrice: toBN(UNDEFINED_PRICE),
     noPrice: toBN(UNDEFINED_PRICE),
     address: address,
+    isResolved: false,
   });
   const formattedDate = contract.date.toDateString();
   const [numShares, setNumShares] = useState(UNDEFINED_NUM_SHARES);
@@ -119,6 +123,159 @@ function Market({ address }: PropsT): JSX.Element {
     setCanBuy(active && numShares > UNDEFINED_NUM_SHARES && totalPrice.gtn(0));
   }, [active, numShares, totalPrice]);
 
+  const getWinningShares = () => {
+    if (contract.winner === undefined) {
+      return 0;
+    }
+    const userShares = [currentVotes.yesVotes, currentVotes.noVotes];
+    return userShares[contract.winner];
+  };
+
+  const buyShares = () => {
+    return (
+      <>
+        <Grid item xs={12}>
+          <Typography component="p">{"How many shares?"}</Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Input
+            type="number"
+            value={numShares}
+            onChange={(e) => {
+              const newValue = parseInt(e.target.value);
+              if (
+                (!newValue && newValue !== UNDEFINED_NUM_SHARES) ||
+                newValue < UNDEFINED_NUM_SHARES
+              ) {
+                return;
+              }
+              setNumShares(newValue);
+            }}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <Typography component="p">{`Total Price: ${fromWei(
+            totalPrice,
+            "ether"
+          )} AVAX`}</Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            disabled={!canBuy}
+            onClick={async () => {
+              setLoading(true);
+              await buy(
+                contract.address,
+                web3,
+                isYesVote ? Vote.Yes : Vote.No,
+                priceOfShares()
+              )
+                .then(() => {
+                  setSuccess(true);
+                })
+                .catch(() => {
+                  setSuccess(false);
+                });
+              setLoading(false);
+              setOpenSnackbar(true);
+            }}
+            startIcon={<ShoppingCartIcon />}>
+            Buy
+          </Button>
+
+          <SuccessSnackbar
+            successMsg={"Successfully bought!"}
+            failMsg={"Transaction failed."}
+            success={success}
+            open={openSnackbar}
+            handleClose={handleSnackbarClose(setOpenSnackbar)}
+          />
+
+          <Loading isLoading={loading} />
+        </Grid>
+      </>
+    );
+  };
+
+  const withdrawShares = () => {
+    return (
+      <>
+        <Grid item xs={12}>
+          <Typography component="h3" variant="h6">{`Market has resolved with ${
+            contract.winner === undefined ? "" : voteString[contract.winner]
+          } Votes Winning`}</Typography>
+        </Grid>
+
+        <Grid item xs={12}>
+          <Grid container justifyContent="flex-start">
+            <Grid item xs={2}>
+              <Typography component="p">{"Winning Shares:"}</Typography>
+            </Grid>
+            <Grid item xs={1}>
+              <Typography component="p">{getWinningShares()}</Typography>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={12}>
+          <Grid container justifyContent="flex-start">
+            <Grid item xs={2}>
+              <Typography component="p">{"Winnings per Share:"}</Typography>
+            </Grid>
+            <Grid item xs={1}>
+              <Typography component="p">
+                {`${
+                  contract.winningPerShare === undefined
+                    ? "0"
+                    : fromWei(contract.winningPerShare)
+                } AVAX`}
+              </Typography>
+            </Grid>
+          </Grid>
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            disabled={getWinningShares() <= 0 || !active}
+            onClick={async () => {
+              setLoading(true);
+              await withdraw(contract.address, web3)
+                .then(() => {
+                  setSuccess(true);
+                })
+                .catch(() => {
+                  setSuccess(false);
+                });
+              setLoading(false);
+              setOpenSnackbar(true);
+            }}
+            startIcon={<AttachMoney />}>
+            Withdraw
+          </Button>
+
+          <SuccessSnackbar
+            successMsg={"Successfully withdrawn!"}
+            failMsg={"Transaction failed."}
+            success={success}
+            open={openSnackbar}
+            handleClose={handleSnackbarClose(setOpenSnackbar)}
+          />
+
+          <Loading isLoading={loading} />
+        </Grid>
+      </>
+    );
+  };
+
+  const buyOrWithdraw = () => {
+    if (contract.isResolved) {
+      return withdrawShares();
+    }
+    return buyShares();
+  };
+
   return (
     <>
       <Card variant="outlined">
@@ -126,9 +283,11 @@ function Market({ address }: PropsT): JSX.Element {
           <Grid container justifyContent="center">
             <Grid item xs={6}>
               <Typography component="h1" variant="h6">
-                {`Will ${marketNames[contract.market]} reach ${
+                {`Will ${
+                  marketNames[contract.market]
+                } be greater than or equal to ${
                   contract.predictedPrice
-                } by ${formattedDate}?`}
+                } on ${formattedDate}?`}
               </Typography>
             </Grid>
             <Grid item xs={2}>
@@ -165,7 +324,9 @@ function Market({ address }: PropsT): JSX.Element {
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>
-                  <Typography component="p">{contract.volume}</Typography>
+                  <Typography component="p">{`${fromWei(
+                    contract.volume
+                  )} AVAX`}</Typography>
                 </Grid>
               </Grid>
             </Grid>
@@ -178,7 +339,7 @@ function Market({ address }: PropsT): JSX.Element {
             <Grid item xs={6}>
               <ThemeProvider theme={yesTheme}>
                 <Grid container>
-                  <Grid item xs={3}>
+                  <Grid item xs={6}>
                     <Typography variant="body2" component="p">
                       {"Price"}
                     </Typography>
@@ -200,7 +361,7 @@ function Market({ address }: PropsT): JSX.Element {
                   variant="contained"
                   color={isYesVote ? "primary" : "default"}
                   className={classes.button}
-                  disabled={!active}
+                  disabled={!active || contract.isResolved}
                   onClick={() => setIsYesVote(true)}
                   startIcon={<CheckIcon />}>
                   Yes
@@ -210,7 +371,7 @@ function Market({ address }: PropsT): JSX.Element {
             <Grid item xs={6}>
               <ThemeProvider theme={noTheme}>
                 <Grid container>
-                  <Grid item xs={3}>
+                  <Grid item xs={6}>
                     <Typography variant="body2" component="p">
                       {"Price"}
                     </Typography>
@@ -232,75 +393,14 @@ function Market({ address }: PropsT): JSX.Element {
                   variant="contained"
                   color={isYesVote ? "default" : "primary"}
                   className={classes.button}
-                  disabled={!active}
+                  disabled={!active || contract.isResolved}
                   onClick={() => setIsYesVote(false)}
                   startIcon={<CloseIcon />}>
                   No
                 </Button>
               </ThemeProvider>
             </Grid>
-            <Grid item xs={12}>
-              <Typography component="p">{"How many shares?"}</Typography>
-            </Grid>
-            <Grid item xs={12}>
-              <Input
-                type="number"
-                value={numShares}
-                onChange={(e) => {
-                  const newValue = parseInt(e.target.value);
-                  if (
-                    (!newValue && newValue !== UNDEFINED_NUM_SHARES) ||
-                    newValue < UNDEFINED_NUM_SHARES
-                  ) {
-                    return;
-                  }
-                  setNumShares(newValue);
-                }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Typography component="p">{`Total Price: ${fromWei(
-                totalPrice,
-                "ether"
-              )} AVAX`}</Typography>
-            </Grid>
-            <Grid item xs={12}>
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.button}
-                disabled={!canBuy}
-                onClick={async () => {
-                  setLoading(true);
-                  await buy(
-                    contract.address,
-                    web3,
-                    isYesVote ? Vote.Yes : Vote.No,
-                    priceOfShares()
-                  )
-                    .then(() => {
-                      setSuccess(true);
-                    })
-                    .catch(() => {
-                      setSuccess(false);
-                    });
-                  setLoading(false);
-                  setOpenSnackbar(true);
-                }}
-                startIcon={<ShoppingCartIcon />}>
-                Buy
-              </Button>
-
-              <SuccessSnackbar
-                successMsg={"Successfully bought!"}
-                failMsg={"Transaction failed."}
-                success={success}
-                open={openSnackbar}
-                handleClose={handleSnackbarClose(setOpenSnackbar)}
-              />
-
-              <Loading isLoading={loading} />
-            </Grid>
+            {buyOrWithdraw()}
           </Grid>
         </CardContent>
       </Card>
