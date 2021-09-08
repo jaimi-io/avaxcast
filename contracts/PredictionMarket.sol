@@ -197,6 +197,9 @@ contract PredictionMarket {
       numWinningShares = marketInfo.numberNoShares;
     }
     marketInfo.isResolved = true;
+    if (numWinningShares == 0) {
+      numWinningShares = 1;
+    }
     winningPerShare = address(this).balance / numWinningShares;
   }
 
