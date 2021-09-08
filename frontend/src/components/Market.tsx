@@ -283,9 +283,11 @@ function Market({ address }: PropsT): JSX.Element {
           <Grid container justifyContent="center">
             <Grid item xs={6}>
               <Typography component="h1" variant="h6">
-                {`Will ${marketNames[contract.market]} reach ${
+                {`Will ${
+                  marketNames[contract.market]
+                } be greater than or equal to ${
                   contract.predictedPrice
-                } by ${formattedDate}?`}
+                } on ${formattedDate}?`}
               </Typography>
             </Grid>
             <Grid item xs={2}>
