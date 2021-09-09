@@ -19,7 +19,27 @@ export function lightOn(): Action {
 }
 
 /**
- * Filter by AVAX
+ * Used to display the buffer icon
+ * @returns {@link Action} to indicate data is loading
+ */
+export function isLoading(): Action {
+  return {
+    type: "LOADING",
+  };
+}
+
+/**
+ * Used to hide the buffer icon
+ * @returns {@link Action} to indicate data is finished loading
+ */
+export function notLoading(): Action {
+  return {
+    type: "NOT LOADING",
+  };
+}
+
+/**
+ * Filter by {@link Market.AVAX}
  * @returns {@link Action} to filter by
  */
 function setAvax(): Action {
@@ -28,7 +48,7 @@ function setAvax(): Action {
   };
 }
 /**
- * Filter by BTC
+ * Filter by {@link Market.BTC}
  * @returns {@link Action} to filter by
  */
 function setBtc(): Action {
@@ -37,7 +57,7 @@ function setBtc(): Action {
   };
 }
 /**
- * Filter by ETH
+ * Filter by {@link Market.ETH}
  * @returns {@link Action} to filter by
  */
 function setEth(): Action {
@@ -46,7 +66,7 @@ function setEth(): Action {
   };
 }
 /**
- * Filter by LINK
+ * Filter by {@link Market.LINK}
  * @returns {@link Action} to filter by
  */
 function setLink(): Action {
