@@ -9,7 +9,12 @@ test("MarketPlace snapshot", () => {
     .create(
       <Provider store={store}>
         <Router>
-          <MarketPlace />
+          <MarketPlace
+            contracts={[]}
+            fetchContracts={function (): Promise<void> {
+              throw new Error("Function not implemented.");
+            }}
+          />
         </Router>
       </Provider>
     )
