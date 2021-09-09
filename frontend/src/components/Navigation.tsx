@@ -9,7 +9,13 @@ import {
 import { lazy, Suspense, useEffect, useState } from "react";
 import { LinearProgress } from "@material-ui/core";
 import { getContractAddresses } from "common/skyDb";
-import { ContractI, getAllContractInfo } from "common/contract";
+import {
+  ContractI,
+  getAllContractInfo,
+  getHoldings,
+  MarketRecord,
+} from "common/contract";
+import { useWeb3React } from "@web3-react/core";
 
 const AddMarket = lazy(() => import("./AddMarket"));
 const MarketPlace = lazy(() => import("./MarketPlace"));
@@ -23,6 +29,7 @@ interface PropsT {
 
 /**
  * Gives each Market a unique Route
+ * @param validAddresses - List of valid addresses in the SkyDB
  * @returns Market Component for the address or redirects to 404 if invalid
  */
 const marketFunc = (validAddresses: string[]): JSX.Element => {
@@ -40,12 +47,34 @@ const marketFunc = (validAddresses: string[]): JSX.Element => {
 function Navigation(): JSX.Element {
   const [validAddresses, setValidAddresses] = useState<string[]>([]);
   const [contracts, setContracts] = useState<ContractI[]>([]);
+  const [marketRecords, setMarketRecords] = useState<MarketRecord[]>([]);
+  const [loading, setLoading] = useState(false);
+  const web3 = useWeb3React();
+
+  const handleLoadingClose = () => {
+    setLoading(false);
+  };
+
+  const fetchHoldings = async () => {
+    if (!web3.active) {
+      if (marketRecords.length !== 0) {
+        setMarketRecords([]);
+      }
+      return;
+    }
+    setLoading(true);
+    const records = await getHoldings(validAddresses, web3);
+    setMarketRecords(records);
+    setLoading(false);
+  };
 
   const fetchContracts = async () => {
+    setLoading(true);
     const addresses = await getContractAddresses();
     setValidAddresses(addresses);
     const contracts = await getAllContractInfo(addresses);
     setContracts(contracts);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -55,7 +84,7 @@ function Navigation(): JSX.Element {
   return (
     <Router>
       <Suspense fallback={<LinearProgress />}>
-        <Navbar />
+        <Navbar fetchHoldings={fetchHoldings} />
         <Switch>
           <Route
             exact
@@ -64,13 +93,22 @@ function Navigation(): JSX.Element {
               <MarketPlace
                 contracts={contracts}
                 fetchContracts={fetchContracts}
+                loading={loading}
+                handleLoadingClose={handleLoadingClose}
               />
             )}
           />
           <Route
             exact
             path="/portfolio"
-            render={() => <Portfolio addresses={validAddresses} />}
+            render={() => (
+              <Portfolio
+                records={marketRecords}
+                fetchHoldings={fetchHoldings}
+                loading={loading}
+                handleLoadingClose={handleLoadingClose}
+              />
+            )}
           />
           <Route exact path="/addmarket" component={AddMarket} />
           <Route

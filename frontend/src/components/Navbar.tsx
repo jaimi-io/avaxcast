@@ -38,11 +38,16 @@ const useStyles = makeStyles((theme: Theme) => {
   });
 });
 
+interface PropsT {
+  fetchHoldings: () => Promise<void>;
+}
+
 /**
- * Navbar used throughout the DApp
+ * The Navbar used throughout the DApp
+ * @param props - {@link PropsT}
  * @returns The Navbar Component
  */
-function Navbar(): JSX.Element {
+function Navbar({ fetchHoldings }: PropsT): JSX.Element {
   const classes = useStyles();
   const isDark = useAppSelector((state) => state.isDark);
   const dispatch = useAppDispatch();
@@ -95,7 +100,7 @@ function Navbar(): JSX.Element {
         </ListItemText>
 
         <ListItemText inset>
-          <Wallet />
+          <Wallet fetchHoldings={fetchHoldings} />
         </ListItemText>
 
         {isDark ? (
