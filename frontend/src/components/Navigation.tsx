@@ -7,7 +7,7 @@ import {
   useParams,
 } from "react-router-dom";
 import { lazy, Suspense } from "react";
-// import Fallback from "./Fallback";
+import { LinearProgress } from "@material-ui/core";
 
 const AddMarket = lazy(() => import("./AddMarket"));
 const MarketPlace = lazy(() => import("./MarketPlace"));
@@ -34,7 +34,7 @@ const MarketFunc = () => {
 function Navigation(): JSX.Element {
   return (
     <Router>
-      <Suspense fallback={<div> Loading... </div>}>
+      <Suspense fallback={<LinearProgress />}>
         <Navbar />
         <Switch>
           <Route exact path="/" component={MarketPlace} />
