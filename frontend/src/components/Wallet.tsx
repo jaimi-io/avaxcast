@@ -12,7 +12,7 @@ import {
 import { blue } from "@material-ui/core/colors";
 import { useWeb3React } from "@web3-react/core";
 import { InjectedConnector } from "@web3-react/injected-connector";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet";
 import MetaMaskIcon from "images/metamask.svg";
 import { createStyles, Theme } from "@material-ui/core/styles";
@@ -91,14 +91,22 @@ const injected = new InjectedConnector({
   supportedChainIds: [AVAX_LOCAL_ID, AVAX_FUJI_ID],
 });
 
+interface PropsT {
+  fetchHoldings: () => Promise<void>;
+}
+
 /**
  * Wallet used to interact on the AVAX C-chain
  * @returns The Wallet Component
  */
-function Wallet(): JSX.Element {
+function Wallet({ fetchHoldings }: PropsT): JSX.Element {
   const classes = useStyles();
   const { active, account, activate, deactivate } = useWeb3React();
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    fetchHoldings();
+  }, [active]);
 
   const handleClickOpen = () => {
     if (active) {

@@ -13,15 +13,14 @@ import TableRow from "@material-ui/core/TableRow";
 import Typography from "@material-ui/core/Typography";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
-import { useWeb3React } from "@web3-react/core";
-import { getHoldings, MarketRecord } from "common/contract";
+import { MarketRecord } from "common/contract";
 import { marketNames } from "common/markets";
-import { getContractAddresses } from "common/skyDb";
 import { handleSnackbarClose } from "common/Snackbar";
 import { Fragment, useEffect, useState } from "react";
 import { LinkContainer } from "react-router-bootstrap";
 import { fromWei } from "web3-utils";
 import Fallback from "./Fallback";
+import { useWeb3React } from "@web3-react/core";
 
 const useRowStyles = makeStyles({
   root: {
@@ -104,44 +103,35 @@ function Row({ row }: { row: MarketRecord }): JSX.Element {
   );
 }
 
+interface PropsT {
+  records: MarketRecord[];
+  fetchHoldings: () => Promise<void>;
+  loading: boolean;
+  handleLoadingClose: () => void;
+}
+
 /**
- * Generates table of user's invested markets
+ * Displays all markets that user has invested in
+ * @param props - {@link PropsT}
  * @returns The Portfolio Component
  */
-function Portfolio(): JSX.Element {
-  const [loading, setLoading] = useState(false);
+function Portfolio({
+  records,
+  fetchHoldings,
+  loading,
+  handleLoadingClose,
+}: PropsT): JSX.Element {
   const [openSnackbar, setOpenSnackbar] = useState(true);
-  const [records, setRecords] = useState<MarketRecord[]>([]);
-  const web3 = useWeb3React();
-
-  const handleLoadingClose = () => {
-    setLoading(false);
-  };
-
-  const fetchRecords = async () => {
-    if (!web3.active) {
-      return;
-    }
-    setOpenSnackbar(false);
-    setLoading(true);
-    const allAddresses = await getContractAddresses();
-    const marketRecords = await getHoldings(allAddresses, web3);
-    setRecords(marketRecords);
-    setLoading(false);
-  };
+  const { active } = useWeb3React();
 
   useEffect(() => {
-    fetchRecords();
+    fetchHoldings();
   }, []);
-
-  useEffect(() => {
-    fetchRecords();
-  }, [web3.active]);
 
   if (records.length === 0) {
     return (
       <Fallback
-        warning={"CONNECT YOUR WALLET"}
+        warning={active ? "NO INVESTMENTS" : "CONNECT YOUR WALLET"}
         isSnackbarOpen={openSnackbar}
         handleSnackbarClose={handleSnackbarClose(setOpenSnackbar)}
         loading={loading}
