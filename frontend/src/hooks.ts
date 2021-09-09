@@ -42,7 +42,7 @@ const dummy: ContractI = {
  * @param address - The address of the contract
  * @returns Information on the {@link ContractI}
  */
-export const useFetch = (address: string): ContractI => {
+export const useFetchContract = (address: string): ContractI => {
   const [data, setData] = useState<ContractI>(dummy);
 
   useEffect(() => {
