@@ -1,6 +1,7 @@
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { useAppSelector } from "hooks";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -12,7 +13,6 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface PropsT {
-  isLoading: boolean;
   handleClose?: () => void;
 }
 
@@ -21,8 +21,9 @@ interface PropsT {
  * @param props - {@link PropsT}
  * @returns The Loading Component
  */
-function Loading({ isLoading, handleClose }: PropsT): JSX.Element {
+function Loading({ handleClose }: PropsT): JSX.Element {
   const classes = useStyles();
+  const isLoading = useAppSelector((state) => state.isLoading);
 
   return (
     <Backdrop

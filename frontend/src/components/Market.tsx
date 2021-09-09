@@ -29,11 +29,12 @@ import {
 import { Vote } from "common/enums";
 import { marketNames, voteString } from "common/markets";
 import { handleSnackbarClose } from "common/Snackbar";
-import { useFetchContract } from "hooks";
+import { useFetchContract, useAppDispatch } from "hooks";
 import { useEffect, useState } from "react";
 import { fromWei, toBN } from "web3-utils";
 import Loading from "./Loading";
 import SuccessSnackbar from "./SuccessSnackbar";
+import { isLoading, notLoading } from "actions";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -70,7 +71,6 @@ function Market({ address }: PropsT): JSX.Element {
   const classes = useStyles();
   const web3 = useWeb3React();
   const { active } = web3;
-  const [loading, setLoading] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [success, setSuccess] = useState(false);
   const [isYesVote, setIsYesVote] = useState(true);
@@ -83,6 +83,7 @@ function Market({ address }: PropsT): JSX.Element {
     yesVotes: 0,
     noVotes: 0,
   });
+  const dispatch = useAppDispatch();
 
   /**
    * Gets the price of the shares selected
@@ -168,7 +169,7 @@ function Market({ address }: PropsT): JSX.Element {
             className={classes.button}
             disabled={!canBuy}
             onClick={async () => {
-              setLoading(true);
+              dispatch(isLoading());
               await buy(
                 contract.address,
                 web3,
@@ -181,7 +182,7 @@ function Market({ address }: PropsT): JSX.Element {
                 .catch(() => {
                   setSuccess(false);
                 });
-              setLoading(false);
+              dispatch(notLoading());
               setOpenSnackbar(true);
             }}
             startIcon={<ShoppingCartIcon />}>
@@ -196,7 +197,7 @@ function Market({ address }: PropsT): JSX.Element {
             handleClose={handleSnackbarClose(setOpenSnackbar)}
           />
 
-          <Loading isLoading={loading} />
+          <Loading />
         </Grid>
       </>
     );
@@ -246,7 +247,7 @@ function Market({ address }: PropsT): JSX.Element {
             className={classes.button}
             disabled={getWinningShares() <= 0 || !active}
             onClick={async () => {
-              setLoading(true);
+              dispatch(isLoading());
               await withdraw(contract.address, web3)
                 .then(() => {
                   setSuccess(true);
@@ -254,7 +255,7 @@ function Market({ address }: PropsT): JSX.Element {
                 .catch(() => {
                   setSuccess(false);
                 });
-              setLoading(false);
+              dispatch(notLoading());
               setOpenSnackbar(true);
             }}
             startIcon={<AttachMoney />}>
@@ -269,7 +270,7 @@ function Market({ address }: PropsT): JSX.Element {
             handleClose={handleSnackbarClose(setOpenSnackbar)}
           />
 
-          <Loading isLoading={loading} />
+          <Loading />
         </Grid>
       </>
     );

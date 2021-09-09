@@ -84,8 +84,6 @@ function MarketDialog({ onClose, open }: MarketDialogProps): JSX.Element {
 interface PropsT {
   contracts: ContractI[];
   fetchContracts: () => Promise<void>;
-  loading: boolean;
-  handleLoadingClose: () => void;
 }
 
 /**
@@ -93,12 +91,7 @@ interface PropsT {
  * @param props - {@link PropsT}
  * @returns The component for MarketPlace
  */
-function MarketPlace({
-  contracts,
-  fetchContracts,
-  loading,
-  handleLoadingClose,
-}: PropsT): JSX.Element {
+function MarketPlace({ contracts, fetchContracts }: PropsT): JSX.Element {
   const classes = useStyles();
   const marketFilter = useAppSelector((state) => state.marketFilter);
   const icon = marketIcons[marketFilter];
@@ -163,12 +156,7 @@ function MarketPlace({
           />
         </form>
       </div>
-      <Posts
-        contracts={contracts}
-        deadlineFilter={[startDate, endDate]}
-        loading={loading}
-        handleLoadingClose={handleLoadingClose}
-      />
+      <Posts contracts={contracts} deadlineFilter={[startDate, endDate]} />
     </div>
   );
 }

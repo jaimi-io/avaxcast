@@ -21,6 +21,8 @@ import { LinkContainer } from "react-router-bootstrap";
 import { fromWei } from "web3-utils";
 import Fallback from "./Fallback";
 import { useWeb3React } from "@web3-react/core";
+import { useAppDispatch } from "hooks";
+import { notLoading } from "actions";
 
 const useRowStyles = makeStyles({
   root: {
@@ -106,8 +108,6 @@ function Row({ row }: { row: MarketRecord }): JSX.Element {
 interface PropsT {
   records: MarketRecord[];
   fetchHoldings: () => Promise<void>;
-  loading: boolean;
-  handleLoadingClose: () => void;
 }
 
 /**
@@ -115,14 +115,10 @@ interface PropsT {
  * @param props - {@link PropsT}
  * @returns The Portfolio Component
  */
-function Portfolio({
-  records,
-  fetchHoldings,
-  loading,
-  handleLoadingClose,
-}: PropsT): JSX.Element {
+function Portfolio({ records, fetchHoldings }: PropsT): JSX.Element {
   const [openSnackbar, setOpenSnackbar] = useState(true);
   const { active } = useWeb3React();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     fetchHoldings();
@@ -134,8 +130,7 @@ function Portfolio({
         warning={active ? "NO INVESTMENTS" : "CONNECT YOUR WALLET"}
         isSnackbarOpen={openSnackbar}
         handleSnackbarClose={handleSnackbarClose(setOpenSnackbar)}
-        loading={loading}
-        handleLoadingClose={handleLoadingClose}
+        handleLoadingClose={() => dispatch(notLoading())}
       />
     );
   }

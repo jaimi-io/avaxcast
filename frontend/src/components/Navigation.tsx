@@ -16,6 +16,8 @@ import {
   MarketRecord,
 } from "common/contract";
 import { useWeb3React } from "@web3-react/core";
+import { useAppDispatch } from "hooks";
+import { isLoading, notLoading } from "actions";
 
 const AddMarket = lazy(() => import("./AddMarket"));
 const MarketPlace = lazy(() => import("./MarketPlace"));
@@ -48,12 +50,8 @@ function Navigation(): JSX.Element {
   const [validAddresses, setValidAddresses] = useState<string[]>([]);
   const [contracts, setContracts] = useState<ContractI[]>([]);
   const [marketRecords, setMarketRecords] = useState<MarketRecord[]>([]);
-  const [loading, setLoading] = useState(false);
   const web3 = useWeb3React();
-
-  const handleLoadingClose = () => {
-    setLoading(false);
-  };
+  const dispatch = useAppDispatch();
 
   const fetchHoldings = async () => {
     if (!web3.active) {
@@ -62,19 +60,19 @@ function Navigation(): JSX.Element {
       }
       return;
     }
-    setLoading(true);
+    dispatch(isLoading());
     const records = await getHoldings(validAddresses, web3);
     setMarketRecords(records);
-    setLoading(false);
+    dispatch(notLoading());
   };
 
   const fetchContracts = async () => {
-    setLoading(true);
+    dispatch(isLoading());
     const addresses = await getContractAddresses();
     setValidAddresses(addresses);
     const contracts = await getAllContractInfo(addresses);
     setContracts(contracts);
-    setLoading(false);
+    dispatch(notLoading());
   };
 
   useEffect(() => {
@@ -93,8 +91,6 @@ function Navigation(): JSX.Element {
               <MarketPlace
                 contracts={contracts}
                 fetchContracts={fetchContracts}
-                loading={loading}
-                handleLoadingClose={handleLoadingClose}
               />
             )}
           />
@@ -105,8 +101,6 @@ function Navigation(): JSX.Element {
               <Portfolio
                 records={marketRecords}
                 fetchHoldings={fetchHoldings}
-                loading={loading}
-                handleLoadingClose={handleLoadingClose}
               />
             )}
           />
