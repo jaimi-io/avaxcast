@@ -22,8 +22,6 @@ import BN from "bn.js";
 import { UNDEFINED_NUM_SHARES, UNDEFINED_PRICE } from "common/constants";
 import {
   buy,
-  ContractI,
-  getContractInfo,
   getCurrentVotes,
   VotesPerPerson,
   withdraw,
@@ -31,6 +29,7 @@ import {
 import { Vote } from "common/enums";
 import { marketNames, voteString } from "common/markets";
 import { handleSnackbarClose } from "common/Snackbar";
+import { useFetch } from "hooks";
 import { useEffect, useState } from "react";
 import { fromWei, toBN } from "web3-utils";
 import Loading from "./Loading";
@@ -75,16 +74,7 @@ function Market({ address }: PropsT): JSX.Element {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [success, setSuccess] = useState(false);
   const [isYesVote, setIsYesVote] = useState(true);
-  const [contract, setContract] = useState<ContractI>({
-    market: 0,
-    predictedPrice: "$X",
-    date: new Date(),
-    volume: toBN(UNDEFINED_PRICE),
-    yesPrice: toBN(UNDEFINED_PRICE),
-    noPrice: toBN(UNDEFINED_PRICE),
-    address: address,
-    isResolved: false,
-  });
+  const contract = useFetch(address);
   const formattedDate = contract.date.toDateString();
   const [numShares, setNumShares] = useState(UNDEFINED_NUM_SHARES);
   const [canBuy, setCanBuy] = useState(false);
@@ -116,11 +106,6 @@ function Market({ address }: PropsT): JSX.Element {
   };
 
   useEffect(() => {
-    const fetchContractInfo = async () => {
-      const contract = await getContractInfo(address);
-      setContract(contract);
-    };
-    fetchContractInfo();
     fetchCurrentVotes();
   }, []);
 
