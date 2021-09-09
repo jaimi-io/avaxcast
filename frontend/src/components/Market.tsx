@@ -29,7 +29,7 @@ import {
 import { Vote } from "common/enums";
 import { marketNames, voteString } from "common/markets";
 import { handleSnackbarClose } from "common/Snackbar";
-import { useFetch } from "hooks";
+import { useFetchContract } from "hooks";
 import { useEffect, useState } from "react";
 import { fromWei, toBN } from "web3-utils";
 import Loading from "./Loading";
@@ -74,7 +74,7 @@ function Market({ address }: PropsT): JSX.Element {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [success, setSuccess] = useState(false);
   const [isYesVote, setIsYesVote] = useState(true);
-  const contract = useFetch(address);
+  const contract = useFetchContract(address);
   const formattedDate = contract.date.toDateString();
   const [numShares, setNumShares] = useState(UNDEFINED_NUM_SHARES);
   const [canBuy, setCanBuy] = useState(false);
