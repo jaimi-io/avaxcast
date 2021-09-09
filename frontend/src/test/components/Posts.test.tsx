@@ -9,12 +9,7 @@ test("Posts snapshot", () => {
     .create(
       <Provider store={store}>
         <Router>
-          <Posts
-            contracts={[]}
-            deadlineFilter={["", ""]}
-            loading={false}
-            handleLoadingClose={() => console.log}
-          />
+          <Posts contracts={[]} deadlineFilter={["", ""]} />
         </Router>
       </Provider>
     )

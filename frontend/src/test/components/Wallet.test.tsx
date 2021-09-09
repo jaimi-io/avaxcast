@@ -9,7 +9,11 @@ test("Wallet snapshot", () => {
     .create(
       <Provider store={store}>
         <Router>
-          <Wallet />
+          <Wallet
+            fetchHoldings={function (): Promise<void> {
+              throw new Error("Function not implemented.");
+            }}
+          />
         </Router>
       </Provider>
     )

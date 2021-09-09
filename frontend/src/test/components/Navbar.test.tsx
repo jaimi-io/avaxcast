@@ -9,7 +9,11 @@ test("Navbar snapshot", () => {
     .create(
       <Provider store={store}>
         <Router>
-          <Navbar />
+          <Navbar
+            fetchHoldings={function (): Promise<void> {
+              throw new Error("Function not implemented.");
+            }}
+          />
         </Router>
       </Provider>
     )
