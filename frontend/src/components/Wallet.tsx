@@ -31,7 +31,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface WalletDialogProps {
   open: boolean;
-  active: boolean;
   connect: () => Promise<void>;
   onClose: () => void;
 }
@@ -98,11 +97,15 @@ const injected = new InjectedConnector({
  */
 function Wallet(): JSX.Element {
   const classes = useStyles();
-  const { active, account, activate } = useWeb3React();
+  const { active, account, activate, deactivate } = useWeb3React();
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
-    setOpen(true);
+    if (active) {
+      deactivate();
+    } else {
+      setOpen(true);
+    }
   };
 
   const handleClose = () => {
@@ -120,16 +123,10 @@ function Wallet(): JSX.Element {
         color="inherit"
         onClick={handleClickOpen}
         className={classes.button}
-        startIcon={<AccountBalanceWalletIcon />}
-        disabled={active}>
+        startIcon={<AccountBalanceWalletIcon />}>
         {active ? `${displayAccount(account)}` : "Wallet"}
       </Button>
-      <WalletDialog
-        open={open}
-        active={active}
-        connect={connect}
-        onClose={handleClose}
-      />
+      <WalletDialog open={open} connect={connect} onClose={handleClose} />
     </div>
   );
 }
