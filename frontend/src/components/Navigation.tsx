@@ -9,6 +9,7 @@ import {
 import { lazy, Suspense, useEffect, useState } from "react";
 import { LinearProgress } from "@material-ui/core";
 import { getContractAddresses } from "common/skyDb";
+import { ContractI, getAllContractInfo } from "common/contract";
 
 const AddMarket = lazy(() => import("./AddMarket"));
 const MarketPlace = lazy(() => import("./MarketPlace"));
@@ -38,13 +39,17 @@ const marketFunc = (validAddresses: string[]): JSX.Element => {
  */
 function Navigation(): JSX.Element {
   const [validAddresses, setValidAddresses] = useState<string[]>([]);
+  const [contracts, setContracts] = useState<ContractI[]>([]);
+
+  const fetchContracts = async () => {
+    const addresses = await getContractAddresses();
+    setValidAddresses(addresses);
+    const contracts = await getAllContractInfo(addresses);
+    setContracts(contracts);
+  };
 
   useEffect(() => {
-    const fetchAddresses = async () => {
-      const addresses = await getContractAddresses();
-      setValidAddresses(addresses);
-    };
-    fetchAddresses();
+    fetchContracts();
   }, []);
 
   return (
@@ -52,8 +57,21 @@ function Navigation(): JSX.Element {
       <Suspense fallback={<LinearProgress />}>
         <Navbar />
         <Switch>
-          <Route exact path="/" component={MarketPlace} />
-          <Route exact path="/portfolio" component={Portfolio} />
+          <Route
+            exact
+            path="/"
+            render={() => (
+              <MarketPlace
+                contracts={contracts}
+                fetchContracts={fetchContracts}
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/portfolio"
+            render={() => <Portfolio addresses={validAddresses} />}
+          />
           <Route exact path="/addmarket" component={AddMarket} />
           <Route
             exact

@@ -8,10 +8,9 @@ import ListItem from "@material-ui/core/ListItem";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import { filterMarketActions } from "actions";
-import { ContractI, getAllContractInfo } from "common/contract";
+import { ContractI } from "common/contract";
 import { getCurrentDateString, monthAfter } from "common/date";
 import { marketIcons, marketNames } from "common/markets";
-import { getContractAddresses } from "common/skyDb";
 import Posts from "components/Posts";
 import { useAppDispatch, useAppSelector } from "hooks";
 import { useEffect, useState } from "react";
@@ -82,11 +81,16 @@ function MarketDialog({ onClose, open }: MarketDialogProps): JSX.Element {
   );
 }
 
+interface PropsT {
+  contracts: ContractI[];
+  fetchContracts: () => Promise<void>;
+}
+
 /**
  * Displays all Markets
  * @returns The MarketPlace Component
  */
-function MarketPlace(): JSX.Element {
+function MarketPlace({ contracts, fetchContracts }: PropsT): JSX.Element {
   const classes = useStyles();
   const marketFilter = useAppSelector((state) => state.marketFilter);
   const icon = marketIcons[marketFilter];
@@ -95,17 +99,10 @@ function MarketPlace(): JSX.Element {
   const [startDate, setStartDate] = useState(DEFAULT_DATE);
   const [endDate, setEndDate] = useState(DEFAULT_END_DATE);
   const [openDialog, setOpenDialog] = useState(false);
-  const [contracts, setContracts] = useState<ContractI[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const fetch = async () => {
-      setLoading(true);
-      const adds = await getContractAddresses();
-      setContracts(await getAllContractInfo(adds));
-      setLoading(false);
-    };
-    fetch();
+    fetchContracts();
   }, []);
 
   const handleDialogOpen = () => {
