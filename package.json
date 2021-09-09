@@ -20,7 +20,7 @@
     "ethers": "^5.0.24",
     "ethlint": "^1.2.5",
     "hardhat": "2.4.3",
-    "prettier": "^2.3.2",
+    "prettier": "^2.4.0",
     "prettier-plugin-solidity": "^1.0.0-beta.17",
     "solc": "^0.8.7-fixed",
     "solidity-docgen": "^0.5.13",
