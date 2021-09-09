@@ -6,8 +6,9 @@ import {
   Switch,
   useParams,
 } from "react-router-dom";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { LinearProgress } from "@material-ui/core";
+import { getContractAddresses } from "common/skyDb";
 
 const AddMarket = lazy(() => import("./AddMarket"));
 const MarketPlace = lazy(() => import("./MarketPlace"));
@@ -21,10 +22,14 @@ interface PropsT {
 
 /**
  * Gives each Market a unique Route
- * @returns Market Component for the address
+ * @returns Market Component for the address or redirects to 404 if invalid
  */
-const MarketFunc = () => {
-  return <Market address={useParams<PropsT>().address} />;
+const marketFunc = (validAddresses: string[]): JSX.Element => {
+  const { address } = useParams<PropsT>();
+  if (validAddresses.includes(address)) {
+    return <Market address={address} />;
+  }
+  return <Redirect to="/404" />;
 };
 
 /**
@@ -32,6 +37,16 @@ const MarketFunc = () => {
  * @returns The Navigation Component
  */
 function Navigation(): JSX.Element {
+  const [validAddresses, setValidAddresses] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchAddresses = async () => {
+      const addresses = await getContractAddresses();
+      setValidAddresses(addresses);
+    };
+    fetchAddresses();
+  }, []);
+
   return (
     <Router>
       <Suspense fallback={<LinearProgress />}>
@@ -40,7 +55,11 @@ function Navigation(): JSX.Element {
           <Route exact path="/" component={MarketPlace} />
           <Route exact path="/portfolio" component={Portfolio} />
           <Route exact path="/addmarket" component={AddMarket} />
-          <Route exact path="/market/:address" component={MarketFunc} />
+          <Route
+            exact
+            path="/market/:address"
+            component={() => marketFunc(validAddresses)}
+          />
           <Route exact path="/404" component={NotFound} />
           <Redirect to="/404" />
         </Switch>
