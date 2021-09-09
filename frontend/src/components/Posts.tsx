@@ -4,11 +4,12 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import { Market } from "common/enums";
 import { marketIcons, marketNames } from "common/markets";
-import { useAppSelector } from "hooks";
+import { useAppDispatch, useAppSelector } from "hooks";
 import { ContractI } from "common/contract";
 import { LinkContainer } from "react-router-bootstrap";
 import { fromWei } from "web3-utils";
 import Fallback from "./Fallback";
+import { notLoading } from "actions";
 
 /**
  * Post for a Market
@@ -84,8 +85,6 @@ function Post({
 interface PropsT {
   contracts: ContractI[];
   deadlineFilter: string[];
-  loading: boolean;
-  handleLoadingClose: () => void;
 }
 
 /**
@@ -93,13 +92,9 @@ interface PropsT {
  * @param props - {@link PropsT}
  * @returns The Posts Component
  */
-function Posts({
-  contracts,
-  deadlineFilter,
-  loading,
-  handleLoadingClose,
-}: PropsT): JSX.Element {
+function Posts({ contracts, deadlineFilter }: PropsT): JSX.Element {
   const marketFilter = useAppSelector((state) => state.marketFilter);
+  const dispatch = useAppDispatch();
   const [start, end] = deadlineFilter;
   const startDate = new Date(start);
   const endDate = new Date(end);
@@ -119,8 +114,7 @@ function Posts({
       <Fallback
         warning={""}
         isSnackbarOpen={false}
-        loading={loading}
-        handleLoadingClose={handleLoadingClose}
+        handleLoadingClose={() => dispatch(notLoading())}
       />
     );
   }

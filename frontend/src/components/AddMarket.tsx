@@ -6,6 +6,7 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import PublishIcon from "@material-ui/icons/Publish";
 import { useWeb3React } from "@web3-react/core";
+import { isLoading, notLoading } from "actions";
 import { FLOAT_TO_SOL_NUM, MS_TO_SECS } from "common/constants";
 import { getCurrentDateString } from "common/date";
 import { Market } from "common/enums";
@@ -13,6 +14,7 @@ import { marketNames } from "common/markets";
 import { insertContractAddress } from "common/skyDb";
 import { handleSnackbarClose } from "common/Snackbar";
 import Prediction from "contracts/PredictionMarket.json";
+import { useAppDispatch } from "hooks";
 import { useEffect, useState } from "react";
 import NumberFormat from "react-number-format";
 import { AbiItem } from "web3-utils";
@@ -114,6 +116,7 @@ function AddMarket(): JSX.Element {
   const classes = useStyles();
   const INITIAL_PREDICTED_PRICE = 0.0;
   const INITIAL_DATE = getCurrentDateString();
+  const dispatch = useAppDispatch();
   // state
   const [market, setMarket] = useState(Market.ALL);
   const [predictedPrice, setPredictedPrice] = useState(INITIAL_PREDICTED_PRICE);
@@ -121,7 +124,6 @@ function AddMarket(): JSX.Element {
   const [invalid, setInvalid] = useState(true);
   const [success, setSuccess] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [loading, setLoading] = useState(false);
   const { active, account, library } = useWeb3React();
 
   useEffect(() => {
@@ -138,7 +140,7 @@ function AddMarket(): JSX.Element {
    * Adds a market to SkyDB
    */
   const handleAddMarket = async () => {
-    setLoading(true);
+    dispatch(isLoading());
     const contract = new library.eth.Contract(Prediction.abi as AbiItem[]);
     const unixDeadline = Math.floor(new Date(deadline).getTime() / MS_TO_SECS);
     await contract
@@ -155,7 +157,7 @@ function AddMarket(): JSX.Element {
       .catch(() => {
         setSuccess(false);
       });
-    setLoading(false);
+    dispatch(notLoading());
     setOpenSnackbar(true);
   };
 
@@ -227,7 +229,7 @@ function AddMarket(): JSX.Element {
         handleClose={handleSnackbarClose(setOpenSnackbar)}
       />
 
-      <Loading isLoading={loading} />
+      <Loading />
     </div>
   );
 }

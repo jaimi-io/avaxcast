@@ -11,7 +11,6 @@ interface PropsT {
     event?: SyntheticEvent<Element, Event> | undefined,
     reason?: string | undefined
   ) => void;
-  loading: boolean;
   handleLoadingClose?: () => void;
 }
 
@@ -24,7 +23,6 @@ function Fallback({
   warning,
   isSnackbarOpen = false,
   handleSnackbarClose,
-  loading,
   handleLoadingClose,
 }: PropsT): JSX.Element {
   return (
@@ -35,7 +33,7 @@ function Fallback({
           {warning}
         </Alert>
       </Snackbar>
-      <Loading isLoading={loading} handleClose={handleLoadingClose} />
+      <Loading handleClose={handleLoadingClose} />
     </>
   );
 }
