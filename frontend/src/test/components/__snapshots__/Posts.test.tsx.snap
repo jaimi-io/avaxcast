@@ -3,12 +3,12 @@
 exports[`Posts snapshot 1`] = `
 Array [
   <img
-    className="makeStyles-svg-1"
+    className="makeStyles-svg-3"
     src="nothing_here_black.svg"
   />,
   <div
     aria-hidden={true}
-    className="MuiBackdrop-root makeStyles-backdrop-2"
+    className="MuiBackdrop-root makeStyles-backdrop-4"
     onClick={[Function]}
     style={
       Object {
