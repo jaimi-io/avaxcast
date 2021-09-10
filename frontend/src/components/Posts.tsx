@@ -1,4 +1,4 @@
-import { Grid, Typography } from "@material-ui/core";
+import { createStyles, Grid, makeStyles, Typography } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
@@ -10,6 +10,24 @@ import { LinkContainer } from "react-router-bootstrap";
 import { fromWei } from "web3-utils";
 import Fallback from "./Fallback";
 import { notLoading } from "actions";
+import List from "@material-ui/core/List";
+
+const useStyles = makeStyles(() => {
+  const LIST_MARGIN = "10%";
+  const POST_MARGIN = "2%";
+  return createStyles({
+    list: {
+      marginLeft: LIST_MARGIN,
+      marginRight: LIST_MARGIN,
+      padding: 40,
+      // marginBottom: MARGIN,
+    },
+    post: {
+      marginTop: POST_MARGIN,
+      marginBottom: POST_MARGIN,
+    },
+  });
+});
 
 /**
  * Post for a Market
@@ -25,29 +43,23 @@ function Post({
   yesPrice,
   noPrice,
 }: ContractI): JSX.Element {
+  const classes = useStyles();
   const formattedDate = date.toDateString();
   return (
-    <LinkContainer to={`/market/${address}`}>
+    <LinkContainer className={classes.post} to={`/market/${address}`}>
       <Grid item>
         <Card>
           <CardActionArea>
             <CardContent>
-              <Grid container spacing={3} justifyContent="center">
+              <Grid container justifyContent="center">
                 <Grid item xs>
                   <img src={marketIcons[market]} width={"50px"} />
                 </Grid>
-                <Grid item xs>
-                  <Typography component="p">{predictedPrice}</Typography>
+                <Grid item xs={8}>
+                  <Typography variant="h6" component="p">
+                    {`Will ${marketNames[market]} reach ${predictedPrice} by ${formattedDate}`}
+                  </Typography>
                 </Grid>
-                <Grid item xs>
-                  <Typography component="p">{formattedDate}</Typography>
-                </Grid>
-              </Grid>
-
-              <Typography variant="h6" component="p">
-                {`Will ${marketNames[market]} reach ${predictedPrice} by ${formattedDate}`}
-              </Typography>
-              <Grid container>
                 <Grid item xs>
                   <Typography variant="body2" component="p">
                     {"Total Volume:"}
@@ -65,7 +77,6 @@ function Post({
                         align="right"
                       >{`Yes: ${fromWei(yesPrice)}`}</Typography>
                     </Grid>
-
                     <Grid item xs={12}>
                       <Typography
                         variant="body1"
@@ -100,6 +111,7 @@ interface PropsT {
  * @returns The Posts Component
  */
 function Posts({ contracts, deadlineFilter, sortByVol }: PropsT): JSX.Element {
+  const classes = useStyles();
   const marketFilter = useAppSelector((state) => state.marketFilter);
   const dispatch = useAppDispatch();
   const [start, end] = deadlineFilter;
@@ -143,13 +155,11 @@ function Posts({ contracts, deadlineFilter, sortByVol }: PropsT): JSX.Element {
   }
 
   return (
-    <div style={{ marginTop: 20, padding: 50 }}>
-      <Grid container spacing={3} justifyContent="center">
-        {filtered.map((post) => (
-          <Post key={post.address} {...post} />
-        ))}
-      </Grid>
-    </div>
+    <List className={classes.list} component="nav" aria-label="posts">
+      {filtered.map((post) => (
+        <Post key={post.address} {...post} />
+      ))}
+    </List>
   );
 }
 
