@@ -21,6 +21,7 @@ import { AbiItem } from "web3-utils";
 import Loading from "./Loading";
 import SuccessSnackbar from "./SuccessSnackbar";
 import { Grid } from "@material-ui/core";
+import TradingView from "./TradingView";
 
 /**
  * Determines if the market given is invalid
@@ -53,9 +54,11 @@ function invalidDate(date: string): boolean {
 
 const useStyles = makeStyles((theme: Theme) => {
   const spacing = theme.spacing(1);
+  const FILTER_MARGIN = "5%";
   return createStyles({
     root: {
-      marginTop: "10%",
+      marginTop: FILTER_MARGIN,
+      marginBottom: FILTER_MARGIN,
     },
     textField: {
       marginLeft: spacing,
@@ -162,75 +165,79 @@ function AddMarket(): JSX.Element {
   };
 
   return (
-    <Grid container className={classes.root} justifyContent="center">
-      <FormControl className={classes.formControl}>
-        <Select
-          defaultValue={Market.ALL}
-          labelId="markets-select"
-          id="markets-select"
-          type="text"
-          variant="outlined"
-          error={invalidMarket(market)}
-          onChange={(e) => setMarket(e.target.value as Market)}>
-          {marketNames.map((mk, index) => (
-            <MenuItem value={index} key={index}>
-              {mk}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <TextField
-        label="Predicted Price ($)"
-        id="formatted-numberformat-input"
-        defaultValue={INITIAL_PREDICTED_PRICE}
-        className={classes.textField}
-        onChange={(e) => setPredictedPrice(parseFloat(e.target.value))}
-        error={invalidPrice(predictedPrice)}
-        variant="outlined"
-        helperText="Range $0 - $X"
-        InputProps={{
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          inputComponent: NumberFormatCustom as any,
-        }}
-      />
-      <form>
+    <>
+      <Grid container className={classes.root} justifyContent="center">
+        <FormControl className={classes.formControl}>
+          <Select
+            defaultValue={Market.ALL}
+            labelId="markets-select"
+            id="markets-select"
+            type="text"
+            variant="outlined"
+            error={invalidMarket(market)}
+            onChange={(e) => setMarket(e.target.value as Market)}>
+            {marketNames.map((mk, index) => (
+              <MenuItem value={index} key={index}>
+                {mk}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
         <TextField
-          id="date"
-          label="Deadline"
-          type="date"
-          defaultValue={INITIAL_DATE}
-          variant="outlined"
+          label="Predicted Price ($)"
+          id="formatted-numberformat-input"
+          defaultValue={INITIAL_PREDICTED_PRICE}
           className={classes.textField}
-          InputLabelProps={{
-            shrink: true,
+          onChange={(e) => setPredictedPrice(parseFloat(e.target.value))}
+          error={invalidPrice(predictedPrice)}
+          variant="outlined"
+          helperText="Range $0 - $X"
+          InputProps={{
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            inputComponent: NumberFormatCustom as any,
           }}
-          onChange={(e) => setDeadline(e.target.value)}
-          error={invalidDate(deadline)}
-          helperText={
-            invalidDate(deadline) ? "Select a date after the current date" : ""
-          }
         />
-      </form>
-      <Button
-        variant="contained"
-        color="inherit"
-        className={classes.button}
-        disabled={invalid}
-        startIcon={<PublishIcon />}
-        onClick={handleAddMarket}>
-        Submit
-      </Button>
+        <form>
+          <TextField
+            id="date"
+            label="Deadline"
+            type="date"
+            defaultValue={INITIAL_DATE}
+            variant="outlined"
+            className={classes.textField}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            onChange={(e) => setDeadline(e.target.value)}
+            error={invalidDate(deadline)}
+            helperText={
+              invalidDate(deadline)
+                ? "Select a date after the current date"
+                : ""
+            }
+          />
+        </form>
+        <Button
+          variant="contained"
+          color="inherit"
+          className={classes.button}
+          disabled={invalid}
+          startIcon={<PublishIcon />}
+          onClick={handleAddMarket}>
+          Submit
+        </Button>
 
-      <SuccessSnackbar
-        successMsg={"Successfully added!"}
-        failMsg={"Failed to add."}
-        success={success}
-        open={openSnackbar}
-        handleClose={handleSnackbarClose(setOpenSnackbar)}
-      />
-
+        <SuccessSnackbar
+          successMsg={"Successfully added!"}
+          failMsg={"Failed to add."}
+          success={success}
+          open={openSnackbar}
+          handleClose={handleSnackbarClose(setOpenSnackbar)}
+        />
+      </Grid>
+      <TradingView market={market} />
       <Loading />
-    </Grid>
+    </>
   );
 }
 
