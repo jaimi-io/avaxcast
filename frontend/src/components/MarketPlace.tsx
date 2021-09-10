@@ -1,4 +1,4 @@
-import { ListItemAvatar, ListItemText } from "@material-ui/core";
+import { Grid, ListItemAvatar, ListItemText } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -17,18 +17,17 @@ import { useAppDispatch, useAppSelector } from "hooks";
 import { useEffect, useState } from "react";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    filters: {
-      display: "flex",
-    },
+const useStyles = makeStyles((theme: Theme) => {
+  const FORM_MARGIN = theme.spacing(1);
+  return createStyles({
     formControl: {
       margin: theme.spacing(1),
       minWidth: 120,
     },
     form: {
-      marginTop: theme.spacing(1),
-      marginLeft: theme.spacing(1),
+      marginTop: FORM_MARGIN,
+      marginLeft: FORM_MARGIN,
+      marginRight: FORM_MARGIN,
     },
     button: {
       minHeight: 55,
@@ -36,8 +35,8 @@ const useStyles = makeStyles((theme: Theme) =>
     textField: {
       width: 200,
     },
-  })
-);
+  });
+});
 
 interface MarketDialogProps {
   open: boolean;
@@ -71,8 +70,7 @@ function MarketDialog({ onClose, open }: MarketDialogProps): JSX.Element {
             button
             onClick={() => {
               handleClose(index);
-            }}
-          >
+            }}>
             <ListItemAvatar>
               <img src={icon} width={"50px"} />
             </ListItemAvatar>
@@ -117,62 +115,65 @@ function MarketPlace({ contracts, fetchContracts }: PropsT): JSX.Element {
     setOpenDialog(false);
   };
 
+  const filters = (
+    <>
+      <FormControl className={classes.formControl}>
+        <Button
+          variant="outlined"
+          className={classes.button}
+          onClick={handleDialogOpen}
+          startIcon={<img src={icon} width={"20px"} />}>
+          Select Market
+        </Button>
+        <MarketDialog open={openDialog} onClose={handleDialogClose} />
+      </FormControl>
+      <form className={classes.form} noValidate>
+        <TextField
+          id="date"
+          label="Start Deadline"
+          variant="outlined"
+          type="date"
+          onChange={(e) => setStartDate(e.target.value)}
+          defaultValue={DEFAULT_DATE}
+          className={classes.textField}
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+      </form>
+      <form className={classes.form} noValidate>
+        <TextField
+          id="date"
+          label="End Deadline"
+          variant="outlined"
+          type="date"
+          onChange={(e) => setEndDate(e.target.value)}
+          defaultValue={DEFAULT_END_DATE}
+          className={classes.textField}
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+      </form>
+      <FormControl className={classes.formControl}>
+        <Button
+          variant="outlined"
+          className={classes.button}
+          onClick={() => {
+            setSortByVol((prev) => !prev);
+          }}
+          endIcon={sortByVol ? <ArrowDownwardIcon /> : <ArrowUpwardIcon />}>
+          Sort by volume
+        </Button>
+      </FormControl>
+    </>
+  );
+
   return (
     <div>
-      <div className={classes.filters}>
-        <FormControl className={classes.formControl}>
-          <Button
-            variant="outlined"
-            className={classes.button}
-            onClick={handleDialogOpen}
-            startIcon={<img src={icon} width={"20px"} />}
-          >
-            Select Market
-          </Button>
-          <MarketDialog open={openDialog} onClose={handleDialogClose} />
-        </FormControl>
-
-        <form className={classes.form} noValidate>
-          <TextField
-            id="date"
-            label="Start Deadline"
-            variant="outlined"
-            type="date"
-            onChange={(e) => setStartDate(e.target.value)}
-            defaultValue={DEFAULT_DATE}
-            className={classes.textField}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-        </form>
-        <form className={classes.form} noValidate>
-          <TextField
-            id="date"
-            label="End Deadline"
-            variant="outlined"
-            type="date"
-            onChange={(e) => setEndDate(e.target.value)}
-            defaultValue={DEFAULT_END_DATE}
-            className={classes.textField}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-        </form>
-        <FormControl className={classes.formControl}>
-          <Button
-            variant="outlined"
-            className={classes.button}
-            onClick={() => {
-              setSortByVol((prev) => !prev);
-            }}
-            endIcon={sortByVol ? <ArrowDownwardIcon /> : <ArrowUpwardIcon />}
-          >
-            Sort by volume
-          </Button>
-        </FormControl>
-      </div>
+      <Grid container justifyContent="center">
+        {filters}
+      </Grid>
       <Posts
         contracts={contracts}
         deadlineFilter={[startDate, endDate]}
