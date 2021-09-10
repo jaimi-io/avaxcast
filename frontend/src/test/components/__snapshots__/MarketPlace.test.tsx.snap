@@ -3,13 +3,13 @@
 exports[`MarketPlace snapshot 1`] = `
 <div>
   <div
-    className="makeStyles-filters-1"
+    className="MuiGrid-root MuiGrid-container MuiGrid-justify-content-xs-center"
   >
     <div
-      className="MuiFormControl-root makeStyles-formControl-2"
+      className="MuiFormControl-root makeStyles-formControl-1"
     >
       <button
-        className="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-button-4"
+        className="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-button-3"
         disabled={false}
         onBlur={[Function]}
         onClick={[Function]}
@@ -42,11 +42,11 @@ exports[`MarketPlace snapshot 1`] = `
       </button>
     </div>
     <form
-      className="makeStyles-form-3"
+      className="makeStyles-form-2"
       noValidate={true}
     >
       <div
-        className="MuiFormControl-root MuiTextField-root makeStyles-textField-5"
+        className="MuiFormControl-root MuiTextField-root makeStyles-textField-4"
       >
         <label
           className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled"
@@ -64,7 +64,7 @@ exports[`MarketPlace snapshot 1`] = `
             aria-invalid={false}
             autoFocus={false}
             className="MuiInputBase-input MuiOutlinedInput-input"
-            defaultValue="2021-09-09"
+            defaultValue="2021-09-10"
             disabled={false}
             id="date"
             onAnimationStart={[Function]}
@@ -76,10 +76,10 @@ exports[`MarketPlace snapshot 1`] = `
           />
           <fieldset
             aria-hidden={true}
-            className="PrivateNotchedOutline-root-6 MuiOutlinedInput-notchedOutline"
+            className="PrivateNotchedOutline-root-5 MuiOutlinedInput-notchedOutline"
           >
             <legend
-              className="PrivateNotchedOutline-legendLabelled-8 PrivateNotchedOutline-legendNotched-9"
+              className="PrivateNotchedOutline-legendLabelled-7 PrivateNotchedOutline-legendNotched-8"
             >
               <span>
                 Start Deadline
@@ -90,11 +90,11 @@ exports[`MarketPlace snapshot 1`] = `
       </div>
     </form>
     <form
-      className="makeStyles-form-3"
+      className="makeStyles-form-2"
       noValidate={true}
     >
       <div
-        className="MuiFormControl-root MuiTextField-root makeStyles-textField-5"
+        className="MuiFormControl-root MuiTextField-root makeStyles-textField-4"
       >
         <label
           className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled"
@@ -112,7 +112,7 @@ exports[`MarketPlace snapshot 1`] = `
             aria-invalid={false}
             autoFocus={false}
             className="MuiInputBase-input MuiOutlinedInput-input"
-            defaultValue="2021-10-09"
+            defaultValue="2021-10-10"
             disabled={false}
             id="date"
             onAnimationStart={[Function]}
@@ -124,10 +124,10 @@ exports[`MarketPlace snapshot 1`] = `
           />
           <fieldset
             aria-hidden={true}
-            className="PrivateNotchedOutline-root-6 MuiOutlinedInput-notchedOutline"
+            className="PrivateNotchedOutline-root-5 MuiOutlinedInput-notchedOutline"
           >
             <legend
-              className="PrivateNotchedOutline-legendLabelled-8 PrivateNotchedOutline-legendNotched-9"
+              className="PrivateNotchedOutline-legendLabelled-7 PrivateNotchedOutline-legendNotched-8"
             >
               <span>
                 End Deadline
@@ -137,14 +137,56 @@ exports[`MarketPlace snapshot 1`] = `
         </div>
       </div>
     </form>
+    <div
+      className="MuiFormControl-root makeStyles-formControl-1"
+    >
+      <button
+        className="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-button-3"
+        disabled={false}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        tabIndex={0}
+        type="button"
+      >
+        <span
+          className="MuiButton-label"
+        >
+          Sort by volume
+          <span
+            className="MuiButton-endIcon MuiButton-iconSizeMedium"
+          >
+            <svg
+              aria-hidden={true}
+              className="MuiSvgIcon-root"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+              />
+            </svg>
+          </span>
+        </span>
+      </button>
+    </div>
   </div>
   <img
-    className="makeStyles-svg-10"
+    className="makeStyles-svg-11"
     src="nothing_here_black.svg"
   />
   <div
     aria-hidden={true}
-    className="MuiBackdrop-root makeStyles-backdrop-11"
+    className="MuiBackdrop-root makeStyles-backdrop-12"
     onClick={[Function]}
     style={
       Object {
