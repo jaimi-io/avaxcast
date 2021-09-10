@@ -74,15 +74,13 @@ function Post({
                       <Typography
                         variant="body1"
                         component="p"
-                        align="right"
-                      >{`Yes: ${fromWei(yesPrice)}`}</Typography>
+                        align="right">{`Yes: ${fromWei(yesPrice)}`}</Typography>
                     </Grid>
                     <Grid item xs={12}>
                       <Typography
                         variant="body1"
                         component="p"
-                        align="right"
-                      >{`No: ${fromWei(noPrice)}`}</Typography>
+                        align="right">{`No: ${fromWei(noPrice)}`}</Typography>
                     </Grid>
                   </Grid>
                 </Grid>
