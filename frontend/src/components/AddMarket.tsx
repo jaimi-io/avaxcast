@@ -20,6 +20,7 @@ import NumberFormat from "react-number-format";
 import { AbiItem } from "web3-utils";
 import Loading from "./Loading";
 import SuccessSnackbar from "./SuccessSnackbar";
+import { Grid } from "@material-ui/core";
 
 /**
  * Determines if the market given is invalid
@@ -54,8 +55,7 @@ const useStyles = makeStyles((theme: Theme) => {
   const spacing = theme.spacing(1);
   return createStyles({
     root: {
-      display: "flex",
-      margin: "30ch",
+      marginTop: "10%",
     },
     textField: {
       marginLeft: spacing,
@@ -162,7 +162,7 @@ function AddMarket(): JSX.Element {
   };
 
   return (
-    <div className={classes.root}>
+    <Grid container className={classes.root} justifyContent="center">
       <FormControl className={classes.formControl}>
         <Select
           defaultValue={Market.ALL}
@@ -230,7 +230,7 @@ function AddMarket(): JSX.Element {
       />
 
       <Loading />
-    </div>
+    </Grid>
   );
 }
 
