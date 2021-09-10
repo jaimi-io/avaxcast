@@ -76,6 +76,7 @@ function Market({ address }: PropsT): JSX.Element {
   const [isYesVote, setIsYesVote] = useState(true);
   const contract = useFetchContract(address);
   const formattedDate = contract.date.toDateString();
+  const deadline = contract.date.toUTCString();
   const [numShares, setNumShares] = useState(UNDEFINED_NUM_SHARES);
   const [canBuy, setCanBuy] = useState(false);
   const [totalPrice, setTotalPrice] = useState(toBN(UNDEFINED_PRICE));
@@ -319,11 +320,11 @@ function Market({ address }: PropsT): JSX.Element {
               <Grid container>
                 <Grid item xs={12}>
                   <Typography variant="body2" component="p">
-                    {"End Date"}
+                    {"Deadline"}
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>
-                  <Typography component="p">{formattedDate}</Typography>
+                  <Typography component="p">{deadline}</Typography>
                 </Grid>
               </Grid>
             </Grid>
