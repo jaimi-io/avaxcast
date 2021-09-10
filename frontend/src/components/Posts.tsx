@@ -62,14 +62,16 @@ function Post({
                       <Typography
                         variant="body1"
                         component="p"
-                        align="right">{`Yes: ${fromWei(yesPrice)}`}</Typography>
+                        align="right"
+                      >{`Yes: ${fromWei(yesPrice)}`}</Typography>
                     </Grid>
 
                     <Grid item xs={12}>
                       <Typography
                         variant="body1"
                         component="p"
-                        align="right">{`No: ${fromWei(noPrice)}`}</Typography>
+                        align="right"
+                      >{`No: ${fromWei(noPrice)}`}</Typography>
                     </Grid>
                   </Grid>
                 </Grid>
@@ -82,9 +84,14 @@ function Post({
   );
 }
 
+const LESS_THAN = -1;
+const GREATER_THAN = 1;
+const EQUAL = 0;
+
 interface PropsT {
   contracts: ContractI[];
   deadlineFilter: string[];
+  sortByVol: boolean;
 }
 
 /**
@@ -92,7 +99,7 @@ interface PropsT {
  * @param props - {@link PropsT}
  * @returns The Posts Component
  */
-function Posts({ contracts, deadlineFilter }: PropsT): JSX.Element {
+function Posts({ contracts, deadlineFilter, sortByVol }: PropsT): JSX.Element {
   const marketFilter = useAppSelector((state) => state.marketFilter);
   const dispatch = useAppDispatch();
   const [start, end] = deadlineFilter;
@@ -107,7 +114,23 @@ function Posts({ contracts, deadlineFilter }: PropsT): JSX.Element {
     return post.market === marketFilter && withinDates;
   };
 
+  const byVol = (contractA: ContractI, contractB: ContractI): number => {
+    const volumeDifference = contractA.volume.sub(contractB.volume);
+    if (volumeDifference.isNeg()) {
+      return LESS_THAN;
+    }
+    if (volumeDifference.isZero()) {
+      return EQUAL;
+    }
+    return GREATER_THAN;
+  };
+
   const filtered = contracts.filter(filterPost);
+  filtered.sort(byVol);
+
+  if (sortByVol) {
+    filtered.reverse();
+  }
 
   if (filtered.length === 0) {
     return (
