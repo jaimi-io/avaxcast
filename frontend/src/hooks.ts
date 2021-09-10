@@ -27,7 +27,8 @@ const cache: CacheI = {};
 const dummy: ContractI = {
   market: Market.ALL,
   predictedPrice: "$X",
-  date: new Date(),
+  // eslint-disable-next-line no-magic-numbers
+  date: new Date(2021, 10, 20),
   volume: toBN(0),
   yesPrice: toBN(0),
   noPrice: toBN(0),
