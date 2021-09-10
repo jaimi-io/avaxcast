@@ -1,780 +1,394 @@
-<!DOCTYPE html>
+<!doctype html>
 <html class="default no-js">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>common/contract | avaxcast-frontend</title>
-    <meta name="description" content="Documentation for avaxcast-frontend" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="../assets/css/main.css" />
-    <script async src="../assets/js/search.js" id="search-script"></script>
-  </head>
-  <body>
-    <header>
-      <div class="tsd-page-toolbar">
-        <div class="container">
-          <div class="table-wrap">
-            <div
-              class="table-cell"
-              id="tsd-search"
-              data-index="../assets/js/search.json"
-              data-base="..">
-              <div class="field">
-                <label
-                  for="tsd-search-field"
-                  class="tsd-widget search no-caption"
-                  >Search</label
-                >
-                <input id="tsd-search-field" type="text" />
-              </div>
-              <ul class="results">
-                <li class="state loading">Preparing search index...</li>
-                <li class="state failure">The search index is not available</li>
-              </ul>
-              <a href="../index.html" class="title">avaxcast-frontend</a>
-            </div>
-            <div class="table-cell" id="tsd-widgets">
-              <div id="tsd-filter">
-                <a
-                  href="#"
-                  class="tsd-widget options no-caption"
-                  data-toggle="options"
-                  >Options</a
-                >
-                <div class="tsd-filter-group">
-                  <div class="tsd-select" id="tsd-filter-visibility">
-                    <span class="tsd-select-label">All</span>
-                    <ul class="tsd-select-list">
-                      <li data-value="public">Public</li>
-                      <li data-value="protected">Public/Protected</li>
-                      <li data-value="private" class="selected">All</li>
-                    </ul>
-                  </div>
-                  <input type="checkbox" id="tsd-filter-inherited" checked />
-                  <label class="tsd-widget" for="tsd-filter-inherited"
-                    >Inherited</label
-                  >
-                  <input type="checkbox" id="tsd-filter-externals" checked />
-                  <label class="tsd-widget" for="tsd-filter-externals"
-                    >Externals</label
-                  >
-                </div>
-              </div>
-              <a href="#" class="tsd-widget menu no-caption" data-toggle="menu"
-                >Menu</a
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="tsd-page-title">
-        <div class="container">
-          <ul class="tsd-breadcrumb">
-            <li>
-              <a href="../modules.html">avaxcast-frontend</a>
-            </li>
-            <li>
-              <a href="common_contract.html">common/contract</a>
-            </li>
-          </ul>
-          <h1>Module common/contract</h1>
-        </div>
-      </div>
-    </header>
-    <div class="container container-main">
-      <div class="row">
-        <div class="col-8 col-content">
-          <section class="tsd-panel-group tsd-index-group">
-            <h2>Index</h2>
-            <section class="tsd-panel tsd-index-panel">
-              <div class="tsd-index-content">
-                <section class="tsd-index-section">
-                  <h3>Interfaces</h3>
-                  <ul class="tsd-index-list">
-                    <li class="tsd-kind-interface tsd-parent-kind-module">
-                      <a
-                        href="../interfaces/common_contract.ContractI.html"
-                        class="tsd-kind-icon"
-                        >ContractI</a
-                      >
-                    </li>
-                    <li class="tsd-kind-interface tsd-parent-kind-module">
-                      <a
-                        href="../interfaces/common_contract.MarketRecord.html"
-                        class="tsd-kind-icon"
-                        >Market<wbr />Record</a
-                      >
-                    </li>
-                    <li class="tsd-kind-interface tsd-parent-kind-module">
-                      <a
-                        href="../interfaces/common_contract.VotesPerPerson.html"
-                        class="tsd-kind-icon"
-                        >Votes<wbr />Per<wbr />Person</a
-                      >
-                    </li>
-                  </ul>
-                </section>
-                <section class="tsd-index-section">
-                  <h3>Functions</h3>
-                  <ul class="tsd-index-list">
-                    <li class="tsd-kind-function tsd-parent-kind-module">
-                      <a href="common_contract.html#buy" class="tsd-kind-icon"
-                        >buy</a
-                      >
-                    </li>
-                    <li class="tsd-kind-function tsd-parent-kind-module">
-                      <a
-                        href="common_contract.html#getAllContractInfo"
-                        class="tsd-kind-icon"
-                        >get<wbr />All<wbr />Contract<wbr />Info</a
-                      >
-                    </li>
-                    <li class="tsd-kind-function tsd-parent-kind-module">
-                      <a
-                        href="common_contract.html#getContractInfo"
-                        class="tsd-kind-icon"
-                        >get<wbr />Contract<wbr />Info</a
-                      >
-                    </li>
-                    <li class="tsd-kind-function tsd-parent-kind-module">
-                      <a
-                        href="common_contract.html#getCurrentVotes"
-                        class="tsd-kind-icon"
-                        >get<wbr />Current<wbr />Votes</a
-                      >
-                    </li>
-                    <li class="tsd-kind-function tsd-parent-kind-module">
-                      <a
-                        href="common_contract.html#getHoldings"
-                        class="tsd-kind-icon"
-                        >get<wbr />Holdings</a
-                      >
-                    </li>
-                    <li class="tsd-kind-function tsd-parent-kind-module">
-                      <a
-                        href="common_contract.html#withdraw"
-                        class="tsd-kind-icon"
-                        >withdraw</a
-                      >
-                    </li>
-                  </ul>
-                </section>
-              </div>
-            </section>
-          </section>
-          <section class="tsd-panel-group tsd-member-group">
-            <h2>Functions</h2>
-            <section
-              class="
-                tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module
-              ">
-              <a name="buy" class="tsd-anchor"></a>
-              <h3>buy</h3>
-              <ul
-                class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-                <li class="tsd-signature tsd-kind-icon">
-                  buy<span class="tsd-signature-symbol">(</span
-                  >contractAddress<span class="tsd-signature-symbol">: </span
-                  ><span class="tsd-signature-type">string</span>, web3<span
-                    class="tsd-signature-symbol"
-                    >: </span
-                  ><span class="tsd-signature-type"
-                    >Web3ReactContextInterface</span
-                  >, vote<span class="tsd-signature-symbol">: </span
-                  ><a
-                    href="../enums/common_enums.Vote.html"
-                    class="tsd-signature-type"
-                    data-tsd-kind="Enumeration"
-                    >Vote</a
-                  >, price<span class="tsd-signature-symbol">: </span
-                  ><span class="tsd-signature-type">BN</span
-                  ><span class="tsd-signature-symbol">)</span
-                  ><span class="tsd-signature-symbol">: </span
-                  ><span class="tsd-signature-type">Promise</span
-                  ><span class="tsd-signature-symbol">&lt;</span
-                  ><span class="tsd-signature-type">void</span
-                  ><span class="tsd-signature-symbol">&gt;</span>
-                </li>
-              </ul>
-              <ul class="tsd-descriptions">
-                <li class="tsd-description">
-                  <aside class="tsd-sources">
-                    <ul>
-                      <li>
-                        Defined in
-                        <a
-                          href="https://github.com/jaimi-io/avaxcast/blob/00d5227/frontend/src/common/contract.ts#L168"
-                          >src/common/contract.ts:168</a
-                        >
-                      </li>
-                    </ul>
-                  </aside>
-                  <div class="tsd-comment tsd-typography">
-                    <div class="lead">
-                      <p>Purchase shares</p>
-                    </div>
-                  </div>
-                  <h4 class="tsd-parameters-title">Parameters</h4>
-                  <ul class="tsd-parameters">
-                    <li>
-                      <h5>
-                        contractAddress:
-                        <span class="tsd-signature-type">string</span>
-                      </h5>
-                      <div class="tsd-comment tsd-typography">
-                        <p>Address of the contract</p>
-                      </div>
-                    </li>
-                    <li>
-                      <h5>
-                        web3:
-                        <span class="tsd-signature-type"
-                          >Web3ReactContextInterface</span
-                        >
-                      </h5>
-                      <div class="tsd-comment tsd-typography">
-                        <p>Web3 instance</p>
-                      </div>
-                    </li>
-                    <li>
-                      <h5>
-                        vote:
-                        <a
-                          href="../enums/common_enums.Vote.html"
-                          class="tsd-signature-type"
-                          data-tsd-kind="Enumeration"
-                          >Vote</a
-                        >
-                      </h5>
-                      <div class="tsd-comment tsd-typography">
-                        <p>Yes or No</p>
-                      </div>
-                    </li>
-                    <li>
-                      <h5>price: <span class="tsd-signature-type">BN</span></h5>
-                      <div class="tsd-comment tsd-typography">
-                        <p>Total price of shares to buy</p>
-                      </div>
-                    </li>
-                  </ul>
-                  <h4 class="tsd-returns-title">
-                    Returns <span class="tsd-signature-type">Promise</span
-                    ><span class="tsd-signature-symbol">&lt;</span
-                    ><span class="tsd-signature-type">void</span
-                    ><span class="tsd-signature-symbol">&gt;</span>
-                  </h4>
-                </li>
-              </ul>
-            </section>
-            <section
-              class="
-                tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module
-              ">
-              <a name="getAllContractInfo" class="tsd-anchor"></a>
-              <h3>get<wbr />All<wbr />Contract<wbr />Info</h3>
-              <ul
-                class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-                <li class="tsd-signature tsd-kind-icon">
-                  get<wbr />All<wbr />Contract<wbr />Info<span
-                    class="tsd-signature-symbol"
-                    >(</span
-                  >contractAddresses<span class="tsd-signature-symbol">: </span
-                  ><span class="tsd-signature-type">string</span
-                  ><span class="tsd-signature-symbol">[]</span
-                  ><span class="tsd-signature-symbol">)</span
-                  ><span class="tsd-signature-symbol">: </span
-                  ><span class="tsd-signature-type">Promise</span
-                  ><span class="tsd-signature-symbol">&lt;</span
-                  ><a
-                    href="../interfaces/common_contract.ContractI.html"
-                    class="tsd-signature-type"
-                    data-tsd-kind="Interface"
-                    >ContractI</a
-                  ><span class="tsd-signature-symbol">[]</span
-                  ><span class="tsd-signature-symbol">&gt;</span>
-                </li>
-              </ul>
-              <ul class="tsd-descriptions">
-                <li class="tsd-description">
-                  <aside class="tsd-sources">
-                    <ul>
-                      <li>
-                        Defined in
-                        <a
-                          href="https://github.com/jaimi-io/avaxcast/blob/00d5227/frontend/src/common/contract.ts#L152"
-                          >src/common/contract.ts:152</a
-                        >
-                      </li>
-                    </ul>
-                  </aside>
-                  <div class="tsd-comment tsd-typography">
-                    <div class="lead">
-                      <p>
-                        Obtains information on all contracts with an address in
-                        <code>contractAddress</code>
-                      </p>
-                    </div>
-                  </div>
-                  <h4 class="tsd-parameters-title">Parameters</h4>
-                  <ul class="tsd-parameters">
-                    <li>
-                      <h5>
-                        contractAddresses:
-                        <span class="tsd-signature-type">string</span
-                        ><span class="tsd-signature-symbol">[]</span>
-                      </h5>
-                      <div class="tsd-comment tsd-typography">
-                        <p>Addresses of all the contracts</p>
-                      </div>
-                    </li>
-                  </ul>
-                  <h4 class="tsd-returns-title">
-                    Returns <span class="tsd-signature-type">Promise</span
-                    ><span class="tsd-signature-symbol">&lt;</span
-                    ><a
-                      href="../interfaces/common_contract.ContractI.html"
-                      class="tsd-signature-type"
-                      data-tsd-kind="Interface"
-                      >ContractI</a
-                    ><span class="tsd-signature-symbol">[]</span
-                    ><span class="tsd-signature-symbol">&gt;</span>
-                  </h4>
-                  <p>Promise of all contract information</p>
-                </li>
-              </ul>
-            </section>
-            <section
-              class="
-                tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module
-              ">
-              <a name="getContractInfo" class="tsd-anchor"></a>
-              <h3>get<wbr />Contract<wbr />Info</h3>
-              <ul
-                class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-                <li class="tsd-signature tsd-kind-icon">
-                  get<wbr />Contract<wbr />Info<span
-                    class="tsd-signature-symbol"
-                    >(</span
-                  >contractAddress<span class="tsd-signature-symbol">: </span
-                  ><span class="tsd-signature-type">string</span
-                  ><span class="tsd-signature-symbol">)</span
-                  ><span class="tsd-signature-symbol">: </span
-                  ><span class="tsd-signature-type">Promise</span
-                  ><span class="tsd-signature-symbol">&lt;</span
-                  ><a
-                    href="../interfaces/common_contract.ContractI.html"
-                    class="tsd-signature-type"
-                    data-tsd-kind="Interface"
-                    >ContractI</a
-                  ><span class="tsd-signature-symbol">&gt;</span>
-                </li>
-              </ul>
-              <ul class="tsd-descriptions">
-                <li class="tsd-description">
-                  <aside class="tsd-sources">
-                    <ul>
-                      <li>
-                        Defined in
-                        <a
-                          href="https://github.com/jaimi-io/avaxcast/blob/00d5227/frontend/src/common/contract.ts#L97"
-                          >src/common/contract.ts:97</a
-                        >
-                      </li>
-                    </ul>
-                  </aside>
-                  <div class="tsd-comment tsd-typography">
-                    <div class="lead">
-                      <p>
-                        Obtains information on the contract with address
-                        <code>contractAddress</code>
-                      </p>
-                    </div>
-                  </div>
-                  <h4 class="tsd-parameters-title">Parameters</h4>
-                  <ul class="tsd-parameters">
-                    <li>
-                      <h5>
-                        contractAddress:
-                        <span class="tsd-signature-type">string</span>
-                      </h5>
-                      <div class="tsd-comment tsd-typography">
-                        <p>Address of contract</p>
-                      </div>
-                    </li>
-                  </ul>
-                  <h4 class="tsd-returns-title">
-                    Returns <span class="tsd-signature-type">Promise</span
-                    ><span class="tsd-signature-symbol">&lt;</span
-                    ><a
-                      href="../interfaces/common_contract.ContractI.html"
-                      class="tsd-signature-type"
-                      data-tsd-kind="Interface"
-                      >ContractI</a
-                    ><span class="tsd-signature-symbol">&gt;</span>
-                  </h4>
-                  <p>Promise of information on the contract</p>
-                </li>
-              </ul>
-            </section>
-            <section
-              class="
-                tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module
-              ">
-              <a name="getCurrentVotes" class="tsd-anchor"></a>
-              <h3>get<wbr />Current<wbr />Votes</h3>
-              <ul
-                class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-                <li class="tsd-signature tsd-kind-icon">
-                  get<wbr />Current<wbr />Votes<span
-                    class="tsd-signature-symbol"
-                    >(</span
-                  >contractAddress<span class="tsd-signature-symbol">: </span
-                  ><span class="tsd-signature-type">string</span>, web3<span
-                    class="tsd-signature-symbol"
-                    >: </span
-                  ><span class="tsd-signature-type"
-                    >Web3ReactContextInterface</span
-                  ><span class="tsd-signature-symbol">)</span
-                  ><span class="tsd-signature-symbol">: </span
-                  ><span class="tsd-signature-type">Promise</span
-                  ><span class="tsd-signature-symbol">&lt;</span
-                  ><a
-                    href="../interfaces/common_contract.VotesPerPerson.html"
-                    class="tsd-signature-type"
-                    data-tsd-kind="Interface"
-                    >VotesPerPerson</a
-                  ><span class="tsd-signature-symbol">&gt;</span>
-                </li>
-              </ul>
-              <ul class="tsd-descriptions">
-                <li class="tsd-description">
-                  <aside class="tsd-sources">
-                    <ul>
-                      <li>
-                        Defined in
-                        <a
-                          href="https://github.com/jaimi-io/avaxcast/blob/00d5227/frontend/src/common/contract.ts#L218"
-                          >src/common/contract.ts:218</a
-                        >
-                      </li>
-                    </ul>
-                  </aside>
-                  <div class="tsd-comment tsd-typography">
-                    <div class="lead">
-                      <p>Obtains number of votes for Yes and No</p>
-                    </div>
-                  </div>
-                  <h4 class="tsd-parameters-title">Parameters</h4>
-                  <ul class="tsd-parameters">
-                    <li>
-                      <h5>
-                        contractAddress:
-                        <span class="tsd-signature-type">string</span>
-                      </h5>
-                      <div class="tsd-comment tsd-typography">
-                        <p>Address of the contract</p>
-                      </div>
-                    </li>
-                    <li>
-                      <h5>
-                        web3:
-                        <span class="tsd-signature-type"
-                          >Web3ReactContextInterface</span
-                        >
-                      </h5>
-                      <div class="tsd-comment tsd-typography">
-                        <p>Web3 instance</p>
-                      </div>
-                    </li>
-                  </ul>
-                  <h4 class="tsd-returns-title">
-                    Returns <span class="tsd-signature-type">Promise</span
-                    ><span class="tsd-signature-symbol">&lt;</span
-                    ><a
-                      href="../interfaces/common_contract.VotesPerPerson.html"
-                      class="tsd-signature-type"
-                      data-tsd-kind="Interface"
-                      >VotesPerPerson</a
-                    ><span class="tsd-signature-symbol">&gt;</span>
-                  </h4>
-                  <p>Number of Yes and No votes</p>
-                </li>
-              </ul>
-            </section>
-            <section
-              class="
-                tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module
-              ">
-              <a name="getHoldings" class="tsd-anchor"></a>
-              <h3>get<wbr />Holdings</h3>
-              <ul
-                class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-                <li class="tsd-signature tsd-kind-icon">
-                  get<wbr />Holdings<span class="tsd-signature-symbol">(</span
-                  >contractAddresses<span class="tsd-signature-symbol">: </span
-                  ><span class="tsd-signature-type">string</span
-                  ><span class="tsd-signature-symbol">[]</span>, web3<span
-                    class="tsd-signature-symbol"
-                    >: </span
-                  ><span class="tsd-signature-type"
-                    >Web3ReactContextInterface</span
-                  ><span class="tsd-signature-symbol">)</span
-                  ><span class="tsd-signature-symbol">: </span
-                  ><span class="tsd-signature-type">Promise</span
-                  ><span class="tsd-signature-symbol">&lt;</span
-                  ><a
-                    href="../interfaces/common_contract.MarketRecord.html"
-                    class="tsd-signature-type"
-                    data-tsd-kind="Interface"
-                    >MarketRecord</a
-                  ><span class="tsd-signature-symbol">[]</span
-                  ><span class="tsd-signature-symbol">&gt;</span>
-                </li>
-              </ul>
-              <ul class="tsd-descriptions">
-                <li class="tsd-description">
-                  <aside class="tsd-sources">
-                    <ul>
-                      <li>
-                        Defined in
-                        <a
-                          href="https://github.com/jaimi-io/avaxcast/blob/00d5227/frontend/src/common/contract.ts#L338"
-                          >src/common/contract.ts:338</a
-                        >
-                      </li>
-                    </ul>
-                  </aside>
-                  <div class="tsd-comment tsd-typography">
-                    <div class="lead">
-                      <p>Retrieves information for the markets</p>
-                    </div>
-                  </div>
-                  <h4 class="tsd-parameters-title">Parameters</h4>
-                  <ul class="tsd-parameters">
-                    <li>
-                      <h5>
-                        contractAddresses:
-                        <span class="tsd-signature-type">string</span
-                        ><span class="tsd-signature-symbol">[]</span>
-                      </h5>
-                      <div class="tsd-comment tsd-typography">
-                        <p>The contract address</p>
-                      </div>
-                    </li>
-                    <li>
-                      <h5>
-                        web3:
-                        <span class="tsd-signature-type"
-                          >Web3ReactContextInterface</span
-                        >
-                      </h5>
-                      <div class="tsd-comment tsd-typography">
-                        <p>Web3 instance</p>
-                      </div>
-                    </li>
-                  </ul>
-                  <h4 class="tsd-returns-title">
-                    Returns <span class="tsd-signature-type">Promise</span
-                    ><span class="tsd-signature-symbol">&lt;</span
-                    ><a
-                      href="../interfaces/common_contract.MarketRecord.html"
-                      class="tsd-signature-type"
-                      data-tsd-kind="Interface"
-                      >MarketRecord</a
-                    ><span class="tsd-signature-symbol">[]</span
-                    ><span class="tsd-signature-symbol">&gt;</span>
-                  </h4>
-                  <p>Promise of all information for many markets</p>
-                </li>
-              </ul>
-            </section>
-            <section
-              class="
-                tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module
-              ">
-              <a name="withdraw" class="tsd-anchor"></a>
-              <h3>withdraw</h3>
-              <ul
-                class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-                <li class="tsd-signature tsd-kind-icon">
-                  withdraw<span class="tsd-signature-symbol">(</span
-                  >contractAddress<span class="tsd-signature-symbol">: </span
-                  ><span class="tsd-signature-type">string</span>, web3<span
-                    class="tsd-signature-symbol"
-                    >: </span
-                  ><span class="tsd-signature-type"
-                    >Web3ReactContextInterface</span
-                  ><span class="tsd-signature-symbol">)</span
-                  ><span class="tsd-signature-symbol">: </span
-                  ><span class="tsd-signature-type">Promise</span
-                  ><span class="tsd-signature-symbol">&lt;</span
-                  ><span class="tsd-signature-type">void</span
-                  ><span class="tsd-signature-symbol">&gt;</span>
-                </li>
-              </ul>
-              <ul class="tsd-descriptions">
-                <li class="tsd-description">
-                  <aside class="tsd-sources">
-                    <ul>
-                      <li>
-                        Defined in
-                        <a
-                          href="https://github.com/jaimi-io/avaxcast/blob/00d5227/frontend/src/common/contract.ts#L190"
-                          >src/common/contract.ts:190</a
-                        >
-                      </li>
-                    </ul>
-                  </aside>
-                  <div class="tsd-comment tsd-typography">
-                    <div class="lead">
-                      <p>Withdraw winning shares</p>
-                    </div>
-                  </div>
-                  <h4 class="tsd-parameters-title">Parameters</h4>
-                  <ul class="tsd-parameters">
-                    <li>
-                      <h5>
-                        contractAddress:
-                        <span class="tsd-signature-type">string</span>
-                      </h5>
-                      <div class="tsd-comment tsd-typography">
-                        <p>Address of the contract</p>
-                      </div>
-                    </li>
-                    <li>
-                      <h5>
-                        web3:
-                        <span class="tsd-signature-type"
-                          >Web3ReactContextInterface</span
-                        >
-                      </h5>
-                      <div class="tsd-comment tsd-typography">
-                        <p>Web3 instance</p>
-                      </div>
-                    </li>
-                  </ul>
-                  <h4 class="tsd-returns-title">
-                    Returns <span class="tsd-signature-type">Promise</span
-                    ><span class="tsd-signature-symbol">&lt;</span
-                    ><span class="tsd-signature-type">void</span
-                    ><span class="tsd-signature-symbol">&gt;</span>
-                  </h4>
-                </li>
-              </ul>
-            </section>
-          </section>
-        </div>
-        <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
-          <nav class="tsd-navigation primary">
-            <ul>
-              <li class="">
-                <a href="../modules.html">Modules</a>
-              </li>
-              <li class="current tsd-kind-module">
-                <a href="common_contract.html">common/contract</a>
-              </li>
-            </ul>
-          </nav>
-          <nav class="tsd-navigation secondary menu-sticky">
-            <ul class="before-current">
-              <li class="tsd-kind-interface tsd-parent-kind-module">
-                <a
-                  href="../interfaces/common_contract.ContractI.html"
-                  class="tsd-kind-icon"
-                  >ContractI</a
-                >
-              </li>
-              <li class="tsd-kind-interface tsd-parent-kind-module">
-                <a
-                  href="../interfaces/common_contract.MarketRecord.html"
-                  class="tsd-kind-icon"
-                  >Market<wbr />Record</a
-                >
-              </li>
-              <li class="tsd-kind-interface tsd-parent-kind-module">
-                <a
-                  href="../interfaces/common_contract.VotesPerPerson.html"
-                  class="tsd-kind-icon"
-                  >Votes<wbr />Per<wbr />Person</a
-                >
-              </li>
-              <li class="tsd-kind-function tsd-parent-kind-module">
-                <a href="common_contract.html#buy" class="tsd-kind-icon">buy</a>
-              </li>
-              <li class="tsd-kind-function tsd-parent-kind-module">
-                <a
-                  href="common_contract.html#getAllContractInfo"
-                  class="tsd-kind-icon"
-                  >get<wbr />All<wbr />Contract<wbr />Info</a
-                >
-              </li>
-              <li class="tsd-kind-function tsd-parent-kind-module">
-                <a
-                  href="common_contract.html#getContractInfo"
-                  class="tsd-kind-icon"
-                  >get<wbr />Contract<wbr />Info</a
-                >
-              </li>
-              <li class="tsd-kind-function tsd-parent-kind-module">
-                <a
-                  href="common_contract.html#getCurrentVotes"
-                  class="tsd-kind-icon"
-                  >get<wbr />Current<wbr />Votes</a
-                >
-              </li>
-              <li class="tsd-kind-function tsd-parent-kind-module">
-                <a href="common_contract.html#getHoldings" class="tsd-kind-icon"
-                  >get<wbr />Holdings</a
-                >
-              </li>
-              <li class="tsd-kind-function tsd-parent-kind-module">
-                <a href="common_contract.html#withdraw" class="tsd-kind-icon"
-                  >withdraw</a
-                >
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </div>
-    </div>
-    <footer class="with-border-bottom">
-      <div class="container">
-        <h2>Legend</h2>
-        <div class="tsd-legend-group">
-          <ul class="tsd-legend">
-            <li class="tsd-kind-variable">
-              <span class="tsd-kind-icon">Variable</span>
-            </li>
-            <li class="tsd-kind-function">
-              <span class="tsd-kind-icon">Function</span>
-            </li>
-            <li class="tsd-kind-function tsd-has-type-parameter">
-              <span class="tsd-kind-icon">Function with type parameter</span>
-            </li>
-            <li class="tsd-kind-type-alias">
-              <span class="tsd-kind-icon">Type alias</span>
-            </li>
-          </ul>
-          <ul class="tsd-legend">
-            <li class="tsd-kind-enum">
-              <span class="tsd-kind-icon">Enumeration</span>
-            </li>
-          </ul>
-          <ul class="tsd-legend">
-            <li class="tsd-kind-interface">
-              <span class="tsd-kind-icon">Interface</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </footer>
-    <div class="container tsd-generator">
-      <p>
-        Generated using
-        <a href="https://typedoc.org/" target="_blank">TypeDoc</a>
-      </p>
-    </div>
-    <div class="overlay"></div>
-    <script src="../assets/js/main.js"></script>
-  </body>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>common/contract | avaxcast-frontend</title>
+	<meta name="description" content="Documentation for avaxcast-frontend">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+	<script async src="../assets/js/search.js" id="search-script"></script>
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">avaxcast-frontend</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../modules.html">avaxcast-frontend</a>
+				</li>
+				<li>
+					<a href="common_contract.html">common/contract</a>
+				</li>
+			</ul>
+			<h1>Module common/contract</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Interfaces</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/common_contract.ContractI.html" class="tsd-kind-icon">ContractI</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/common_contract.MarketRecord.html" class="tsd-kind-icon">Market<wbr>Record</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/common_contract.VotesPerPerson.html" class="tsd-kind-icon">Votes<wbr>Per<wbr>Person</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Functions</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="common_contract.html#buy" class="tsd-kind-icon">buy</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="common_contract.html#getAllContractInfo" class="tsd-kind-icon">get<wbr>All<wbr>Contract<wbr>Info</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="common_contract.html#getContractInfo" class="tsd-kind-icon">get<wbr>Contract<wbr>Info</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="common_contract.html#getCurrentVotes" class="tsd-kind-icon">get<wbr>Current<wbr>Votes</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="common_contract.html#getHoldings" class="tsd-kind-icon">get<wbr>Holdings</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="common_contract.html#withdraw" class="tsd-kind-icon">withdraw</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Functions</h2>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="buy" class="tsd-anchor"></a>
+					<h3>buy</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">buy<span class="tsd-signature-symbol">(</span>contractAddress<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, web3<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Web3ReactContextInterface</span>, vote<span class="tsd-signature-symbol">: </span><a href="../enums/common_enums.Vote.html" class="tsd-signature-type" data-tsd-kind="Enumeration">Vote</a>, price<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">BN</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/jaimi-io/avaxcast/blob/d1e5fee/frontend/src/common/contract.ts#L168">src/common/contract.ts:168</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Purchase shares</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>contractAddress: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Address of the contract</p>
+									</div>
+								</li>
+								<li>
+									<h5>web3: <span class="tsd-signature-type">Web3ReactContextInterface</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Web3 instance</p>
+									</div>
+								</li>
+								<li>
+									<h5>vote: <a href="../enums/common_enums.Vote.html" class="tsd-signature-type" data-tsd-kind="Enumeration">Vote</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Yes or No</p>
+									</div>
+								</li>
+								<li>
+									<h5>price: <span class="tsd-signature-type">BN</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Total price of shares to buy</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="getAllContractInfo" class="tsd-anchor"></a>
+					<h3>get<wbr>All<wbr>Contract<wbr>Info</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>All<wbr>Contract<wbr>Info<span class="tsd-signature-symbol">(</span>contractAddresses<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/common_contract.ContractI.html" class="tsd-signature-type" data-tsd-kind="Interface">ContractI</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/jaimi-io/avaxcast/blob/d1e5fee/frontend/src/common/contract.ts#L152">src/common/contract.ts:152</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Obtains information on all contracts with an address in <code>contractAddress</code></p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>contractAddresses: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Addresses of all the contracts</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/common_contract.ContractI.html" class="tsd-signature-type" data-tsd-kind="Interface">ContractI</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise of all contract information</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="getContractInfo" class="tsd-anchor"></a>
+					<h3>get<wbr>Contract<wbr>Info</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Contract<wbr>Info<span class="tsd-signature-symbol">(</span>contractAddress<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/common_contract.ContractI.html" class="tsd-signature-type" data-tsd-kind="Interface">ContractI</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/jaimi-io/avaxcast/blob/d1e5fee/frontend/src/common/contract.ts#L97">src/common/contract.ts:97</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Obtains information on the contract with address <code>contractAddress</code></p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>contractAddress: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Address of contract</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/common_contract.ContractI.html" class="tsd-signature-type" data-tsd-kind="Interface">ContractI</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise of information on the contract</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="getCurrentVotes" class="tsd-anchor"></a>
+					<h3>get<wbr>Current<wbr>Votes</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Current<wbr>Votes<span class="tsd-signature-symbol">(</span>contractAddress<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, web3<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Web3ReactContextInterface</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/common_contract.VotesPerPerson.html" class="tsd-signature-type" data-tsd-kind="Interface">VotesPerPerson</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/jaimi-io/avaxcast/blob/d1e5fee/frontend/src/common/contract.ts#L218">src/common/contract.ts:218</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Obtains number of votes for Yes and No</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>contractAddress: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Address of the contract</p>
+									</div>
+								</li>
+								<li>
+									<h5>web3: <span class="tsd-signature-type">Web3ReactContextInterface</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Web3 instance</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/common_contract.VotesPerPerson.html" class="tsd-signature-type" data-tsd-kind="Interface">VotesPerPerson</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Number of Yes and No votes</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="getHoldings" class="tsd-anchor"></a>
+					<h3>get<wbr>Holdings</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Holdings<span class="tsd-signature-symbol">(</span>contractAddresses<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, web3<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Web3ReactContextInterface</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/common_contract.MarketRecord.html" class="tsd-signature-type" data-tsd-kind="Interface">MarketRecord</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/jaimi-io/avaxcast/blob/d1e5fee/frontend/src/common/contract.ts#L338">src/common/contract.ts:338</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Retrieves information for the markets</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>contractAddresses: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The contract address</p>
+									</div>
+								</li>
+								<li>
+									<h5>web3: <span class="tsd-signature-type">Web3ReactContextInterface</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Web3 instance</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/common_contract.MarketRecord.html" class="tsd-signature-type" data-tsd-kind="Interface">MarketRecord</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise of all information for many markets</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="withdraw" class="tsd-anchor"></a>
+					<h3>withdraw</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">withdraw<span class="tsd-signature-symbol">(</span>contractAddress<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, web3<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Web3ReactContextInterface</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/jaimi-io/avaxcast/blob/d1e5fee/frontend/src/common/contract.ts#L190">src/common/contract.ts:190</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Withdraw winning shares</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>contractAddress: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Address of the contract</p>
+									</div>
+								</li>
+								<li>
+									<h5>web3: <span class="tsd-signature-type">Web3ReactContextInterface</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Web3 instance</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class=" ">
+						<a href="../modules.html">Modules</a>
+					</li>
+					<li class="current tsd-kind-module">
+						<a href="common_contract.html">common/contract</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/common_contract.ContractI.html" class="tsd-kind-icon">ContractI</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/common_contract.MarketRecord.html" class="tsd-kind-icon">Market<wbr>Record</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/common_contract.VotesPerPerson.html" class="tsd-kind-icon">Votes<wbr>Per<wbr>Person</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="common_contract.html#buy" class="tsd-kind-icon">buy</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="common_contract.html#getAllContractInfo" class="tsd-kind-icon">get<wbr>All<wbr>Contract<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="common_contract.html#getContractInfo" class="tsd-kind-icon">get<wbr>Contract<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="common_contract.html#getCurrentVotes" class="tsd-kind-icon">get<wbr>Current<wbr>Votes</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="common_contract.html#getHoldings" class="tsd-kind-icon">get<wbr>Holdings</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="common_contract.html#withdraw" class="tsd-kind-icon">withdraw</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+</body>
 </html>
