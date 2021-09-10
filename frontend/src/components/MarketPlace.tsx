@@ -7,6 +7,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
+import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import { filterMarketActions } from "actions";
 import { ContractI } from "common/contract";
 import { getCurrentDateString, monthAfter } from "common/date";
@@ -14,6 +15,7 @@ import { marketIcons, marketNames } from "common/markets";
 import Posts from "components/Posts";
 import { useAppDispatch, useAppSelector } from "hooks";
 import { useEffect, useState } from "react";
+import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -69,7 +71,8 @@ function MarketDialog({ onClose, open }: MarketDialogProps): JSX.Element {
             button
             onClick={() => {
               handleClose(index);
-            }}>
+            }}
+          >
             <ListItemAvatar>
               <img src={icon} width={"50px"} />
             </ListItemAvatar>
@@ -100,6 +103,7 @@ function MarketPlace({ contracts, fetchContracts }: PropsT): JSX.Element {
   const [startDate, setStartDate] = useState(DEFAULT_DATE);
   const [endDate, setEndDate] = useState(DEFAULT_END_DATE);
   const [openDialog, setOpenDialog] = useState(false);
+  const [sortByVol, setSortByVol] = useState(true);
 
   useEffect(() => {
     fetchContracts();
@@ -121,7 +125,8 @@ function MarketPlace({ contracts, fetchContracts }: PropsT): JSX.Element {
             variant="outlined"
             className={classes.button}
             onClick={handleDialogOpen}
-            startIcon={<img src={icon} width={"20px"} />}>
+            startIcon={<img src={icon} width={"20px"} />}
+          >
             Select Market
           </Button>
           <MarketDialog open={openDialog} onClose={handleDialogClose} />
@@ -155,8 +160,24 @@ function MarketPlace({ contracts, fetchContracts }: PropsT): JSX.Element {
             }}
           />
         </form>
+        <FormControl className={classes.formControl}>
+          <Button
+            variant="outlined"
+            className={classes.button}
+            onClick={() => {
+              setSortByVol((prev) => !prev);
+            }}
+            endIcon={sortByVol ? <ArrowDownwardIcon /> : <ArrowUpwardIcon />}
+          >
+            Sort by volume
+          </Button>
+        </FormControl>
       </div>
-      <Posts contracts={contracts} deadlineFilter={[startDate, endDate]} />
+      <Posts
+        contracts={contracts}
+        deadlineFilter={[startDate, endDate]}
+        sortByVol={sortByVol}
+      />
     </div>
   );
 }
