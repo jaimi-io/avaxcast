@@ -347,7 +347,7 @@ export async function getHoldings(
         addr
       );
       const events: ContractEvent[] = await contract.getPastEvents("Buy", {
-        filter: { address: account },
+        filter: { _from: account },
         fromBlock: 0,
         toBlock: "latest",
       });
