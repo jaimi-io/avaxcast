@@ -1,3 +1,7 @@
 .dark {
   background-color: #18191a;
 }
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(50%);
+}
