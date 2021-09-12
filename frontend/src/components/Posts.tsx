@@ -13,8 +13,8 @@ import { notLoading } from "actions";
 import List from "@material-ui/core/List";
 
 const useStyles = makeStyles(() => {
-  const LIST_MARGIN = "10%";
-  const POST_MARGIN = "2%";
+  const LIST_MARGIN = "7%";
+  const POST_MARGIN = "0.5rem";
   return createStyles({
     list: {
       marginLeft: LIST_MARGIN,
@@ -51,16 +51,20 @@ function Post({
         <Card>
           <CardActionArea>
             <CardContent>
-              <Grid container justifyContent="center">
-                <Grid item xs>
-                  <img src={marketIcons[market]} width={"50px"} />
+              <Grid
+                container
+                // justifyContent="space-around"
+                alignItems="center"
+                spacing={1}>
+                <Grid item xs sm={1} lg={1}>
+                  <img src={marketIcons[market]} width={"45px"} />
                 </Grid>
-                <Grid item xs={8}>
+                <Grid item xs={12} sm={7} lg={8} alignItems="center">
                   <Typography variant="h6" component="p">
                     {`Will ${marketNames[market]} reach ${predictedPrice} by ${formattedDate}`}
                   </Typography>
                 </Grid>
-                <Grid item xs>
+                <Grid item xs sm lg>
                   <Typography variant="body2" component="p">
                     {"Total Volume:"}
                   </Typography>
@@ -68,7 +72,7 @@ function Post({
                     volume
                   )} AVAX`}</Typography>
                 </Grid>
-                <Grid item xs>
+                <Grid item xs sm lg>
                   <Grid container>
                     <Grid item xs={12}>
                       <Typography
@@ -153,7 +157,7 @@ function Posts({ contracts, deadlineFilter, sortByVol }: PropsT): JSX.Element {
   }
 
   return (
-    <List className={classes.list} component="nav" aria-label="posts">
+    <List className={classes.list} aria-label="posts">
       {filtered.map((post) => (
         <Post key={post.address} {...post} />
       ))}
