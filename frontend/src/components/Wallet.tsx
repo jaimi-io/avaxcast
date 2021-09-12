@@ -8,6 +8,7 @@ import {
   ListItemText,
   makeStyles,
   Button,
+  ListItemIcon,
 } from "@material-ui/core";
 import { blue } from "@material-ui/core/colors";
 import { useWeb3React } from "@web3-react/core";
@@ -16,6 +17,8 @@ import { useState, useEffect } from "react";
 import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet";
 import MetaMaskIcon from "images/metamask.svg";
 import { createStyles, Theme } from "@material-ui/core/styles";
+import CheckIcon from "@material-ui/icons/Check";
+import CloseIcon from "@material-ui/icons/Close";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -38,15 +41,11 @@ interface WalletDialogProps {
 /**
  * Dialog to connect the user's wallet
  * @param props - {@link WalletDialogProps}
- * @returns Wallet Dialog Component
+ * @returns Wallet Connect Dialog Component
  */
-function WalletDialog(props: WalletDialogProps): JSX.Element {
+function WalletConnectDialog(props: WalletDialogProps): JSX.Element {
   const classes = useStyles();
   const { open, connect, onClose } = props;
-
-  const handleClose = () => {
-    onClose();
-  };
 
   return (
     <Dialog onClose={onClose} aria-labelledby="simple-dialog-title" open={open}>
@@ -56,7 +55,7 @@ function WalletDialog(props: WalletDialogProps): JSX.Element {
           button
           onClick={() => {
             connect();
-            handleClose();
+            onClose();
           }}>
           <ListItemAvatar>
             <Avatar className={classes.avatar}>
@@ -64,6 +63,52 @@ function WalletDialog(props: WalletDialogProps): JSX.Element {
             </Avatar>
           </ListItemAvatar>
           <ListItemText primary={"Connect to Metamask"} />
+        </ListItem>
+      </List>
+    </Dialog>
+  );
+}
+
+interface WalletDisconnectProps {
+  open: boolean;
+  onClose: () => void;
+  disconnect: () => void;
+}
+
+/**
+ * Dialog warning for disconnecting the user's wallet
+ * @param props - {@link WalletDisconnectProp}
+ * @returns Wallet Disconnect Dialog Component
+ */
+function WalletDisconnectDialog(props: WalletDisconnectProps): JSX.Element {
+  const { open, disconnect, onClose } = props;
+
+  return (
+    <Dialog onClose={onClose} aria-labelledby="simple-dialog-title" open={open}>
+      <DialogTitle id="simple-dialog-title">
+        Are you sure you want to disconnect your wallet?
+      </DialogTitle>
+      <List>
+        <ListItem
+          button
+          onClick={() => {
+            disconnect();
+            onClose();
+          }}>
+          <ListItemIcon>
+            <CheckIcon />
+          </ListItemIcon>
+          <ListItemText primary={"Yes"} />
+        </ListItem>
+        <ListItem
+          button
+          onClick={() => {
+            onClose();
+          }}>
+          <ListItemIcon>
+            <CloseIcon />
+          </ListItemIcon>
+          <ListItemText primary={"No"} />
         </ListItem>
       </List>
     </Dialog>
@@ -102,7 +147,8 @@ interface PropsT {
 function Wallet({ fetchHoldings }: PropsT): JSX.Element {
   const classes = useStyles();
   const { active, account, activate, deactivate } = useWeb3React();
-  const [open, setOpen] = useState(false);
+  const [openConnect, setOpenConnect] = useState(false);
+  const [openDisconnect, setOpenDisconnect] = useState(false);
 
   useEffect(() => {
     fetchHoldings();
@@ -110,14 +156,10 @@ function Wallet({ fetchHoldings }: PropsT): JSX.Element {
 
   const handleClickOpen = () => {
     if (active) {
-      deactivate();
+      setOpenDisconnect(true);
     } else {
-      setOpen(true);
+      setOpenConnect(true);
     }
-  };
-
-  const handleClose = () => {
-    setOpen(false);
   };
 
   async function connect() {
@@ -134,7 +176,16 @@ function Wallet({ fetchHoldings }: PropsT): JSX.Element {
         startIcon={<AccountBalanceWalletIcon />}>
         {active ? `${displayAccount(account)}` : "Wallet"}
       </Button>
-      <WalletDialog open={open} connect={connect} onClose={handleClose} />
+      <WalletConnectDialog
+        open={openConnect}
+        connect={connect}
+        onClose={() => setOpenConnect(false)}
+      />
+      <WalletDisconnectDialog
+        open={openDisconnect}
+        disconnect={deactivate}
+        onClose={() => setOpenDisconnect(false)}
+      />
     </div>
   );
 }
