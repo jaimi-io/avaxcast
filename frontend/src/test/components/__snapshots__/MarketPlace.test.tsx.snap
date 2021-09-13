@@ -64,7 +64,7 @@ exports[`MarketPlace snapshot 1`] = `
             aria-invalid={false}
             autoFocus={false}
             className="MuiInputBase-input MuiOutlinedInput-input"
-            defaultValue="2021-09-10"
+            defaultValue="2021-09-13"
             disabled={false}
             id="date"
             onAnimationStart={[Function]}
@@ -112,7 +112,7 @@ exports[`MarketPlace snapshot 1`] = `
             aria-invalid={false}
             autoFocus={false}
             className="MuiInputBase-input MuiOutlinedInput-input"
-            defaultValue="2021-10-10"
+            defaultValue="2021-10-13"
             disabled={false}
             id="date"
             onAnimationStart={[Function]}
@@ -182,7 +182,7 @@ exports[`MarketPlace snapshot 1`] = `
   </div>
   <img
     className="makeStyles-svg-11"
-    src="nothing_here_black.svg"
+    src="nothing_here.svg"
   />
   <div
     aria-hidden={true}
