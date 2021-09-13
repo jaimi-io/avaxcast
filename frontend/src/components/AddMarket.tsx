@@ -22,6 +22,7 @@ import Loading from "./Loading";
 import SuccessSnackbar from "./SuccessSnackbar";
 import { Grid } from "@material-ui/core";
 import TradingView from "./TradingView";
+import Fallback from "./Fallback";
 
 /**
  * Determines if the market given is invalid
@@ -163,6 +164,17 @@ function AddMarket(): JSX.Element {
     dispatch(notLoading());
     setOpenSnackbar(true);
   };
+
+  if (!active) {
+    return (
+      <Fallback
+        warning={"CONNECT YOUR WALLET"}
+        isSnackbarOpen={true}
+        handleSnackbarClose={handleSnackbarClose(setOpenSnackbar)}
+        handleLoadingClose={() => dispatch(notLoading())}
+      />
+    );
+  }
 
   return (
     <>
