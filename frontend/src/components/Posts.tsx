@@ -20,7 +20,6 @@ const useStyles = makeStyles(() => {
       marginLeft: LIST_MARGIN,
       marginRight: LIST_MARGIN,
       padding: 40,
-      // marginBottom: MARGIN,
     },
     post: {
       marginTop: POST_MARGIN,
@@ -51,11 +50,7 @@ function Post({
         <Card>
           <CardActionArea>
             <CardContent>
-              <Grid
-                container
-                // justifyContent="space-around"
-                alignItems="center"
-                spacing={1}>
+              <Grid container alignItems="center" spacing={1}>
                 <Grid item xs sm={1} lg={1}>
                   <img src={marketIcons[market]} width={"45px"} />
                 </Grid>
