@@ -58,6 +58,7 @@ function Row({ row }: { row: MarketRecord }): JSX.Element {
         <TableCell align="right">{row.noVotes}</TableCell>
         <TableCell align="right">{fromWei(row.totalMoney)}</TableCell>
         <TableCell align="right">{row.deadline}</TableCell>
+        <TableCell align="right">{row.status}</TableCell>
         <TableCell align="right">
           <LinkContainer to={`/market/${row.address}`}>
             <Button variant="contained" color="default">
@@ -67,7 +68,7 @@ function Row({ row }: { row: MarketRecord }): JSX.Element {
         </TableCell>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={8}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
               <Typography variant="h6" gutterBottom component="div">
@@ -146,6 +147,7 @@ function Portfolio({ records, fetchHoldings }: PropsT): JSX.Element {
             <TableCell align="right">No Votes</TableCell>
             <TableCell align="right">Total (AVAX)</TableCell>
             <TableCell align="right">Deadline</TableCell>
+            <TableCell align="right">Status</TableCell>
             <TableCell align="right">Market Page</TableCell>
           </TableRow>
         </TableHead>
