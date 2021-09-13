@@ -4,7 +4,7 @@
  * @param action - Action to be carried out
  * @returns If the theme should be dark or not
  */
-function darkReducer(state = false, action: Action): boolean {
+function darkReducer(state = true, action: Action): boolean {
   switch (action.type) {
     case "LIGHT ON":
       return false;
