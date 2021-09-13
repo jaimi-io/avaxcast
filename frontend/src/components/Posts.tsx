@@ -59,7 +59,7 @@ function Post({
                 <Grid item xs sm={1} lg={1}>
                   <img src={marketIcons[market]} width={"45px"} />
                 </Grid>
-                <Grid item xs={12} sm={7} lg={8} alignItems="center">
+                <Grid item xs={12} sm={7} lg={8}>
                   <Typography variant="h6" component="p">
                     {`Will ${marketNames[market]} reach ${predictedPrice} by ${formattedDate}`}
                   </Typography>
