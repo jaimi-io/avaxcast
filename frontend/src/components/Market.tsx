@@ -19,7 +19,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { useWeb3React } from "@web3-react/core";
 import BN from "bn.js";
-import { UNDEFINED_NUM_SHARES, UNDEFINED_PRICE } from "common/constants";
+import { INVALID_NUM_SHARES, INVALID_PRICE } from "common/constants";
 import {
   buy,
   getCurrentVotes,
@@ -77,9 +77,9 @@ function Market({ address }: PropsT): JSX.Element {
   const contract = useFetchContract(address);
   const formattedDate = contract.date.toDateString();
   const deadline = contract.date.toUTCString();
-  const [numShares, setNumShares] = useState(UNDEFINED_NUM_SHARES);
+  const [numShares, setNumShares] = useState(NaN);
   const [canBuy, setCanBuy] = useState(false);
-  const [totalPrice, setTotalPrice] = useState(toBN(UNDEFINED_PRICE));
+  const [totalPrice, setTotalPrice] = useState(toBN(INVALID_PRICE));
   const [currentVotes, setCurrentVotes] = useState<VotesPerPerson>({
     yesVotes: 0,
     noVotes: 0,
@@ -92,6 +92,9 @@ function Market({ address }: PropsT): JSX.Element {
    */
   const priceOfShares = (): BN => {
     const pricePerShare = isYesVote ? contract.yesPrice : contract.noPrice;
+    if (isNaN(numShares)) {
+      return toBN(INVALID_PRICE);
+    }
     return pricePerShare.mul(toBN(numShares));
   };
 
@@ -120,7 +123,7 @@ function Market({ address }: PropsT): JSX.Element {
   }, [numShares, isYesVote]);
 
   useEffect(() => {
-    setCanBuy(active && numShares > UNDEFINED_NUM_SHARES && totalPrice.gtn(0));
+    setCanBuy(active && numShares > INVALID_NUM_SHARES && totalPrice.gtn(0));
   }, [active, numShares, totalPrice]);
 
   const getWinningShares = () => {
@@ -145,12 +148,10 @@ function Market({ address }: PropsT): JSX.Element {
           <Input
             type="number"
             value={numShares}
+            placeholder="0"
             onChange={(e) => {
               const newValue = parseInt(e.target.value);
-              if (
-                (!newValue && newValue !== UNDEFINED_NUM_SHARES) ||
-                newValue < UNDEFINED_NUM_SHARES
-              ) {
+              if (newValue < INVALID_NUM_SHARES) {
                 return;
               }
               setNumShares(newValue);
