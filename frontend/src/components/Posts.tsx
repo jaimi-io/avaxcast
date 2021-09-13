@@ -149,7 +149,6 @@ function Posts({ contracts, deadlineFilter, sortByVol }: PropsT): JSX.Element {
   if (filtered.length === 0) {
     return (
       <Fallback
-        warning={""}
         isSnackbarOpen={false}
         handleLoadingClose={() => dispatch(notLoading())}
       />
