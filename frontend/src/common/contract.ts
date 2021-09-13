@@ -263,6 +263,7 @@ export interface MarketRecord {
   totalMoney: BN;
   deadline: string;
   history: TransactionRecord[];
+  status: string;
 }
 
 /**
@@ -309,22 +310,35 @@ async function retrieveHoldingInfo(
   web3: Web3ReactContextInterface
 ): Promise<MarketRecord> {
   const contractAddress = filteredEvents[0].address;
-  const contractInfo = await getContractInfo(contractAddress);
-  const voteInfo = await getCurrentVotes(contractAddress, web3);
+  const { isResolved, winner, market, date } = await getContractInfo(
+    contractAddress
+  );
+  const { yesVotes, noVotes } = await getCurrentVotes(contractAddress, web3);
   let totalMoney = toBN(0);
   const history = filteredEvents.map((event) => {
     const record = convertToTransRecord(event);
     totalMoney = totalMoney.add(record.price);
     return record;
   });
-  const holdingInfo = {
+  let status = "Open";
+  if (isResolved) {
+    status = "Resolved";
+    if (winner === Vote.Yes && yesVotes === 0) {
+      status = "Withdrawn";
+    }
+    if (winner === Vote.No && noVotes === 0) {
+      status = "Withdrawn";
+    }
+  }
+  const holdingInfo: MarketRecord = {
     address: contractAddress,
-    market: contractInfo.market,
-    yesVotes: voteInfo.yesVotes,
-    noVotes: voteInfo.noVotes,
+    market: market,
+    yesVotes: yesVotes,
+    noVotes: noVotes,
     totalMoney: totalMoney,
-    deadline: contractInfo.date.toDateString(),
+    deadline: date.toDateString(),
     history: history,
+    status: status,
   };
   return holdingInfo;
 }
