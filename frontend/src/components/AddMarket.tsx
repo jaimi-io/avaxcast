@@ -39,7 +39,7 @@ function invalidMarket(market: number): boolean {
  * @returns If the price is invalid
  */
 function invalidPrice(price: number): boolean {
-  return price < 0;
+  return price < 0 || isNaN(price);
 }
 
 /**
