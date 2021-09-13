@@ -4,7 +4,7 @@ exports[`Posts snapshot 1`] = `
 Array [
   <img
     className="makeStyles-svg-3"
-    src="nothing_here_black.svg"
+    src="nothing_here.svg"
   />,
   <div
     aria-hidden={true}

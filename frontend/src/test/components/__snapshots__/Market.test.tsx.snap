@@ -280,8 +280,9 @@ Array [
               onBlur={[Function]}
               onChange={[Function]}
               onFocus={[Function]}
+              placeholder="0"
               type="number"
-              value={0}
+              value={NaN}
             />
           </div>
         </div>

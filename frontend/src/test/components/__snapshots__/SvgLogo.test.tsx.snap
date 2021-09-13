@@ -2,6 +2,6 @@
 
 exports[`SvgLogo snapshot 1`] = `
 <img
-  src="avaxcast_black.svg"
+  src="avaxcast_logo.svg"
 />
 `;

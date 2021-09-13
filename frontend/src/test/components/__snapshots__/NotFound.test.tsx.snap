@@ -3,6 +3,6 @@
 exports[`NotFound snapshot 1`] = `
 <img
   className="makeStyles-svg-1"
-  src="nothing_here_black.svg"
+  src="nothing_here.svg"
 />
 `;
