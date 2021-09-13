@@ -19,6 +19,7 @@ import Wallet from "./Wallet";
 import AvaxcastLogo from "images/avaxcast_logo.svg";
 import BlackAvaxcastLogo from "images/avaxcast_black.svg";
 import SvgLogo from "./SvgLogo";
+import { useLocation } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) => {
   const SPACING = theme.spacing(1);
@@ -33,7 +34,9 @@ const useStyles = makeStyles((theme: Theme) => {
     button: {
       margin: SPACING,
       minWidth: 110,
-      // minHeight: 50,
+    },
+    active: {
+      backgroundColor: "#b595d2",
     },
   });
 });
@@ -51,6 +54,19 @@ function Navbar({ fetchHoldings }: PropsT): JSX.Element {
   const classes = useStyles();
   const isDark = useAppSelector((state) => state.isDark);
   const dispatch = useAppDispatch();
+  const location = useLocation();
+  // paths
+  const VOTE_PATH = "/";
+  const PORTFOLIO_PATH = "/portfolio";
+  const ADD_MARKET_PATH = "/addmarket";
+
+  const getClassName = (path: `/${string}`): string => {
+    let buttonClass = classes.button;
+    if (location.pathname === path) {
+      buttonClass += ` ${classes.active}`;
+    }
+    return buttonClass;
+  };
 
   return (
     <List component="nav">
@@ -64,11 +80,11 @@ function Navbar({ fetchHoldings }: PropsT): JSX.Element {
         </ListItemAvatar>
 
         <ListItemText inset>
-          <LinkContainer to="/">
+          <LinkContainer to={VOTE_PATH}>
             <Button
               variant="contained"
               color="inherit"
-              className={classes.button}
+              className={getClassName(VOTE_PATH)}
               startIcon={<HowToVoteIcon />}>
               Vote
             </Button>
@@ -76,11 +92,11 @@ function Navbar({ fetchHoldings }: PropsT): JSX.Element {
         </ListItemText>
 
         <ListItemText inset>
-          <LinkContainer to="/portfolio">
+          <LinkContainer to={PORTFOLIO_PATH}>
             <Button
               variant="contained"
               color="inherit"
-              className={classes.button}
+              className={getClassName(PORTFOLIO_PATH)}
               startIcon={<BookIcon />}>
               Portfolio
             </Button>
@@ -88,11 +104,11 @@ function Navbar({ fetchHoldings }: PropsT): JSX.Element {
         </ListItemText>
 
         <ListItemText inset>
-          <LinkContainer to="/addmarket">
+          <LinkContainer to={ADD_MARKET_PATH}>
             <Button
               variant="contained"
               color="inherit"
-              className={classes.button}
+              className={getClassName(ADD_MARKET_PATH)}
               startIcon={<LibraryAddIcon />}>
               Add
             </Button>
