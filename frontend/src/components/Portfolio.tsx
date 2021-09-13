@@ -116,7 +116,7 @@ interface PropsT {
  * @returns The Portfolio Component
  */
 function Portfolio({ records, fetchHoldings }: PropsT): JSX.Element {
-  const [openSnackbar, setOpenSnackbar] = useState(true);
+  const [, setOpenSnackbar] = useState(true);
   const { active } = useWeb3React();
   const dispatch = useAppDispatch();
 
@@ -128,7 +128,7 @@ function Portfolio({ records, fetchHoldings }: PropsT): JSX.Element {
     return (
       <Fallback
         warning={active ? "NO INVESTMENTS" : "CONNECT YOUR WALLET"}
-        isSnackbarOpen={openSnackbar}
+        isSnackbarOpen={true}
         handleSnackbarClose={handleSnackbarClose(setOpenSnackbar)}
         handleLoadingClose={() => dispatch(notLoading())}
       />

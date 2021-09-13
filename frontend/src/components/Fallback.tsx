@@ -6,7 +6,7 @@ import NotFound from "./NotFound";
 
 interface PropsT {
   warning?: string;
-  isSnackbarOpen?: boolean;
+  isSnackbarOpen: boolean;
   handleSnackbarClose?: (
     event?: SyntheticEvent<Element, Event> | undefined,
     reason?: string | undefined
@@ -21,7 +21,7 @@ interface PropsT {
  */
 function Fallback({
   warning,
-  isSnackbarOpen = false,
+  isSnackbarOpen,
   handleSnackbarClose,
   handleLoadingClose,
 }: PropsT): JSX.Element {
