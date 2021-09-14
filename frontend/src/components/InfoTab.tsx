@@ -1,9 +1,9 @@
-import React from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
+import { useState } from "react";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -51,7 +51,13 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 function InfoTab(): JSX.Element {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
+  const walkthroughs = [
+    "Add Market",
+    "Vote on a Prediction",
+    "Withdraw Winnings",
+    "View Holdings",
+  ];
 
   const handleChange = (
     _event: React.ChangeEvent<unknown>,
@@ -71,21 +77,15 @@ function InfoTab(): JSX.Element {
           indicator: classes.indicator,
         }}
         className={classes.tabs}>
-        <Tab label="Add Market" {...a11yProps(0)} />
-        <Tab label="Vote on a Prediction" {...a11yProps(1)} />
-        <Tab label="Withdraw Winnings" {...a11yProps(2)} />
-        <Tab label="View Holdings" {...a11yProps(2)} />
+        {walkthroughs.map((str, index) => (
+          <Tab key={index} label={str} {...a11yProps(index)} />
+        ))}
       </Tabs>
-      <TabPanel value={value} index={0}></TabPanel>
-      <TabPanel value={value} index={1}>
-        Item Two
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        Item Three
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-        Item Four
-      </TabPanel>
+      {walkthroughs.map((str, index) => (
+        <TabPanel key={index} value={value} index={index}>
+          {str}
+        </TabPanel>
+      ))}
     </div>
   );
 }
