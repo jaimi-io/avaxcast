@@ -147,7 +147,7 @@ Array [
             aria-invalid={true}
             autoFocus={false}
             className="MuiInputBase-input MuiOutlinedInput-input"
-            defaultValue="2021-09-10"
+            defaultValue="2021-09-14"
             disabled={false}
             id="date"
             onAnimationStart={[Function]}
