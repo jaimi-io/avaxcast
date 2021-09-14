@@ -13,20 +13,23 @@ import BlackAvaxcastText from "images/avaxcast_text_black.svg";
 import InfoTab from "./InfoTab";
 import { LinkContainer } from "react-router-bootstrap";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
+const useStyles = makeStyles((theme: Theme) => {
+  const IMG_MARGIN = 2;
+  const TITLE_SPACING = 3;
+  const GRID_SPACING = 5;
+  return createStyles({
     grid: {
-      padding: theme.spacing(5),
+      padding: theme.spacing(GRID_SPACING),
       textAlign: "center",
       color: theme.palette.text.primary,
     },
     title: {
       fontWeight: 500,
-      paddingBottom: theme.spacing(3),
+      paddingBottom: theme.spacing(TITLE_SPACING),
     },
     svg: {
       width: 300,
-      margin: theme.spacing(2),
+      margin: theme.spacing(IMG_MARGIN),
     },
     voteButton: {
       backgroundColor: "#ae68fe",
@@ -40,8 +43,8 @@ const useStyles = makeStyles((theme: Theme) =>
       marginLeft: "5%",
       justifyContent: "center",
     },
-  })
-);
+  });
+});
 
 function Home(): JSX.Element {
   const classes = useStyles();
