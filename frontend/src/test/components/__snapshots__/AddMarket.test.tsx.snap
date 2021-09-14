@@ -131,7 +131,7 @@ Array [
         className="MuiFormControl-root MuiTextField-root makeStyles-textField-2"
       >
         <label
-          className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined Mui-error Mui-error"
+          className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined"
           data-shrink={true}
           htmlFor="date"
           id="date-label"
@@ -139,15 +139,14 @@ Array [
           Deadline
         </label>
         <div
-          className="MuiInputBase-root MuiOutlinedInput-root Mui-error Mui-error MuiInputBase-formControl"
+          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
           onClick={[Function]}
         >
           <input
-            aria-describedby="date-helper-text"
-            aria-invalid={true}
+            aria-invalid={false}
             autoFocus={false}
             className="MuiInputBase-input MuiOutlinedInput-input"
-            defaultValue="2021-09-14"
+            defaultValue="2021-09-15"
             disabled={false}
             id="date"
             onAnimationStart={[Function]}
@@ -170,12 +169,7 @@ Array [
             </legend>
           </fieldset>
         </div>
-        <p
-          className="MuiFormHelperText-root MuiFormHelperText-contained Mui-error"
-          id="date-helper-text"
-        >
-          Select a date after the current date
-        </p>
+        
       </div>
     </form>
     <button

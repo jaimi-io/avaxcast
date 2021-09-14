@@ -10,6 +10,8 @@ exports[`Navbar snapshot 1`] = `
   >
     <div
       className="MuiListItemAvatar-root"
+      href="/home"
+      onClick={[Function]}
     >
       <img
         className="makeStyles-svg-1"
