@@ -75,13 +75,15 @@ function Navbar({ fetchHoldings }: PropsT): JSX.Element {
   return (
     <List component="nav">
       <ListItem component="div">
-        <ListItemAvatar>
-          <SvgLogo
-            lightIcon={BlackAvaxcastLogo}
-            darkIcon={AvaxcastLogo}
-            className={classes.svg}
-          />
-        </ListItemAvatar>
+        <LinkContainer to={"/home"}>
+          <ListItemAvatar>
+            <SvgLogo
+              lightIcon={BlackAvaxcastLogo}
+              darkIcon={AvaxcastLogo}
+              className={classes.svg}
+            />
+          </ListItemAvatar>
+        </LinkContainer>
 
         <ListItemText inset>
           <LinkContainer to={VOTE_PATH}>

@@ -18,6 +18,7 @@ import {
 import { useWeb3React } from "@web3-react/core";
 import { useAppDispatch } from "hooks";
 import { isLoading, notLoading } from "actions";
+import Home from "./Home";
 
 const AddMarket = lazy(() => import("./AddMarket"));
 const MarketPlace = lazy(() => import("./MarketPlace"));
@@ -94,6 +95,7 @@ function Navigation(): JSX.Element {
               />
             )}
           />
+          <Route exact path="/home" component={Home} />
           <Route
             exact
             path="/portfolio"
