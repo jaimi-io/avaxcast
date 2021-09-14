@@ -22,7 +22,7 @@ import Loading from "./Loading";
 import SuccessSnackbar from "./SuccessSnackbar";
 import { Grid } from "@material-ui/core";
 import TradingView from "./TradingView";
-import Fallback from "./Fallback";
+import WalletSnackbar from "./WalletSnackbar";
 
 /**
  * Determines if the market given is invalid
@@ -128,6 +128,7 @@ function AddMarket(): JSX.Element {
   const [invalid, setInvalid] = useState(true);
   const [success, setSuccess] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [missingSnackbar, setMissingSnackbar] = useState(false);
   const { active, account, library } = useWeb3React();
 
   useEffect(() => {
@@ -135,8 +136,7 @@ function AddMarket(): JSX.Element {
       () =>
         invalidMarket(market) ||
         invalidPrice(predictedPrice) ||
-        invalidDate(deadline) ||
-        !active
+        invalidDate(deadline)
     );
   }, [market, predictedPrice, deadline, active]);
 
@@ -144,6 +144,10 @@ function AddMarket(): JSX.Element {
    * Adds a market to SkyDB
    */
   const handleAddMarket = async () => {
+    if (!active) {
+      setMissingSnackbar((prev) => !prev);
+      return;
+    }
     dispatch(isLoading());
     const contract = new library.eth.Contract(Prediction.abi as AbiItem[]);
     const unixDeadline = Math.floor(new Date(deadline).getTime() / MS_TO_SECS);
@@ -164,17 +168,6 @@ function AddMarket(): JSX.Element {
     dispatch(notLoading());
     setOpenSnackbar(true);
   };
-
-  if (!active) {
-    return (
-      <Fallback
-        warning={"CONNECT YOUR WALLET"}
-        isSnackbarOpen={true}
-        handleSnackbarClose={handleSnackbarClose(setOpenSnackbar)}
-        handleLoadingClose={() => dispatch(notLoading())}
-      />
-    );
-  }
 
   return (
     <>
@@ -245,6 +238,10 @@ function AddMarket(): JSX.Element {
           success={success}
           open={openSnackbar}
           handleClose={handleSnackbarClose(setOpenSnackbar)}
+        />
+        <WalletSnackbar
+          open={missingSnackbar}
+          handleClose={() => setMissingSnackbar((prev) => !prev)}
         />
       </Grid>
       <TradingView market={market} />
