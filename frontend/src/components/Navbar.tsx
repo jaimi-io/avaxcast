@@ -36,7 +36,11 @@ const useStyles = makeStyles((theme: Theme) => {
       minWidth: 110,
     },
     active: {
-      backgroundColor: "#b595d2",
+      backgroundColor: "#ae68fe",
+      "&:hover": {
+        backgroundColor: "#b595d2",
+      },
+      color: "white",
     },
   });
 });
