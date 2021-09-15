@@ -130,10 +130,9 @@ function displayAccount(account: string | null | undefined): string {
   return `${account.substring(0, FIFTH_DIGIT)}...${account.slice(LAST_DIGIT)}`;
 }
 
-const AVAX_LOCAL_ID = 43112;
 const AVAX_FUJI_ID = 43113;
 const injected = new InjectedConnector({
-  supportedChainIds: [AVAX_LOCAL_ID, AVAX_FUJI_ID],
+  supportedChainIds: [AVAX_FUJI_ID],
 });
 
 interface PropsT {
