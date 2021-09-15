@@ -315,7 +315,7 @@ async function getWithdrawal(
     contractAddress
   );
   const events: ContractEvent[] = await contract.getPastEvents("Withdraw", {
-    filter: { _from: account },
+    filter: { _to: account },
     fromBlock: 0,
     toBlock: "latest",
   });
