@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -13,21 +12,15 @@ import {
   ThemeProvider,
 } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import { AttachMoney } from "@material-ui/icons";
 import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { useWeb3React } from "@web3-react/core";
 import BN from "bn.js";
 import { INVALID_NUM_SHARES, INVALID_PRICE } from "common/constants";
-import {
-  buy,
-  getCurrentVotes,
-  VotesPerPerson,
-  withdraw,
-} from "common/contract";
+import { buy, getCurrentVotes, VotesPerPerson } from "common/contract";
 import { Vote } from "common/enums";
-import { marketNames, voteString } from "common/markets";
+import { marketNames } from "common/markets";
 import { handleSnackbarClose } from "common/Snackbar";
 import { useFetchContract, useAppDispatch } from "hooks";
 import { useEffect, useState } from "react";
@@ -35,6 +28,7 @@ import { fromWei, toBN } from "web3-utils";
 import Loading from "./Loading";
 import SuccessSnackbar from "./SuccessSnackbar";
 import { isLoading, notLoading } from "actions";
+import WithdrawShares from "./WithdrawShares";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -63,7 +57,7 @@ interface PropsT {
 }
 
 /**
- * Deatiled information regarding a Market
+ * Detailed information regarding a Market
  * @param props - {@link PropsT}
  * @returns The Market Component
  */
@@ -206,85 +200,21 @@ function Market({ address }: PropsT): JSX.Element {
   };
 
   /**
-   * Generates the UI for withdrawing shares
-   * @returns UI to withdraw shares
-   */
-  const withdrawShares = () => {
-    return (
-      <>
-        <Grid item xs={12}>
-          <Typography component="h3" variant="h6">{`Market has resolved with ${
-            contract.winner === undefined ? "" : voteString[contract.winner]
-          } Votes Winning`}</Typography>
-        </Grid>
-
-        <Grid item xs={12}>
-          <Grid container justifyContent="flex-start">
-            <Grid item xs={2}>
-              <Typography component="p">{"Winning Shares:"}</Typography>
-            </Grid>
-            <Grid item xs={1}>
-              <Typography component="p">{getWinningShares()}</Typography>
-            </Grid>
-          </Grid>
-        </Grid>
-        <Grid item xs={12}>
-          <Grid container justifyContent="flex-start">
-            <Grid item xs={2}>
-              <Typography component="p">{"Winnings per Share:"}</Typography>
-            </Grid>
-            <Grid item xs={1}>
-              <Typography component="p">
-                {`${
-                  contract.winningPerShare === undefined
-                    ? "0"
-                    : fromWei(contract.winningPerShare)
-                } AVAX`}
-              </Typography>
-            </Grid>
-          </Grid>
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            disabled={getWinningShares() <= 0 || !active}
-            onClick={async () => {
-              dispatch(isLoading());
-              await withdraw(contract.address, web3)
-                .then(() => {
-                  setSuccess(true);
-                })
-                .catch(() => {
-                  setSuccess(false);
-                });
-              dispatch(notLoading());
-              setOpenSnackbar(true);
-            }}
-            startIcon={<AttachMoney />}>
-            Withdraw
-          </Button>
-
-          <SuccessSnackbar
-            successMsg={"Successfully withdrawn!"}
-            failMsg={"Transaction failed."}
-            success={success}
-            open={openSnackbar}
-            handleClose={handleSnackbarClose(setOpenSnackbar)}
-          />
-
-          <Loading />
-        </Grid>
-      </>
-    );
-  };
-
-  /**
    * Determines whether a market has been resolved to return Withdraw UI instead of Buy UI
    * @returns Buy or Withdraw UI
    */
   const buyOrWithdraw = () => {
     if (contract.isResolved) {
-      return withdrawShares();
+      return (
+        <WithdrawShares
+          contract={contract}
+          winningShares={getWinningShares()}
+          success={success}
+          setSuccess={setSuccess}
+          openSnackbar={openSnackbar}
+          setOpenSnackbar={setOpenSnackbar}
+        />
+      );
     }
     return buyShares();
   };
