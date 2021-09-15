@@ -8,9 +8,9 @@
 
 A prediction market for cryptocurrency pair prices, built on Avalanche C-Chain (FUJI Testnet) &amp; uses Chainlink price feeds to resolve markets.
 
-Website: [https://040bl7t9ja07qmi7an751hujghtqkhtsfr6n6j746dqljhmrocb4ds0.siasky.net/](https://040bl7t9ja07qmi7an751hujghtqkhtsfr6n6j746dqljhmrocb4ds0.siasky.net/ "Avaxcast Homepage")
+[Website](https://040bl7t9ja07qmi7an751hujghtqkhtsfr6n6j746dqljhmrocb4ds0.siasky.net/ "Avaxcast Homepage")
 
-Demo: [https://youtu.be/OHCry_mTMYc](https://youtu.be/OHCry_mTMYc "Demo Video")
+[Demo Video](https://youtu.be/zrJfmOguYXM "Demo Video")
 
 ## Features
 
@@ -43,4 +43,4 @@ We use Skynet to deploy our frontend via their Github Action. To add our app to 
 
 ## Documentation
 
-Full documentation can be found deployed at [https://jaimi-io.github.io/avaxcast/](https://jaimi-io.github.io/avaxcast/) or in the [docs folder](../main/docs)
+Full documentation can be found on [Github Pages](https://jaimi-io.github.io/avaxcast/) or in the [docs folder](../main/docs)
