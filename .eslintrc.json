@@ -70,7 +70,7 @@
     "line-comment-position": ["warn", { "position": "above" }],
     "max-depth": ["warn", 2],
     "max-lines": ["warn", 500],
-    "max-lines-per-function": ["error", { "max": 300 }],
+    "max-lines-per-function": ["error", { "max": 350 }],
     "new-cap": "warn",
     "no-lonely-if": "warn",
     "no-nested-ternary": "warn",
