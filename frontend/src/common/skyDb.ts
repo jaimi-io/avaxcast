@@ -6,7 +6,7 @@ const { publicKey, privateKey } = genKeyPairFromSeed(
 );
 
 /**
- * Result from the SkyDB
+ * Result from the SkyDB query
  */
 interface SkyDBGetResult {
   data: {

@@ -1,12 +1,20 @@
 import { Snackbar } from "@material-ui/core";
 import { Alert } from "common/Snackbar";
 
-interface PropsT {
+interface WalletSnackbarProps {
   open: boolean;
   handleClose: () => void;
 }
 
-function WalletSnackbar({ open, handleClose }: PropsT): JSX.Element {
+/**
+ * Dialog warning for submitting a market with no wallet connected
+ * @param props - {@link WalletSnackbarProps}
+ * @returns Wallet Snackbar Component
+ */
+function WalletSnackbar({
+  open,
+  handleClose,
+}: WalletSnackbarProps): JSX.Element {
   return (
     <Snackbar open={open} onClose={handleClose}>
       <Alert onClose={handleClose} severity="warning">

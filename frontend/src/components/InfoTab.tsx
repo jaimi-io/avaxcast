@@ -11,6 +11,11 @@ interface TabPanelProps {
   value: number;
 }
 
+/**
+ * Generates the panel i.e. demo video that a tab links to
+ * @param props - {@link TabPanelProps}
+ * @returns The TabPanel component
+ */
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
@@ -29,12 +34,6 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-function a11yProps(index: number) {
-  return {
-    id: `vertical-tab-${index}`,
-  };
-}
-
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     flexGrow: 1,
@@ -49,6 +48,10 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
+/**
+ * Generates tabs of different walthrough demos for new users
+ * @returns The InfoTab component
+ */
 function InfoTab(): JSX.Element {
   const classes = useStyles();
   const [value, setValue] = useState(0);
@@ -78,7 +81,13 @@ function InfoTab(): JSX.Element {
         }}
         className={classes.tabs}>
         {walkthroughs.map((str, index) => (
-          <Tab key={index} label={str} {...a11yProps(index)} />
+          <Tab
+            key={index}
+            label={str}
+            {...{
+              id: `vertical-tab-${index}`,
+            }}
+          />
         ))}
       </Tabs>
       {walkthroughs.map((str, index) => (
