@@ -47,7 +47,7 @@
     "erc20": "npx hardhat run scripts/erc20.ts",
     "send-avax-wallet-signer": "npx hardhat run scripts/sendAvaxWalletSigner.ts",
     "send-avax-json-provider": "npx hardhat run scripts/sendAvaxJSONProvider.ts",
-    "doc": "yarn typedoc --tsconfig frontend/tsconfig.json --highlightTheme dark-plus --exclude \"*.test.+(ts|tsx)\" --out docs/frontend ./frontend/src",
+    "doc": "yarn typedoc --tsconfig frontend/tsconfig.json --highlightTheme dark-plus --exclude \"*.test.+(ts|tsx)\" --out docs ./frontend/src",
     "format": "yarn prettier --ignore-path .gitignore --write",
     "ts-lint": "yarn eslint --ignore-path .gitignore",
     "sol-lint": "yarn solium",
