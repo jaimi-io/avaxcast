@@ -20,6 +20,13 @@ import { createStyles, Theme } from "@material-ui/core/styles";
 import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
 
+const FIFTH_DIGIT = 5;
+const LAST_DIGIT = -1;
+const AVAX_FUJI_ID = 43113;
+const injected = new InjectedConnector({
+  supportedChainIds: [AVAX_FUJI_ID],
+});
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     avatar: {
@@ -32,7 +39,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface WalletDialogProps {
+interface WalletConnectProps {
   open: boolean;
   connect: () => Promise<void>;
   onClose: () => void;
@@ -40,10 +47,10 @@ interface WalletDialogProps {
 
 /**
  * Dialog to connect the user's wallet
- * @param props - {@link WalletDialogProps}
+ * @param props - {@link WalletConnectProps}
  * @returns Wallet Connect Dialog Component
  */
-function WalletConnectDialog(props: WalletDialogProps): JSX.Element {
+function WalletConnectDialog(props: WalletConnectProps): JSX.Element {
   const classes = useStyles();
   const { open, connect, onClose } = props;
 
@@ -83,28 +90,24 @@ interface WalletDisconnectProps {
 function WalletDisconnectDialog(props: WalletDisconnectProps): JSX.Element {
   const { open, disconnect, onClose } = props;
 
+  const handleClose = () => {
+    disconnect();
+    onClose();
+  };
+
   return (
     <Dialog onClose={onClose} aria-labelledby="simple-dialog-title" open={open}>
       <DialogTitle id="simple-dialog-title">
         Are you sure you want to disconnect your wallet?
       </DialogTitle>
       <List>
-        <ListItem
-          button
-          onClick={() => {
-            disconnect();
-            onClose();
-          }}>
+        <ListItem button onClick={handleClose}>
           <ListItemIcon>
             <CheckIcon />
           </ListItemIcon>
           <ListItemText primary={"Yes"} />
         </ListItem>
-        <ListItem
-          button
-          onClick={() => {
-            onClose();
-          }}>
+        <ListItem button onClick={onClose}>
           <ListItemIcon>
             <CloseIcon />
           </ListItemIcon>
@@ -114,9 +117,6 @@ function WalletDisconnectDialog(props: WalletDisconnectProps): JSX.Element {
     </Dialog>
   );
 }
-
-const FIFTH_DIGIT = 5;
-const LAST_DIGIT = -1;
 
 /**
  * Changes the address to the format of 0xABC...4 to be displayed
@@ -129,11 +129,6 @@ function displayAccount(account: string | null | undefined): string {
   }
   return `${account.substring(0, FIFTH_DIGIT)}...${account.slice(LAST_DIGIT)}`;
 }
-
-const AVAX_FUJI_ID = 43113;
-const injected = new InjectedConnector({
-  supportedChainIds: [AVAX_FUJI_ID],
-});
 
 interface PropsT {
   fetchHoldings: () => Promise<void>;
