@@ -19,6 +19,8 @@ import MetaMaskIcon from "images/metamask.svg";
 import { createStyles, Theme } from "@material-ui/core/styles";
 import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
+import SuccessSnackbar from "./SuccessSnackbar";
+import { handleSnackbarClose } from "common/Snackbar";
 
 const FIFTH_DIGIT = 5;
 const LAST_DIGIT = -1;
@@ -143,6 +145,8 @@ function Wallet({ fetchHoldings }: PropsT): JSX.Element {
   const { active, account, activate, deactivate } = useWeb3React();
   const [openConnect, setOpenConnect] = useState(false);
   const [openDisconnect, setOpenDisconnect] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
 
   useEffect(() => {
     fetchHoldings();
@@ -157,11 +161,14 @@ function Wallet({ fetchHoldings }: PropsT): JSX.Element {
   };
 
   async function connect() {
-    await activate(injected).catch(console.error);
+    await activate(injected)
+      .then(() => setSuccess(true))
+      .catch(() => setSuccess(false));
+    setOpenSnackbar(true);
   }
 
   return (
-    <div>
+    <>
       <Button
         variant="contained"
         color="inherit"
@@ -180,7 +187,15 @@ function Wallet({ fetchHoldings }: PropsT): JSX.Element {
         disconnect={deactivate}
         onClose={() => setOpenDisconnect(false)}
       />
-    </div>
+
+      <SuccessSnackbar
+        successMsg={"Wallet Connected!"}
+        failMsg={"Wallet Connection Failed"}
+        success={success}
+        open={openSnackbar}
+        handleClose={handleSnackbarClose(setOpenSnackbar)}
+      />
+    </>
   );
 }
 
