@@ -267,9 +267,9 @@ export interface MarketRecord {
 }
 
 /**
- * Information returned by the emitted `Buy` event
+ * Information returned by the emitted `Buy` or `Withdraw` event
  */
-interface BuyReturnValues {
+interface EventReturnValues {
   _numberShares: string;
   _vote: string;
   _totalPrice: string;
@@ -281,7 +281,7 @@ interface BuyReturnValues {
 interface ContractEvent {
   transactionHash: string;
   address: string;
-  returnValues: BuyReturnValues;
+  returnValues: EventReturnValues;
   blockNumber: number;
 }
 
@@ -300,9 +300,35 @@ function convertToTransRecord(event: ContractEvent): TransactionRecord {
 }
 
 /**
+ * Retrieves total price of winning shares withdrawn via the 'Withdraw' event
+ * @param contractAddress - Contract the user has withdrawn from
+ * @param web3 - Web3 React Context instance
+ * @returns Promise of total withdrawn price
+ */
+async function getWithdrawal(
+  contractAddress: string,
+  web3: Web3ReactContextInterface
+): Promise<BN> {
+  const { library, account } = web3;
+  const contract = new library.eth.Contract(
+    Prediction.abi as AbiItem[],
+    contractAddress
+  );
+  const events: ContractEvent[] = await contract.getPastEvents("Withdraw", {
+    filter: { _from: account },
+    fromBlock: 0,
+    toBlock: "latest",
+  });
+  if (events.length === 0) {
+    return toBN(0);
+  }
+  return toBN(events[0].returnValues._totalPrice);
+}
+
+/**
  * Retrieves information for one market
  * @param filteredEvents - Events the user has invested in
- * @param web3 - Web3 instance
+ * @param web3 - Web3 React Context instance
  * @returns Promise of information for the market
  */
 async function retrieveHoldingInfo(
@@ -325,9 +351,11 @@ async function retrieveHoldingInfo(
     status = "Resolved";
     if (winner === Vote.Yes && yesVotes === 0) {
       status = "Withdrawn";
+      totalMoney = await getWithdrawal(contractAddress, web3);
     }
     if (winner === Vote.No && noVotes === 0) {
       status = "Withdrawn";
+      totalMoney = await getWithdrawal(contractAddress, web3);
     }
   }
   const holdingInfo: MarketRecord = {
