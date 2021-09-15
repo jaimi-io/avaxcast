@@ -127,7 +127,7 @@ function AddMarket(): JSX.Element {
   const [deadline, setDeadline] = useState(INITIAL_DATE);
   const [invalid, setInvalid] = useState(true);
   const [success, setSuccess] = useState(false);
-  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [openSuccessSnackbar, setOpenSuccessSnackbar] = useState(false);
   const [openWalletSnackbar, setWalletSnackbar] = useState(false);
   const { active, account, library } = useWeb3React();
 
@@ -166,7 +166,7 @@ function AddMarket(): JSX.Element {
         setSuccess(false);
       });
     dispatch(notLoading());
-    setOpenSnackbar(true);
+    setOpenSuccessSnackbar(true);
   };
 
   return (
@@ -236,8 +236,8 @@ function AddMarket(): JSX.Element {
           successMsg={"Successfully added!"}
           failMsg={"Failed to add."}
           success={success}
-          open={openSnackbar}
-          handleClose={handleSnackbarClose(setOpenSnackbar)}
+          open={openSuccessSnackbar}
+          handleClose={handleSnackbarClose(setOpenSuccessSnackbar)}
         />
         <WalletSnackbar
           open={openWalletSnackbar}
