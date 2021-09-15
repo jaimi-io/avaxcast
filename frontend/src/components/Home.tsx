@@ -46,6 +46,10 @@ const useStyles = makeStyles((theme: Theme) => {
   });
 });
 
+/**
+ * Landing/home page for Avaxcast with walkthrough demos for new users
+ * @returns The Home component
+ */
 function Home(): JSX.Element {
   const classes = useStyles();
 

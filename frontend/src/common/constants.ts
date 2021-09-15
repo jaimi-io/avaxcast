@@ -16,5 +16,9 @@ export const DECIMAL_PLACES = 2;
  * Maximum number of shares available
  */
 export const MAX_AVAX_SHARE_PRICE = toBN("20000000000000000");
+/**
+ * Placeholder numbers in buying shares form, used for invalid check
+ * as you cannot buy 0 shares
+ */
 export const INVALID_PRICE = 0;
 export const INVALID_NUM_SHARES = 0;
