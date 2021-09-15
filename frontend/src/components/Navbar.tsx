@@ -1,9 +1,4 @@
-import {
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-} from "@material-ui/core";
+import { Box, Grid, ListItemAvatar } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
@@ -20,6 +15,7 @@ import AvaxcastLogo from "images/avaxcast_logo.svg";
 import BlackAvaxcastLogo from "images/avaxcast_black.svg";
 import SvgLogo from "./SvgLogo";
 import { useLocation } from "react-router-dom";
+import { ReactNode } from "react";
 
 const useStyles = makeStyles((theme: Theme) => {
   const SPACING = theme.spacing(1);
@@ -45,6 +41,46 @@ const useStyles = makeStyles((theme: Theme) => {
   });
 });
 
+interface NavbarLinkProps {
+  path: `/${string}`;
+  text: string;
+  icon: ReactNode;
+}
+
+/**
+ * Generates a button navbar link used for navigation
+ * @param props - {@link NavbarLinkProps}
+ * @returns The NavbarLink Component
+ */
+function NavbarLink({ path, text, icon }: NavbarLinkProps): JSX.Element {
+  const classes = useStyles();
+  const location = useLocation();
+
+  const getClassName = (path: `/${string}`): string => {
+    let buttonClass = classes.button;
+    if (location.pathname === path) {
+      buttonClass += ` ${classes.active}`;
+    }
+    return buttonClass;
+  };
+
+  return (
+    <Grid item xs>
+      <Box textAlign="center">
+        <LinkContainer to={path}>
+          <Button
+            variant="contained"
+            color="inherit"
+            className={getClassName(path)}
+            startIcon={icon}>
+            {text}
+          </Button>
+        </LinkContainer>
+      </Box>
+    </Grid>
+  );
+}
+
 interface PropsT {
   fetchHoldings: () => Promise<void>;
 }
@@ -58,92 +94,63 @@ function Navbar({ fetchHoldings }: PropsT): JSX.Element {
   const classes = useStyles();
   const isDark = useAppSelector((state) => state.isDark);
   const dispatch = useAppDispatch();
-  const location = useLocation();
-  // paths
-  const VOTE_PATH = "/";
-  const PORTFOLIO_PATH = "/portfolio";
-  const ADD_MARKET_PATH = "/addmarket";
 
-  const getClassName = (path: `/${string}`): string => {
-    let buttonClass = classes.button;
-    if (location.pathname === path) {
-      buttonClass += ` ${classes.active}`;
-    }
-    return buttonClass;
-  };
+  const links: NavbarLinkProps[] = [
+    { path: "/", text: "Vote", icon: <HowToVoteIcon /> },
+    { path: "/portfolio", text: "Portfolio", icon: <BookIcon /> },
+    { path: "/addmarket", text: "Add", icon: <LibraryAddIcon /> },
+  ];
 
   return (
-    <List component="nav">
-      <ListItem component="div">
-        <LinkContainer to={"/home"}>
-          <ListItemAvatar>
-            <SvgLogo
-              lightIcon={BlackAvaxcastLogo}
-              darkIcon={AvaxcastLogo}
-              className={classes.svg}
-            />
-          </ListItemAvatar>
-        </LinkContainer>
-
-        <ListItemText inset>
-          <LinkContainer to={VOTE_PATH}>
-            <Button
-              variant="contained"
-              color="inherit"
-              className={getClassName(VOTE_PATH)}
-              startIcon={<HowToVoteIcon />}>
-              Vote
-            </Button>
+    <Grid container justifyContent="center" alignItems="center">
+      <Grid item xs>
+        <Box textAlign="left">
+          <LinkContainer to={"/home"}>
+            <ListItemAvatar>
+              <SvgLogo
+                lightIcon={BlackAvaxcastLogo}
+                darkIcon={AvaxcastLogo}
+                className={classes.svg}
+              />
+            </ListItemAvatar>
           </LinkContainer>
-        </ListItemText>
-
-        <ListItemText inset>
-          <LinkContainer to={PORTFOLIO_PATH}>
-            <Button
-              variant="contained"
-              color="inherit"
-              className={getClassName(PORTFOLIO_PATH)}
-              startIcon={<BookIcon />}>
-              Portfolio
-            </Button>
-          </LinkContainer>
-        </ListItemText>
-
-        <ListItemText inset>
-          <LinkContainer to={ADD_MARKET_PATH}>
-            <Button
-              variant="contained"
-              color="inherit"
-              className={getClassName(ADD_MARKET_PATH)}
-              startIcon={<LibraryAddIcon />}>
-              Add
-            </Button>
-          </LinkContainer>
-        </ListItemText>
-
-        <ListItemText inset>
+        </Box>
+      </Grid>
+      {links.map((link, index) => (
+        <NavbarLink
+          key={index}
+          path={link.path}
+          text={link.text}
+          icon={link.icon}
+        />
+      ))}
+      <Grid item xs>
+        <Box textAlign="center">
           <Wallet fetchHoldings={fetchHoldings} />
-        </ListItemText>
-
-        {isDark ? (
-          <IconButton
-            aria-label="dark"
-            color="default"
-            className={classes.icon}
-            onClick={() => dispatch(lightOn())}>
-            <Brightness6Icon />
-          </IconButton>
-        ) : (
-          <IconButton
-            aria-label="dark"
-            color="inherit"
-            className={classes.icon}
-            onClick={() => dispatch(lightOff())}>
-            <Brightness2Icon />
-          </IconButton>
-        )}
-      </ListItem>
-    </List>
+        </Box>
+      </Grid>
+      <Grid item xs>
+        <Box textAlign="right">
+          {isDark ? (
+            <IconButton
+              aria-label="dark"
+              color="default"
+              className={classes.icon}
+              onClick={() => dispatch(lightOn())}>
+              <Brightness6Icon />
+            </IconButton>
+          ) : (
+            <IconButton
+              aria-label="dark"
+              color="inherit"
+              className={classes.icon}
+              onClick={() => dispatch(lightOff())}>
+              <Brightness2Icon />
+            </IconButton>
+          )}
+        </Box>
+      </Grid>
+    </Grid>
   );
 }
 
