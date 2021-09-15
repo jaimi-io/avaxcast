@@ -128,7 +128,7 @@ function AddMarket(): JSX.Element {
   const [invalid, setInvalid] = useState(true);
   const [success, setSuccess] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [missingSnackbar, setMissingSnackbar] = useState(false);
+  const [openWalletSnackbar, setWalletSnackbar] = useState(false);
   const { active, account, library } = useWeb3React();
 
   useEffect(() => {
@@ -145,7 +145,7 @@ function AddMarket(): JSX.Element {
    */
   const handleAddMarket = async () => {
     if (!active) {
-      setMissingSnackbar((prev) => !prev);
+      setWalletSnackbar((prev) => !prev);
       return;
     }
     dispatch(isLoading());
@@ -240,8 +240,8 @@ function AddMarket(): JSX.Element {
           handleClose={handleSnackbarClose(setOpenSnackbar)}
         />
         <WalletSnackbar
-          open={missingSnackbar}
-          handleClose={() => setMissingSnackbar((prev) => !prev)}
+          open={openWalletSnackbar}
+          handleClose={() => setWalletSnackbar((prev) => !prev)}
         />
       </Grid>
       <TradingView market={market} />
