@@ -152,19 +152,18 @@ function Market({ address }: PropsT): JSX.Element {
    * @returns UI for contract action (buy or withdraw)
    */
   const contractActionButton = (isBuy: boolean) => {
-    const disabled = isBuy ? canBuy : getWinningShares() <= 0 || !active;
-    const executeTransaction = isBuy
-      ? buy(
-          contract.address,
-          web3,
-          isYesVote ? Vote.Yes : Vote.No,
-          priceOfShares()
-        )
-      : withdraw(contract.address, web3);
+    const disabled = isBuy ? !canBuy : getWinningShares() <= 0 || !active;
+    // Transcation to buy or withdraw shares
+    const transcation = isBuy ? buy : withdraw;
 
     const handleClick = async () => {
       dispatch(isLoading());
-      await executeTransaction
+      await transcation(
+        contract.address,
+        web3,
+        isYesVote ? Vote.Yes : Vote.No,
+        priceOfShares()
+      )
         .then(() => {
           setSuccess(true);
         })
@@ -229,7 +228,7 @@ function Market({ address }: PropsT): JSX.Element {
         )
       )}
       <Grid item xs={12}>
-        {contractActionButton(false)}
+        {contractActionButton(true)}
       </Grid>
     </>
   );
