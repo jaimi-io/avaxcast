@@ -54,16 +54,16 @@ function WalletConnectDialog(props: WalletConnectProps): JSX.Element {
   const classes = useStyles();
   const { open, connect, onClose } = props;
 
+  const onClick = () => {
+    connect();
+    onClose();
+  };
+
   return (
     <Dialog onClose={onClose} aria-labelledby="simple-dialog-title" open={open}>
       <DialogTitle id="simple-dialog-title">Connect Wallet</DialogTitle>
       <List>
-        <ListItem
-          button
-          onClick={() => {
-            connect();
-            onClose();
-          }}>
+        <ListItem button onClick={onClick}>
           <ListItemAvatar>
             <Avatar className={classes.avatar}>
               <img src={MetaMaskIcon} width={"35px"} />
