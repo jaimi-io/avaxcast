@@ -182,8 +182,7 @@ function Market({ address }: PropsT): JSX.Element {
           className={classes.button}
           disabled={disabled}
           onClick={handleClick}
-          startIcon={isBuy ? <ShoppingCartIcon /> : <AttachMoney />}
-        >
+          startIcon={isBuy ? <ShoppingCartIcon /> : <AttachMoney />}>
           {isBuy ? "Buy" : "Withdraw"}
         </Button>
 
@@ -344,8 +343,7 @@ function Market({ address }: PropsT): JSX.Element {
             className={classes.button}
             disabled={!active || contract.isResolved}
             onClick={() => setIsYesVote(vote === Vote.Yes)}
-            startIcon={icon}
-          >
+            startIcon={icon}>
             {voteString[vote]}
           </Button>
         </ThemeProvider>
