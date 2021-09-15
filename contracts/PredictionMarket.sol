@@ -138,8 +138,9 @@ contract PredictionMarket {
   }
 
   /**
-   * @dev Update yesPrice after shares have been bought, for under 1000 votes use
-   * an increasing spread with the percent.
+   * @dev Update yesPrice after shares have been bought to be the probability of
+   * yesVotes (yesVotes/totalVotes). To avoid price volatility at start for under
+   * 1000 votes use an increasing spread with the percent to calculate price.
    */
   function updatePrice() private {
     uint256 totalVotes = marketInfo.numberNoShares + marketInfo.numberYesShares;
