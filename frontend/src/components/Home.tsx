@@ -10,7 +10,6 @@ import {
 import SvgLogo from "./SvgLogo";
 import AvaxcastText from "images/avaxcast_text_colour.svg";
 import BlackAvaxcastText from "images/avaxcast_text_black.svg";
-import InfoTab from "./InfoTab";
 import { LinkContainer } from "react-router-bootstrap";
 
 const useStyles = makeStyles((theme: Theme) => {
@@ -86,7 +85,15 @@ function Home(): JSX.Element {
               {"HOW IT WORKS?"}
             </Typography>
           </Grid>
-          <InfoTab />
+          <iframe
+            height="600"
+            width="1200"
+            src="https://www.youtube-nocookie.com/embed/zrJfmOguYXM"
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
         </Grid>
       </Paper>
     </>
